@@ -1,0 +1,45 @@
+# KiCad backups and autosaves
+*-backups/
+*.kicad_prl
+*.kicad_pcb-bak
+*.kicad_sch-bak
+*.sch-bak
+*.bak
+_autosave-*
+fp-info-cache
+~*.lck
+*.lck
+
+# KiCad simulation and netlist output
+*.net
+*.xml
+*.dsn
+*.ses
+*.wbk
+*.raw
+
+# Fabrication output is committed deliberately as a zip per revision, so the
+# loose intermediate files are ignored. See hardware/README.md.
+gerber-tmp/
+*.gbrjob
+*.drl_
+*.rpt
+
+# 3D model caches
+*.step-cache/
+
+# Firmware build output
+build/
+*.elf
+*.uf2.bak
+.pio/
+__pycache__/
+*.pyc
+
+# Editor and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
