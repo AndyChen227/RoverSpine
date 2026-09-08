@@ -1,10 +1,13 @@
 # RoverPi Custom PCB Track / 自制电路板路线图
 
-A twelve-month, six-stage plan to design the rover's own electronics from
-scratch, starting from zero PCB experience.
+A twelve-month plan to design the rover's own electronics from scratch, starting
+from zero PCB experience. It runs as two parallel tracks: six hardware stages,
+and [an embedded C track](#c-track) that starts in month 1 on a breadboard Pico
+rather than waiting for the board that will need it.
 
-一份为期约十二个月、分六个阶段的计划，目标是从零基础开始，逐步把这台车的电子
-部分换成自己设计的电路板。
+一份为期约十二个月的计划，目标是从零基础开始，逐步把这台车的电子部分换成自己设计的
+电路板。它由两条并行的线组成：**六个硬件阶段**，以及一条[嵌入式 C 语言线](#c-track)
+——后者从第 1 个月起就在面包板上的 Pico 上跑，而不是等到需要它的那块板子出现。
 
 > [!IMPORTANT]
 > RoverSpine is a **parallel track** to the rover itself, not a replacement for the
@@ -75,6 +78,8 @@ These are the things you cannot buy as a module and cannot do in software.
 | Keyed connectors, strain relief | 带锁扣连接器与拉力缓解 | A dupont wire falling off mid-drive is undefined behavior | 2 |
 
 ---
+
+<a id="c-track"></a>
 
 ## The parallel C track / 并行的 C 语言线
 
@@ -167,7 +172,7 @@ Buy Stage 0 and Stage 1 tools now; defer the rest until the stage that needs the
 | Temperature-controlled iron (T12 / 936) | 恒温烙铁 | 150–300 | Stage 0 |
 | Multimeter | 万用表 | 100–200 | Stage 0 |
 | Solder, flux, wick, tweezers, cutters | 焊锡、助焊剂、吸锡带、镊子、斜口钳 | 80 | Stage 0 |
-| **2 × Raspberry Pi Pico** | **树莓派 Pico ×2** | 50 | Stage 0 — see [the C track](#the-parallel-c-track--并行的-c-语言线) |
+| **2 × Raspberry Pi Pico** | **树莓派 Pico ×2** | 50 | Stage 0 — see [the C track](#c-track) |
 | Breadboard and jumper wires | 面包板与跳线 | 30 | Stage 0 |
 | **Bench supply with current limit** | **带限流的可调直流电源** | 200–400 | Stage 1 |
 | USB logic analyzer (8 ch) | USB 逻辑分析仪 | 30–80 | Stage 3 |
@@ -328,12 +333,12 @@ The biggest jump in the plan, and the one that gives the rover capabilities it
 cannot otherwise have.
 
 **By the time this stage starts, the firmware should already exist.** The
-[C track](#the-parallel-c-track--并行的-c-语言线) runs from month 1 on a
+[C track](#c-track) runs from month 1 on a
 breadboard Pico, so quadrature decode, the watchdog timing, and the UART protocol
 are all proven before a board is drawn for them. What is new here is the board,
 not the code.
 
-**这个阶段开始时，固件应该已经存在了。**[C 语言线](#the-parallel-c-track--并行的-c-语言线)
+**这个阶段开始时，固件应该已经存在了。**[C 语言线](#c-track)
 从第 1 个月起就在面包板上的 Pico 上跑，正交解码、看门狗时序、UART 协议在为它们画板子
 之前就已经验证过。**这里新的是板子，不是代码。**
 
@@ -366,7 +371,7 @@ ADC input scaling and protection · designing a UART message format · firmware 
 C that must not depend on the host being alive · **the discipline of a safety
 interlock that fails closed**
 
-The C itself is not new by this point — the [C track](#the-parallel-c-track--并行的-c-语言线)
+The C itself is not new by this point — the [C track](#c-track)
 has been running since month 1. What is new is writing C that has to keep working
 when the thing on the other end of the cable has stopped.
 

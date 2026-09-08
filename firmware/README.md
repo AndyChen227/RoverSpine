@@ -8,7 +8,7 @@ the Raspberry Pi Pico SDK.
 ## Why C, and why not C++ / 为什么是 C，为什么不是 C++
 
 The full reasoning is in
-[the roadmap](../docs/roadmap.md#the-parallel-c-track--并行的-c-语言线). The short
+[the roadmap](../docs/roadmap.md#c-track). The short
 version: C is the language embedded work is actually done in — every chip
 datasheet's reference code is C — and it teaches what Python and Java hide, which
 is exactly what register-level work consists of. C++ is deliberately deferred:
@@ -16,7 +16,7 @@ its embedded dialect comes with a long list of features that must not be used,
 and stacking it on top of learning PCB design and embedded systems at the same
 time is one steep curve too many.
 
-完整理由见[路线图](../docs/roadmap.md#the-parallel-c-track--并行的-c-语言线)。
+完整理由见[路线图](../docs/roadmap.md#c-track)。
 简短版：C 是嵌入式实际使用的语言——每一颗芯片数据手册的参考代码都是 C——而且它教的
 正是 Python 和 Java 藏起来的那些东西，那恰恰就是寄存器级工作的内容。C++ 是刻意推迟
 的：它的嵌入式方言带着一长串"不能用"的特性，而在同时学 PCB 设计和嵌入式的时候再叠

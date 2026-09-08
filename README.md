@@ -69,7 +69,7 @@ the one that would have shipped fastest. Running it from month 1 on a breadboard
 Pico means Stage 3 is no longer "a new board and a new language and a new
 architecture at once"; it becomes moving proven firmware onto a board of your
 own. The reasoning is in
-[the roadmap](docs/roadmap.md#the-parallel-c-track--并行的-c-语言线).
+[the roadmap](docs/roadmap.md#c-track).
 
 It is a learning journal as much as a hardware project. Boards that failed are
 documented as carefully as boards that worked, because on this track a bad board
@@ -326,7 +326,7 @@ C 语言线之所以存在，是因为第 3 阶段起的板子都带单片机，
 基于 Raspberry Pi Pico SDK——这是**刻意选择嵌入式实际使用的语言**，而不是最快能
 跑通的那个。从第 1 个月就在面包板上的 Pico 上跑，意味着第 3 阶段不再是"同时面对
 新板子、新语言、新架构"，而变成把已经验证过的固件搬到自己的板上。完整理由见
-[路线图](docs/roadmap.md#the-parallel-c-track--并行的-c-语言线)。
+[路线图](docs/roadmap.md#c-track)。
 
 它既是硬件项目，也是学习日志。失败的板子会和成功的板子记录得一样仔细——在这条
 路线上，**一块你搞懂了原因的坏板，比一块蒙对了的好板更值钱**。
