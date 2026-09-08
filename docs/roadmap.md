@@ -76,6 +76,87 @@ These are the things you cannot buy as a module and cannot do in software.
 
 ---
 
+## The parallel C track / 并行的 C 语言线
+
+**Decided 2026-09-08.** The firmware on every RoverSpine board is written in
+**C**, using the Raspberry Pi Pico SDK.
+
+The reason is that this is a learning project. MicroPython would reach a working
+Stage 3 sooner, but C is the language embedded work is actually done in — every
+chip datasheet's reference code is C, so knowing it is the difference between
+reading a vendor example and copying it as a black box. It also teaches what
+Python and Java deliberately hide: memory layout, pointers, fixed-width integers,
+the stack, bit manipulation. That is not background knowledge for register-level
+work; it is the work.
+
+**C, not C++.** C has about thirty keywords and its whole shape can be seen in a
+week. Embedded C++ comes with a long list of features that must not be used
+(exceptions, RTTI, dynamic allocation) and, to someone with a Java background,
+its `class` looks deceptively familiar while behaving nothing like Java's. The
+Pico SDK is C and supports C++ whenever it is wanted later. Learning PCB design,
+embedded systems, and C++ at once is three steep curves stacked; one gets cut.
+
+**决定于 2026-09-08。** RoverSpine 所有板子的固件用 **C** 编写，基于 Raspberry Pi
+Pico SDK。
+
+理由是这是一个学习项目。MicroPython 能更快跑通第 3 阶段，但 C 才是嵌入式实际使用的
+语言——每一颗芯片数据手册里的参考代码都是 C，会不会 C 决定了你是**读懂**厂商例程，
+还是**当黑盒抄**。它还会教你 Python 和 Java 刻意藏起来的东西：内存布局、指针、定长
+整数、栈、位运算。这些对寄存器级的工作不是背景知识，它就是工作本身。
+
+**选 C，不选 C++。** C 大约三十个关键字，一周能看清全貌。嵌入式 C++ 带着一长串
+"不能用"的特性（异常、RTTI、动态分配），而且对有 Java 背景的人来说，它的 `class`
+看起来很眼熟、行为却完全不同。Pico SDK 是 C，以后想加 C++ 随时可以。同时学 PCB
+设计、嵌入式和 C++ 是三条陡峭曲线叠在一起，必须砍掉一条。
+
+### Learn it in parallel, not at Stage 3 / 并行学，不要等到第 3 阶段
+
+A Raspberry Pi Pico costs about ¥25 and carries the same chip that goes on the
+Stage 3 board, but it is a finished little module that needs **no PCB at all**.
+Buying two in month 1 turns two serial learning curves into two parallel ones.
+
+Pico 大约 ¥25，带的就是第 3 阶段板上要用的那颗芯片，但它是一块成品小板，**完全不
+需要 PCB 就能开始写代码**。第 1 个月买两块，就把两条串行的学习曲线变成并行的：
+
+| Month / 月份 | Hardware track / 硬件线 | C track / C 语言线 |
+|:---:|---|---|
+| 1 | Soldering, KiCad / 焊接、KiCad | **Blink an LED on the Pico, in C** / 用 C 点亮 Pico 上的 LED |
+| 1–2 | Stage 1 status HAT / 状态灯板 | C basics: pointers, structs, fixed-width ints / C 基础：指针、结构体、定长整数 |
+| 3–4 | Stage 2 signal board / 信号板 | PIO quadrature decode and UART, on a breadboard / 面包板上试 PIO 正交解码与 UART |
+| 5–7 | Stage 3 board / 协处理器板 | **The firmware already exists and has run** / 固件早已写好并跑通 |
+
+The point is what this does to Stage 3's risk. It stops being "a new board and a
+new language and a new architecture, all at once" and becomes "move firmware that
+already works onto a board of my own." That is the same rule the rest of this
+plan follows: prove it somewhere reversible first, then commit it to copper.
+
+这样做的意义在于第 3 阶段的风险。它不再是"同时面对新板子、新语言、新架构"，而变成
+"把一个已经跑通的固件搬到自己的板上"。这和本计划其余部分是同一条规矩：**先在可回退
+的环境里验证，再固化到铜箔上。**
+
+> [!TIP]
+> **Buy two Picos, not one.** The second, flashed with `debugprobe` firmware,
+> becomes an SWD debugger for the first. Embedded C has no REPL and a crash is
+> often a silent hang, so having a debugger and not having one are two different
+> worlds. Extra cost: about ¥25.
+>
+> **买两块 Pico，不是一块。** 第二块刷上 `debugprobe` 固件，就是第一块的 SWD 调试器。
+> 嵌入式 C 没有 REPL，崩溃往往表现为静默死机——有调试器和没调试器是两个世界。
+> 多花约 ¥25。
+
+### Where C is not used / C 不用在哪
+
+The Pi-side control code stays in Python. It is already written and already
+physically verified, and rewriting it in C would mean discarding verified work to
+make room for unverified work — which the one rule above forbids. C belongs on
+the on-board microcontroller, which is its actual territory.
+
+Pi 端的控制代码继续用 Python。它已经写好、也已经实测验证过，用 C 重写等于丢掉已验证
+的东西去换未验证的东西——这正是上面那条铁律所禁止的。C 用在板载单片机上，那才是它
+真正的地盘。
+
+---
+
 ## Tools and budget / 工具与预算
 
 Buy Stage 0 and Stage 1 tools now; defer the rest until the stage that needs them.
@@ -86,6 +167,8 @@ Buy Stage 0 and Stage 1 tools now; defer the rest until the stage that needs the
 | Temperature-controlled iron (T12 / 936) | 恒温烙铁 | 150–300 | Stage 0 |
 | Multimeter | 万用表 | 100–200 | Stage 0 |
 | Solder, flux, wick, tweezers, cutters | 焊锡、助焊剂、吸锡带、镊子、斜口钳 | 80 | Stage 0 |
+| **2 × Raspberry Pi Pico** | **树莓派 Pico ×2** | 50 | Stage 0 — see [the C track](#the-parallel-c-track--并行的-c-语言线) |
+| Breadboard and jumper wires | 面包板与跳线 | 30 | Stage 0 |
 | **Bench supply with current limit** | **带限流的可调直流电源** | 200–400 | Stage 1 |
 | USB logic analyzer (8 ch) | USB 逻辑分析仪 | 30–80 | Stage 3 |
 | Hot air station | 热风枪 | 200 | Stage 3 |
@@ -114,19 +197,33 @@ Buy Stage 0 and Stage 1 tools now; defer the rest until the stage that needs the
 The mistake almost everyone makes is ordering a board before they can solder or
 read a datasheet. Nothing is fabricated in this stage.
 
+**Hardware / 硬件线**
+
 - [ ] Solder 30–50 practice joints on a cheap practice kit until they are consistently shiny and concave.
 - [ ] Learn the multimeter: continuity, resistance, DC voltage, and **diode mode for finding shorts**.
-- [ ] Install KiCad. Work through one official beginner tutorial end to end.
-- [ ] **Redraw something that already exists**: capture the rover's current 7-wire Pi-to-driver connection as a KiCad schematic, using [`RoverPi/docs/wiring.md`](https://github.com/AndyChen227/RoverPi/blob/main/docs/wiring.md) as the source. No layout, no fabrication.
+- [x] Install KiCad. *(10.0.6, 2026-09-08.)* Work through one official beginner tutorial end to end.
+- [ ] **Redraw something that already exists**: capture the rover's current 7-wire Pi-to-driver connection as a KiCad schematic, using [`RoverPi/docs/wiring.md`](https://github.com/AndyChen227/RoverPi/blob/main/docs/wiring.md) as the source. Draw it from the **physical pin numbers**, not the BCM numbers — they are different, and a board built from the wrong column is simply wrong. No layout, no fabrication.
 - [ ] Read the datasheet of one part you already own (the motor driver, or the STP-23L) and find in it: supply range, logic thresholds, absolute maximum ratings.
 
+**C / C 语言线**
+
+- [ ] Buy two Raspberry Pi Picos and a breadboard.
+- [ ] Install the Pico SDK toolchain and build `blink` from `pico-examples`, unmodified, until it flashes.
+- [ ] Modify `blink` until the LED pattern is one you chose. **This is the whole first milestone** — the point is a working edit-build-flash loop, not clever code.
+- [ ] Flash the second Pico with `debugprobe` firmware and step through a line of code on the first.
+
 **Exit criterion / 完成判据:** you can produce a solder joint you are willing to
-put on a moving vehicle, and you can point at any pin in your KiCad schematic
-and say which physical wire it is on the rover.
+put on a moving vehicle; you can point at any pin in your KiCad schematic and say
+which physical wire it is on the rover; and you can change one line of C, build
+it, flash it, and see the change on the Pico.
 
 这个阶段不做任何板子。绝大多数人的第一个错误是在还不会焊接、看不懂数据手册的时候
 就下单打样。用 KiCad **重画一份已经存在的东西**（现有的 7 根控制线）是最好的入门
-练习——因为对错可以立刻验证，你的车就是标准答案。
+练习——因为对错可以立刻验证，你的车就是标准答案。**注意用物理引脚号而不是 BCM 号**，
+两者不同，照错的那一列做出来的板子就是错的。
+
+C 语言线的第一个里程碑是**改一行代码、编译、烧录、看到变化**——重点是打通这个循环，
+不是写出聪明的代码。这个循环通了，后面所有固件工作才有立足点。
 
 ---
 
@@ -230,6 +327,16 @@ result.** Do not assume the outcome in advance.
 The biggest jump in the plan, and the one that gives the rover capabilities it
 cannot otherwise have.
 
+**By the time this stage starts, the firmware should already exist.** The
+[C track](#the-parallel-c-track--并行的-c-语言线) runs from month 1 on a
+breadboard Pico, so quadrature decode, the watchdog timing, and the UART protocol
+are all proven before a board is drawn for them. What is new here is the board,
+not the code.
+
+**这个阶段开始时，固件应该已经存在了。**[C 语言线](#the-parallel-c-track--并行的-c-语言线)
+从第 1 个月起就在面包板上的 Pico 上跑，正交解码、看门狗时序、UART 协议在为它们画板子
+之前就已经验证过。**这里新的是板子，不是代码。**
+
 > [!TIP]
 > **Use an RP2040 module, not a bare RP2040 chip.** A Pico or RP2040-Zero
 > soldered onto your board as a module removes the QFN-56 footprint, the
@@ -242,7 +349,7 @@ cannot otherwise have.
 
 ### Specification / 规格
 
-- RP2040 module, communicating with the Pi over I2C (or UART)
+- RP2040 module, communicating with the Pi over **UART**. UART is chosen over I2C because it is far simpler to get right on both ends and costs nothing in capability here; I2C is worth revisiting only if the pin count ever becomes the constraint
 - **4 × quadrature decode in PIO.** This is what the RP2040's PIO was built for
 - **Heartbeat watchdog:** the Pi must toggle a pin continuously; if it stops for more than ~200 ms, hardware pulls the driver's enable low. This works when Python is dead, which is exactly when it matters
 - **Battery monitor:** resistor divider from the 3S pack into an RP2040 ADC, with a low-voltage warning well above the 9.9 V damage threshold
@@ -255,9 +362,16 @@ cannot otherwise have.
 ### New skills / 新学的东西
 
 SMD soldering with hot air · decoupling and why every IC gets its own capacitor ·
-ADC input scaling and protection · designing an I2C register map · firmware
-that must not depend on the host · **the discipline of a safety interlock that
-fails closed**
+ADC input scaling and protection · designing a UART message format · firmware in
+C that must not depend on the host being alive · **the discipline of a safety
+interlock that fails closed**
+
+The C itself is not new by this point — the [C track](#the-parallel-c-track--并行的-c-语言线)
+has been running since month 1. What is new is writing C that has to keep working
+when the thing on the other end of the cable has stopped.
+
+到这个阶段，C 本身已经不是新东西了——C 语言线从第 1 个月就开始跑。新的是：写一段
+**在电缆另一端已经死掉时仍然必须正常工作**的 C。
 
 ### Exit criterion / 完成判据
 

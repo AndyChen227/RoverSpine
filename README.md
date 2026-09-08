@@ -51,8 +51,25 @@ driving. No amount of better Python fixes that. It takes a wire and a circuit.
 
 ## What this repository is
 
-A twelve-month, six-stage learning track that starts from **no PCB experience at
-all** and ends with the rover running on electronics its owner designed.
+A twelve-month learning track that starts from **no PCB experience at all** and
+ends with the rover running on electronics its owner designed.
+
+It runs as **two parallel curves**, and keeping them parallel rather than
+sequential is the main scheduling decision in the plan:
+
+| Track | From | To |
+|---|---|---|
+| **Hardware** — six stages | Soldering practice and KiCad | A four-layer mainboard |
+| **Embedded C** — from month 1 | Blinking an LED on a ¥25 Pico | Firmware that must keep working when the Pi is dead |
+
+The C track exists because the boards from Stage 3 onward carry a
+microcontroller, and its firmware is written in **C** on the Raspberry Pi Pico
+SDK — a deliberate choice of the language embedded work is actually done in over
+the one that would have shipped fastest. Running it from month 1 on a breadboard
+Pico means Stage 3 is no longer "a new board and a new language and a new
+architecture at once"; it becomes moving proven firmware onto a board of your
+own. The reasoning is in
+[the roadmap](docs/roadmap.md#the-parallel-c-track--并行的-c-语言线).
 
 It is a learning journal as much as a hardware project. Boards that failed are
 documented as carefully as boards that worked, because on this track a bad board
@@ -64,7 +81,7 @@ you understand is worth more than a good board you got lucky with.
 
 | Stage | Focus | Replaces / Adds | Months | State |
 |:---:|---|---|:---:|:---:|
-| 0 | Fundamentals — soldering, multimeter, KiCad. **No board is fabricated** | — | 1 | 🔨 Active |
+| 0 | Fundamentals — soldering, multimeter, KiCad, first C on a Pico. **No board is fabricated** | — | 1 | 🔨 Active |
 | 1 | Status indicator HAT — LEDs, buzzer, button | Adds: state visible without SSH | 1–2 | 🗓️ Planned |
 | 2 | Signal board — connectors and encoder inputs | Replaces: 7 dupont wires | 3–4 | 🗓️ Planned |
 | 3 | RP2040 co-processor | Replaces: USB serial adapter · Adds: watchdog, quadrature decode, battery monitor, E-stop | 5–7 | 🗓️ Planned |
@@ -246,7 +263,7 @@ RoverSpine/
 │   ├── roadmap.md           # The six stages, in full
 │   └── devlog/              # Bilingual per-board logs, including failures
 ├── hardware/                # One directory per board: KiCad project, Gerbers, BOM
-├── firmware/                # On-board microcontroller code, from Stage 3
+├── firmware/                # On-board microcontroller code in C, from month 1
 ├── notes/
 │   └── debugging/           # Problems, causes, fixes, lessons
 └── photos/                  # Board photographs, bare and assembled
@@ -295,8 +312,21 @@ RoverSpine/
 
 ## 这个仓库是什么
 
-一条为期十二个月、分六个阶段的学习路线，起点是**完全没有 PCB 经验**，终点是这台
-车跑在自己设计的电子系统上。
+一条为期十二个月的学习路线，起点是**完全没有 PCB 经验**，终点是这台车跑在自己
+设计的电子系统上。
+
+它由**两条并行的曲线**组成，而"让它们并行而不是串行"是整个计划里最主要的排期决策：
+
+| 线 | 起点 | 终点 |
+|---|---|---|
+| **硬件线**——六个阶段 | 焊接练习与 KiCad | 一块四层主板 |
+| **嵌入式 C 线**——从第 1 个月起 | 在一块 ¥25 的 Pico 上点亮 LED | 在 Pi 已经死掉时仍必须正常工作的固件 |
+
+C 语言线之所以存在，是因为第 3 阶段起的板子都带单片机，而它的固件用 **C** 写，
+基于 Raspberry Pi Pico SDK——这是**刻意选择嵌入式实际使用的语言**，而不是最快能
+跑通的那个。从第 1 个月就在面包板上的 Pico 上跑，意味着第 3 阶段不再是"同时面对
+新板子、新语言、新架构"，而变成把已经验证过的固件搬到自己的板上。完整理由见
+[路线图](docs/roadmap.md#the-parallel-c-track--并行的-c-语言线)。
 
 它既是硬件项目，也是学习日志。失败的板子会和成功的板子记录得一样仔细——在这条
 路线上，**一块你搞懂了原因的坏板，比一块蒙对了的好板更值钱**。
@@ -305,7 +335,7 @@ RoverSpine/
 
 | 阶段 | 内容 | 替换 / 增加 | 月份 | 状态 |
 |:---:|---|---|:---:|:---:|
-| 0 | 基本功——焊接、万用表、KiCad。**不做任何板子** | — | 1 | 🔨 进行中 |
+| 0 | 基本功——焊接、万用表、KiCad，以及在 Pico 上写第一段 C。**不做任何板子** | — | 1 | 🔨 进行中 |
 | 1 | 状态指示板——LED、蜂鸣器、按钮 | 增加：不用 SSH 也能看到状态 | 1–2 | 🗓️ 计划中 |
 | 2 | 信号板——连接器与编码器接口 | 替换：7 根杜邦线 | 3–4 | 🗓️ 计划中 |
 | 3 | RP2040 协处理器 | 替换：USB 转串口板 · 增加：看门狗、正交解码、电池监测、急停 | 5–7 | 🗓️ 计划中 |
