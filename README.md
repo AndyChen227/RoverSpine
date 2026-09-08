@@ -19,7 +19,7 @@
 [![Hardware license](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-2563EB?style=flat-square)](LICENSES/)
 [![Software license](https://img.shields.io/badge/firmware-MIT-22C55E?style=flat-square)](LICENSES/MIT.txt)
 
-### [English](#english) · [中文](#chinese) · [Roadmap](docs/roadmap.md) · [RoverPi](https://github.com/AndyChen227/RoverPi)
+### [English](#english) · [中文](#chinese) · [What it does](#functions) · [Roadmap](docs/roadmap.md) · [RoverPi](https://github.com/AndyChen227/RoverPi)
 
 </div>
 
@@ -92,19 +92,110 @@ flowchart LR
     class S4,S5,S6 far;
 ```
 
-## What never gets replaced
+<a id="functions"></a>
 
-Two things on the rover are permanently out of scope, and saying so up front
-keeps the project honest:
+## What the board does
+
+### First, a principle: it replaces boxes, not wires
+
+A board is **rigid** and lives in one place. The motors sit at four corners of
+the chassis, the lidar at the front, the battery on the lower deck. Any two
+parts that are physically apart need a flexible connection between them, and
+that is a wire. Geometry decides this, not design skill.
+
+So "replacing the dupont wires" does not mean the wires go away:
+
+| | Today | With the board |
+|---|---|---|
+| Form | Loose dupont jumpers, held on by friction | Latching connectors and a made-up harness |
+| Labelling | Memory and wire colour | Silkscreen on the board: `PWM1`, `INA1`, … |
+| Count | 7 | **Possibly more** — the encoders arrive too |
+| What changes | | **Reliability.** The rover vibrates, a dupont jumper works loose, and a loose direction pin means undefined motor behavior |
+
+The same applies at the other end. When Stage 5 replaces the motor driver, the
+wires from the driver to the motors are still wires — only what sits at the end
+of them changes.
+
+### 1 · Replaces existing parts
+
+| # | What it replaces | Stage | The problem today | How the board solves it |
+|---:|---|:---:|---|---|
+| 1 | The 7 dupont control wires | 2 | Vibration works them loose; a detached direction pin is undefined behavior | Latching connector, silkscreen labels |
+| 2 | CH9102F USB serial adapter | 3 | Unsecured, occupies a USB port, one more thing to fail | Lidar UART goes straight into the on-board MCU |
+| 3 | USB power bank | 4 | Charges separately, runs out, takes up space | On-board 11.1 V → 5 V / 5 A, one battery for the whole rover |
+| 4 | WHEELTEC motor driver | 5 | Two motors paralleled per channel — no per-wheel control, no current feedback | Four independent H-bridge channels |
+| 5 | Inline fuse — **augmented, never removed** | 5 | A fuse only protects against one failure mode | Electronic over-current added; **the physical fuse stays** |
+
+### 2 · Adds — safety that software cannot provide
+
+| # | Function | Stage | The problem today | How it works |
+|---:|---|:---:|---|---|
+| 6 | **Heartbeat watchdog** | 3 | If the Pi hangs, the last PWM value stays on the pins and the rover keeps driving | The Pi must toggle a pin continuously; stop for ~200 ms and hardware pulls the driver enable low |
+| 7 | **Safe state at power-on** | 2 | Between Pi power-on and the script starting, GPIO states are undefined — the motors can twitch | Pull-down resistors on the driver inputs, so unattended means **stopped** |
+| 8 | Physical E-stop button | 3 | Only Ctrl+C or the main switch | The button sits in the enable path, bypassing software entirely |
+| 9 | Battery voltage monitor | 3 | **Nothing is watching.** A 3S pack below 9.9 V is permanent damage | Resistor divider into an ADC, with a warning threshold well above the damage point |
+| 10 | Motor over-current / stall cutoff | 5 | Stall current is bounded only by the fuse | Per-channel current sense feeding a fast cutoff |
+
+> Item 7 is the cheapest safety feature on this list — a few resistors — and it
+> closes a real class of power-on twitch that no amount of Python can reach,
+> because the Python is not running yet.
+
+### 3 · Adds — sensing and interaction
+
+| # | Function | Stage | Why it needs a board |
+|---:|---|:---:|---|
+| 11 | Four-channel hardware quadrature decoding | 3 | ~28 000 edges/s across four wheels at full speed. Python drops counts **silently**, and a lying odometer is worse than none |
+| 12 | Battery voltage reading | 3 | **The Raspberry Pi has no ADC at all.** Without added silicon it can never read any analog quantity |
+| 13 | Per-wheel current sensing | 5 | Required by Phase 3's PID and by honest stall detection |
+| 14 | Four status LEDs | 1 | Serves the "run without SSH" milestone — you need to see the state with no terminal |
+| 15 | Buzzer | 1 | Audible state changes, without watching a screen |
+| 16 | User button | 1 | Start and mode-switch without a login session |
+| 17 | Regulated supply for sensors | 2+ | Today every new sensor needs its own power arrangement invented for it |
+
+### 4 · Reserved for what comes later
+
+Headers and footprints cost almost nothing to add and cannot be added after the
+board is fabricated. These are placed now and populated when the rover needs them.
+
+| # | What is reserved | Serves | Note |
+|---:|---|---|---|
+| 18 | I2C header and IMU footprint | Phase 4 | Heading. The decision waits on the Phase 3 square-test error, but **the interface is free to reserve** |
+| 19 | Servo header, separately powered | Phase 4 | Lidar sweep. Servo current spikes must not share a rail with logic |
+| 20 | Two bumper switch inputs | Phase 1 / 4 | **Covers the lidar's blind spot** — the ≤2 mm beam cannot see a chair leg; a bumper can |
+| 21 | Cliff / drop sensor inputs | Phase 4 | Stops the rover driving off a step |
+| 22 | Ultrasonic or IR range header | Phase 4 | Much wider coverage than a single beam; complementary, not a replacement |
+| 23 | Spare GPIO, UART, and I2C brought out | All | The cheapest insurance on the board. Unused pads are free; missing ones cost a fabrication run |
+
+### 5 · Out of scope — never replaced
+
+Saying this up front keeps the project honest and stops it growing into
+"rebuild the whole rover":
 
 | Part | Why it stays |
 |---|---|
 | **Raspberry Pi 5** | Replacing the main computer is a different project, not an upgrade to this one |
 | **Main power switch** | A physical cutoff must never depend on any board working correctly |
+| **Inline fuse** | Electronic protection can fail. A fuse cannot |
 
-The inline fuse is a third case: this project will add electronic current
-limiting, but it will **not** remove the fuse. Electronic protection can fail.
-A fuse cannot.
+### 6 · Out of scope — things a board cannot help with
+
+| Planned capability | Board involved? | Why not |
+|---|:---:|---|
+| Camera (Phase 5) | ❌ | Uses the Pi's own CSI ribbon, bypassing the board |
+| 2D scanning lidar | ❌ | USB, straight into the Pi |
+| Wi-Fi, Bluetooth, the gamepad | ❌ | Built into the Pi |
+| ROS 2 (Phase 6) | ❌ | Pure software |
+| SLAM and path planning (Phase 7) | ❌ | Pure software and compute |
+| Automatic controller discovery | ❌ | Pure software — a Phase 1 item this project cannot help with |
+| More compute for the Pi | ❌ | The on-board MCU is a co-processor, not an accelerator |
+
+### In one sentence
+
+> The board is the **meeting point** for every electrical connection on the
+> rover, and the **protective layer** between the brain and the muscles.
+
+It adds **no autonomy** — that all lives in software. What it adds is
+**reliability** and **observability**.
 
 ## The one rule
 
@@ -225,17 +316,105 @@ RoverSpine/
 每个阶段的完整规格、动手前必须先测的量、工具预算和完成判据，都在
 [`docs/roadmap.md`](docs/roadmap.md)。
 
-## 永远不替换的东西
+<a id="functions-cn"></a>
 
-车上有两样东西被永久排除在这个项目之外，把这件事提前写清楚，项目才诚实：
+## 这块板做什么
+
+### 先讲一个原理：它替换的是"盒子"，不是"线"
+
+板子是**刚性的**，装在一个固定位置。而电机分布在底盘四个角、激光在车头、电池在
+下层。任何两个**物理上分开**的部件之间，都必然需要柔性连接，那就是线。这是几何
+决定的，不是设计水平的问题。
+
+所以"替换杜邦线"并不意味着线会消失：
+
+| | 现在 | 有了板子之后 |
+|---|---|---|
+| 形态 | 松散的杜邦跳线，靠摩擦力插着 | 带锁扣的连接器 + 成型线束 |
+| 标注 | 靠记忆和线的颜色 | 板上有丝印：`PWM1`、`INA1`…… |
+| 数量 | 7 根 | **可能更多**——编码器也要接进来 |
+| 变的是什么 | | **可靠性。** 车在振动，杜邦线会松脱，而一根脱落的方向线意味着电机行为未定义 |
+
+另一端同理。Stage 5 换掉驱动板之后，驱动到电机之间的线**仍然是线**，变的只是
+线另一头连着什么。
+
+### 1 · 替换现有部件
+
+| # | 替换什么 | 阶段 | 现在的问题 | 板子怎么解决 |
+|---:|---|:---:|---|---|
+| 1 | Pi↔驱动板 的 7 根杜邦线 | 2 | 振动使其松脱，方向线一旦脱落，电机行为未定义 | 带锁扣连接器，配丝印标注 |
+| 2 | CH9102F USB 转串口板 | 3 | 悬空晃动、占一个 USB 口、多一层故障点 | 激光 UART 直接进板载 MCU |
+| 3 | 充电宝 | 4 | 要单独充电、会没电、占空间 | 板载 11.1V → 5V/5A，整车一块电池 |
+| 4 | WHEELTEC 驱动板 | 5 | 每通道并联两个电机——无法单轮控制，也没有电流反馈 | 四路独立 H 桥 |
+| 5 | 保险丝——**只增强，绝不移除** | 5 | 保险丝只能防住一种失效模式 | 增加电子过流保护，**物理保险丝保留** |
+
+### 2 · 新增：软件做不到的安全功能
+
+| # | 功能 | 阶段 | 现在的问题 | 原理 |
+|---:|---|:---:|---|---|
+| 6 | **心跳看门狗** | 3 | Pi 一旦死机，最后的 PWM 值仍挂在引脚上，车继续往前开 | Pi 必须持续翻转一个引脚；停止超过约 200 ms，硬件直接拉低驱动使能 |
+| 7 | **上电默认安全状态** | 2 | 从 Pi 上电到脚本启动之间，GPIO 状态不确定，电机可能抽动 | 驱动输入加下拉电阻，**无人驱动时默认为停** |
+| 8 | 物理急停按钮 | 3 | 现在只能靠 Ctrl+C 或总开关 | 按钮直接进使能回路，完全绕过软件 |
+| 9 | 电池电压监测 | 3 | **完全没人看着。** 3S 电池掉到 9.9 V 以下即永久损坏 | 分压进 ADC，报警阈值设在损坏点之上很多 |
+| 10 | 电机过流 / 堵转切断 | 5 | 堵转电流现在只受保险丝约束 | 单通道电流采样，触发快速切断 |
+
+> 第 7 条是这张表上最便宜的安全功能——几个电阻的事——但它堵住的是一类 Python
+> 永远够不着的上电抽动，因为在那个时刻 Python 还没开始运行。
+
+### 3 · 新增：感知与交互
+
+| # | 功能 | 阶段 | 为什么需要板子 |
+|---:|---|:---:|---|
+| 11 | 四路硬件正交解码 | 3 | 满速下四轮合计约 28000 边沿/秒。Python 会**悄无声息**地丢计数，而会说谎的里程计比没有里程计更糟 |
+| 12 | 电池电压读数 | 3 | **树莓派根本没有 ADC。** 不加芯片，它永远读不到任何模拟量 |
+| 13 | 单轮电流采样 | 5 | 第 3 阶段的 PID 和真实的堵转检测都需要 |
+| 14 | 四个状态 LED | 1 | 服务于"脱离 SSH 运行"——没有终端时你得能看见状态 |
+| 15 | 蜂鸣器 | 1 | 状态变化用声音提示，不必盯着屏幕 |
+| 16 | 用户按钮 | 1 | 不用登录就能启动和切换模式 |
+| 17 | 传感器统一稳压供电 | 2+ | 现在每加一个传感器，都要为它单独想一次取电方案 |
+
+### 4 · 为以后预留
+
+排针和焊盘加上去几乎不花钱，但**板子做出来之后就再也加不了**。所以现在先留，
+等车真正需要的时候再焊上元件。
+
+| # | 预留什么 | 服务于 | 说明 |
+|---:|---|---|---|
+| 18 | I2C 排针与 IMU 焊盘 | 第 4 阶段 | 航向角。要不要用取决于第 3 阶段方形测试的误差，但**接口本身留着不花钱** |
+| 19 | 舵机接口，独立供电 | 第 4 阶段 | 激光扫描。舵机的电流尖峰绝不能和逻辑电源共用一路 |
+| 20 | 两路碰撞开关输入 | 第 1 / 4 阶段 | **补上激光的盲区**——那束 ≤2 mm 的光看不见椅子腿，碰撞开关看得见 |
+| 21 | 跌落 / 悬空传感器输入 | 第 4 阶段 | 防止车从台阶上开下去 |
+| 22 | 超声波或红外测距接口 | 第 4 阶段 | 覆盖面比单点激光宽得多；是互补，不是替代 |
+| 23 | 备用 GPIO、UART、I2C 引出 | 全部阶段 | 板上最便宜的保险。多留几个焊盘不要钱，少留了就得重新打样 |
+
+### 5 · 范围之外——永远不替换
+
+把这件事提前写清楚，项目才诚实，也才不会膨胀成"重造一台车"：
 
 | 部件 | 为什么保留 |
 |---|---|
 | **Raspberry Pi 5** | 换掉主控等于重开一个项目，不是给这个项目做升级 |
 | **总电源开关** | 物理断电的全部价值，就在于它不依赖任何电路工作正常 |
+| **保险丝** | 电子保护会失效，保险丝不会 |
 
-保险丝是第三种情况：这个项目会**增加**电子限流，但**不会拿掉**保险丝。
-电子保护会失效，保险丝不会。
+### 6 · 范围之外——板子帮不上忙的事
+
+| 以后想做的功能 | 板子参与吗 | 为什么不参与 |
+|---|:---:|---|
+| 摄像头（第 5 阶段） | ❌ | 走 Pi 自己的 CSI 排线，绕过板子 |
+| 2D 旋转激光雷达 | ❌ | USB 接口，直接进 Pi |
+| WiFi、蓝牙、手柄 | ❌ | Pi 内置 |
+| ROS 2（第 6 阶段） | ❌ | 纯软件 |
+| SLAM 与路径规划（第 7 阶段） | ❌ | 纯软件加算力 |
+| 手柄自动发现 | ❌ | 纯软件——这是第 1 阶段的待办项，但这个项目帮不上忙 |
+| 提升 Pi 的算力 | ❌ | 板载 MCU 是协处理器，不是加速卡 |
+
+### 一句话总结
+
+> 这块板是车上所有电气连接的**汇合点**，以及大脑与肌肉之间的**保护层**。
+
+它**不增加任何自主能力**——那些全都活在软件里。它增加的是**可靠性**和
+**可观测性**。
 
 ## 唯一的铁律
 
