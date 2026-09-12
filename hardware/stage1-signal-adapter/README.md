@@ -18,9 +18,9 @@ WHEELTEC D50A motor driver with one small passive board and two ribbon cables.
 
 ## Status / 当前状态
 
-- `[ ]` **Rev A — pending.** Schematic in progress. Not fabricated. Cables not yet delivered.
+- `[ ]` **Rev A — pending.** Schematic **electrically complete and netlist-verified** (ERC 30/0, all 8 nets compared against the signal map, 2026-09-12). Footprints **not assigned**, layout not started, not fabricated. Cables not yet delivered, so D50A pin 1 is still an assumption.
 
-`[ ]` **Rev A — 待办。** 原理图进行中，未打样，排线未到货。
+`[ ]` **Rev A — 待办。** 原理图**电气内容完工并通过网表核对**（ERC 30/0，8 个网络与信号表逐条比对，2026-09-12）。封装**未分配**，布局未开始，未打样。排线未到货，所以 D50A 的 1 号脚仍是假设。
 
 Three-state notation, same as the rest of the project: `[x]` met its exit
 criteria **on the rover** · `[~]` exists and powers up · `[ ]` pending.
@@ -30,7 +30,7 @@ criteria **on the rover** · `[~]` exists and powers up · `[ ]` pending.
 
 | Rev | Date | State | What changed / 改了什么 |
 |---|---|---|---|
-| A | 2026-09-12 | `[ ]` in progress | First revision. Two connectors placed in KiCad (`Conn_02x20_Odd_Even`, `Conn_02x05_Odd_Even`); nets not yet drawn |
+| A | 2026-09-12 | `[ ]` in progress | First revision. Schematic complete: 10 connections, 8 nets, verified against the signal map from the exported netlist. Carries a text annotation recording the unverified pin-1 assumption. Footprints not assigned. See [the devlog](../../docs/devlog/2026-09-12-revA-schematic-complete.md) |
 
 A revision is **never overwritten** — Rev B will sit next to Rev A, because the
 whole point of keeping A is being able to see what changed and why.
@@ -95,10 +95,11 @@ gating checks that must pass before footprints are frozen all live in:
 
 ## Next steps / 下一步
 
-1. Draw and label the seven logical connections in the schematic.
-2. Run ERC, then **manually compare every net against the signal map**, one by one.
-3. When the cables arrive, run the gating checks above.
-4. Only then assign final footprints and begin PCB layout.
+1. ~~Draw and label the connections in the schematic.~~ **Done 2026-09-12.**
+2. ~~Run ERC, then manually compare every net against the signal map.~~ **Done — 30 errors / 0 warnings, all 8 nets PASS.**
+3. **When the cables arrive, run the gating checks above** — including resolving which physical D50A pin is pin 1, which is still an assumption.
+4. **Before assigning footprints:** re-enable the ERC check `分配的封装不匹配封装筛选规则`. It catches a wrong-pitch or wrong-pin-count footprint, which is the fatal mistake available at this step.
+5. Only then assign final footprints (`DC3-40P` at J1, `DC3-10P` at J2) and begin PCB layout.
 
 ---
 

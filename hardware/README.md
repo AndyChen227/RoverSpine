@@ -11,7 +11,7 @@ what changed and why.
 
 | Board | Stage | State | 说明 |
 |---|:---:|:---:|---|
-| [`stage1-signal-adapter`](stage1-signal-adapter/) | 1 | `[ ]` Rev A in progress | Passive 7-signal adapter, Pi ↔ D50A / 被动信号转接板 |
+| [`stage1-signal-adapter`](stage1-signal-adapter/) | 1 | `[ ]` Rev A — schematic done, footprints not frozen | Passive adapter, 10 connections / 8 nets, Pi ↔ D50A / 被动信号转接板 |
 
 Nothing has been fabricated yet. Stage 0 deliberately produces no board — see
 the [roadmap](../docs/roadmap.md).

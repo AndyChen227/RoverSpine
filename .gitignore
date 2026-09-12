@@ -6,6 +6,7 @@
 *.sch-bak
 *.bak
 _autosave-*
+_restore_backup_*/
 fp-info-cache
 ~*.lck
 *.lck
