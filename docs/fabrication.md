@@ -158,8 +158,8 @@ instead of arguing with you afterwards.
 
 | Stage | Board | What changes from the defaults |
 |:---:|---|---|
-| **1** | Passive signal adapter | Nothing. The defaults above are exactly this board |
-| **2** | Signal & status board | Nothing, but first 0805 SMD pads — deliberately large, still hand-solderable |
+| **1** | Passive signal adapter | Nothing — the defaults above *are* this board. Through-hole as built; the reserved 0805 pads may ship empty |
+| **2** | Signal & status board | Nothing in the order, but the first 0805 parts that are definitely populated — deliberately large, still hand-solderable with a plain iron |
 | **3** | RP2040 co-processor | Denser SMD. **ENIG (沉金) is worth considering** for flatter pads under hot air. A **steel stencil (钢网)** becomes useful if using solder paste |
 | **4** | Power board | **2 oz copper**, wide pours, thermal vias. Layout matters more than options: keep the switching loop physically tiny |
 | **5** | Motor driver | **2 oz copper or heavier**, with trace widths sized from the **measured** stall current — not from the datasheet's optimism |
@@ -172,9 +172,28 @@ instead of arguing with you afterwards.
 
 ## 6 · After it arrives / 板子到货之后
 
+### What arrives / 到货的是什么
+
+A **bare board** — plated holes, soldermask, silkscreen, and nothing else. **Every
+component is soldered on by you.**
+
+嘉立创 does offer SMT/PCBA assembly, but for Stage 1 it is the wrong trade:
+through-hole parts carry more restrictions, cost more, take longer, and require
+every part to come from LCSC's library — and decisively, it would skip the one
+thing this stage exists to teach. It is worth reconsidering from Stage 3, where
+the parts get dense and fine-pitch.
+
+到货的是一块**光板**：镀铜的孔、阻焊层、丝印，别的什么都没有。**所有元件都由你自己焊上去。**
+
+嘉立创确实有 SMT 贴片 / PCBA 服务，但第 1 阶段用它是笔亏本的交易：通孔件限制多、更贵、更慢，
+元件还必须用立创商城库里的料号——而最关键的是，**它会跳过这个阶段存在的唯一目的**。
+到第 3 阶段元件变密、封装变小，那时候再考虑才有意义。
+
+### The steps / 步骤
+
 1. **Photograph the bare board** before soldering anything. A photo of the bare board is what lets you check a footprint or a trace later without desoldering. Photos go in [`../photos/`](../photos/).
 2. **Continuity-check the bare board** against the signal map, pin to pin, with the multimeter — before it touches the Pi.
-3. Solder. Photograph again, assembled.
+3. **Solder** — see [the assembly order](#assembly) below. Photograph again, assembled.
 4. **Write `bringup.md` during first power-up, not afterwards.** Current draw, measured voltages, and every surprise, while you still remember what you actually did.
 5. **Commit the exact zip that was uploaded**, as `hardware/<board>/fab/revA.zip`.
 
@@ -192,6 +211,73 @@ instead of arguing with you afterwards.
 3. 焊接，焊完再拍一组。
 4. **`bringup.md` 在第一次上电的过程中写，不是事后补。**
 5. **提交真正上传的那个 Gerber 压缩包。**
+
+<a id="assembly"></a>
+
+### Assembly order / 焊接顺序
+
+> **Shortest parts first, tallest last. SMD before through-hole.**
+>
+> **先矮后高，先贴片后通孔。**
+
+Once a tall boxed header is on the board, the board no longer lies flat on the
+bench — and every SMD pad still to be soldered becomes awkward to reach. For
+Stage 1 the order is:
+
+一旦高的牛角座焊上去，板子就没法平放在桌面上了，剩下的贴片焊盘会变得很难焊。
+第 1 阶段的顺序是：
+
+```text
+0805 resistors  →  2×5 boxed header  →  2×20 boxed header
+0805 电阻        →  2×5 牛角座         →  2×20 牛角座
+```
+
+Joint count for Stage 1 Rev A / 第 1 阶段 Rev A 的焊点数：
+
+| Part | 焊点 |
+|---|---:|
+| 2×20 header | 40 |
+| 2×5 header | 10 |
+| 0805 resistors, if populated / 如果焊 | 24 |
+| **Total** | **50–74** |
+
+Twenty to thirty minutes once you are practised; an hour the first time is
+normal. **Practise 30–50 joints on a practice kit before touching a real board** —
+that is Stage 0's exit criterion: a joint you are willing to put on a moving
+vehicle.
+
+熟练后 20–30 分钟，第一次花一个小时也正常。**在碰真板子之前，先在练习板上焊 30–50 个焊点**
+——这是第 0 阶段的完成判据：能做出一个你愿意装到运动的车上的焊点。
+
+### Soldering a long header straight / 长排针怎么焊得不歪
+
+A crooked header will not accept the ribbon, or accepts it under stress. The
+technique is to make the first two joints rescuable:
+
+排针歪了插不进排线，或者插进去带着应力。手法的核心是：让最初两个焊点还救得回来。
+
+1. Insert the header, flip the board over.
+2. **Solder only two diagonally opposite pins** — pin 1 and pin 40.
+3. **Flip back and check that it is square.** If it leans, reheat those two joints and push it straight.
+4. **Only then** solder the remaining pins.
+
+1. 排针插进孔里，板子翻过来。
+2. **只焊对角两个引脚**——第 1 脚和第 40 脚。
+3. **翻过来检查垂不垂直。** 歪了就重新加热那两个焊点，把它推正。
+4. **正了之后**，再焊剩下的引脚。
+
+> The whole point is step 3. With two pins soldered it can still be rescued; with
+> ten it cannot.
+>
+> 全部意义都在第 3 步：**焊了两个脚还能救，焊了十个脚就救不回来了。**
+
+> [!TIP]
+> **0805 needs only an iron — no hot air.** That is exactly why the roadmap picks
+> 0805 rather than something smaller: "deliberately large". The hot air station is
+> not needed until Stage 3.
+>
+> **0805 用普通烙铁就能焊，不需要热风枪。** 这正是路线图刻意选 0805 而不是更小封装的原因
+> （"deliberately large"）。热风枪要到第 3 阶段才需要。
 
 ## 7 · Expect a revision / 预期要改版
 

@@ -464,7 +464,8 @@ Rev A is deliberately minimal. See the
 [planning devlog](devlog/2026-09-11-signal-adapter-planning.md) for the full
 reasoning.
 
-- Two-layer board, **through-hole only**, small, in its own enclosure — **not a HAT**, see [the mechanical constraint](#mechanical)
+- Two-layer board, small, in its own enclosure — **not a HAT**, see [the mechanical constraint](#mechanical)
+- **Through-hole only as built.** The reserved 0805 pads below are pads, not populated parts: Rev A can ship with all of them empty and still be a pure through-hole assembly
 - 1 × 2×20 (40-pin) connector to the Pi, via a 10–15 cm female-to-female ribbon
 - 1 × 2×5 (10-pin) connector to the D50A, via a ≈35 cm female-to-female ribbon
 - **7 direct copper connections:** 6 motor-control signals + GND
