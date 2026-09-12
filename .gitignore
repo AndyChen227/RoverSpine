@@ -39,6 +39,8 @@ __pycache__/
 # Editor and OS
 .vscode/
 .idea/
+# VS Code Local History extension — snapshots every save, including .kicad_sch
+.history/
 *.swp
 .DS_Store
 Thumbs.db

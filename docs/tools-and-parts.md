@@ -26,6 +26,29 @@ This is a dated record of tools, software, cables, and parts actually selected f
 - Purpose: connect the Raspberry Pi 5 to the adapter without stacking a PCB above the active cooler / 在不遮挡主动散热器的情况下连接树莓派与转接板
 - Status: selected; waiting for delivery / 已选定，等待到货
 
+## 2026-09-12 — Picos for the language evaluation / 用于语言评估的 Pico
+
+The firmware language is [an explicit end-of-month-1 decision](roadmap.md#lang-eval)
+made from a measurement, not from reading. These parts are what the measurement
+needs.
+
+固件语言改成[第 1 个月末根据实测做的决定](roadmap.md#lang-eval)，而不是读出来的判断。
+这几件就是做这个实测所需要的东西。
+
+### 3. Raspberry Pi Pico × 2 / 树莓派 Pico ×2
+
+- Quantity: **2** — the second one matters, see below / 数量 2，第二块很关键
+- Approx. cost: ¥25 each, ¥50 total
+- Purpose: write the same `blink` in each candidate language (C on the Pico SDK, C++ on arduino-pico, MicroPython) and decide from experience. The Pico carries the same RP2040 that goes on the Stage 3 board but needs **no PCB at all** / 用每个候选语言各写一遍同一个 blink，根据实际体验定语言。Pico 上的芯片和第 3 阶段板上要用的是同一颗，但它完全不需要 PCB
+- **Why two:** the second one, flashed with `debugprobe` firmware, becomes an SWD debugger for the first. Embedded code has no REPL (except MicroPython) and a crash is usually a silent hang / 第二块刷 `debugprobe` 固件就是第一块的 SWD 调试器；嵌入式崩溃通常表现为静默死机，有调试器和没调试器是两个世界
+- Status: not yet purchased / 尚未购买
+
+### 4. Breadboard and jumper wires / 面包板与跳线
+
+- Approx. cost: ¥30
+- Purpose: the firmware track runs on a breadboard from month 1, so Stage 3 becomes "move firmware that already works onto a board of my own" / 固件线从第 1 个月起就在面包板上跑，这样第 3 阶段变成"把已经跑通的固件搬到自己的板上"
+- Status: not yet purchased / 尚未购买
+
 ## Software currently used / 当前软件
 
 | Tool | Version | Purpose | Added |

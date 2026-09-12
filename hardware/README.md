@@ -7,6 +7,29 @@ what changed and why.
 每块板一个目录。**改版不覆盖旧版**：B 版和 A 版并排放着，因为留下 A 版的全部意义
 就是能看出改了什么、为什么改。
 
+## Boards / 板子索引
+
+| Board | Stage | State | 说明 |
+|---|:---:|:---:|---|
+| [`stage1-signal-adapter`](stage1-signal-adapter/) | 1 | `[ ]` Rev A in progress | Passive 7-signal adapter, Pi ↔ D50A / 被动信号转接板 |
+
+Nothing has been fabricated yet. Stage 0 deliberately produces no board — see
+the [roadmap](../docs/roadmap.md).
+
+目前还没有打样过任何板子。第 0 阶段有意不做板，见[路线图](../docs/roadmap.md)。
+
+## No board here is a HAT / 这里没有一块板是 HAT
+
+The Raspberry Pi 5 carries an active cooler, so **nothing can stack on its 40-pin
+header.** Every board in this directory is a separate board in its own small
+enclosure, connected by ribbon cable. This is a physical fact about the vehicle,
+not a design preference — see
+[the mechanical constraint](../docs/roadmap.md#mechanical).
+
+树莓派 5 上装了主动散热器，**40 针排针上不能再叠任何东西**。这个目录里的每一块板都是
+装在自己小外壳里的独立板，用排线连接。这是车的物理事实，不是设计偏好——见
+[机械约束](../docs/roadmap.md#mechanical)。
+
 ## Directory convention / 目录约定
 
 ```text
@@ -21,7 +44,7 @@ hardware/
     └── bringup.md             # First-power results, measurements, what was wrong
 ```
 
-Example: `hardware/stage1-status-hat/`
+Example: `hardware/stage1-signal-adapter/`
 
 ## Rules / 规矩
 
@@ -44,9 +67,14 @@ Example: `hardware/stage1-status-hat/`
 4. **Photograph every board bare and assembled** before it goes on the rover.
    Photos go in [`../photos/`](../photos/).
 
-## Status / 当前状态
+5. **The KiCad project lives under the board's own directory**, not at the
+   repository root. `*.kicad_prl` (per-user UI state) and editor local-history
+   folders are gitignored; the schematic, layout and project files are committed.
+   **KiCad 工程放在对应板子的目录下**，不放在仓库根目录。`*.kicad_prl`（每个用户的
+   界面状态）和编辑器的本地历史目录已被 gitignore；原理图、布局和工程文件要提交。
 
-No boards have been fabricated yet. Stage 0 deliberately produces no board — see
-the [roadmap](../docs/roadmap.md).
-
-目前还没有打样过任何板子。第 0 阶段有意不做板，见[路线图](../docs/roadmap.md)。
+6. **Empty board area is not a reason to add a circuit.** Each board's README
+   lists what it deliberately does *not* do, so that an absence is a recorded
+   decision rather than an oversight.
+   **板上有空地不是加电路的理由。** 每块板的 README 都列出它"有意不做"的事，让"没有"
+   成为一个被记录的决定，而不是一次遗漏。

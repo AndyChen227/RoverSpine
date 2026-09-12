@@ -59,17 +59,27 @@ sequential is the main scheduling decision in the plan:
 
 | Track | From | To |
 |---|---|---|
-| **Hardware** — six stages | Soldering practice and KiCad | A four-layer mainboard |
-| **Embedded C** — from month 1 | Blinking an LED on a ¥25 Pico | Firmware that must keep working when the Pi is dead |
+| **Hardware** — seven stages | Soldering practice and KiCad | A four-layer mainboard |
+| **Firmware** — from month 1 | Blinking an LED on a ¥25 Pico | Code that must keep working when the Pi is dead |
 
-The C track exists because the boards from Stage 3 onward carry a
-microcontroller, and its firmware is written in **C** on the Raspberry Pi Pico
-SDK — a deliberate choice of the language embedded work is actually done in over
-the one that would have shipped fastest. Running it from month 1 on a breadboard
-Pico means Stage 3 is no longer "a new board and a new language and a new
-architecture at once"; it becomes moving proven firmware onto a board of your
-own. The reasoning is in
-[the roadmap](docs/roadmap.md#c-track).
+The firmware track exists because the boards from Stage 3 onward carry a
+microcontroller. Running it from month 1 on a breadboard Pico means Stage 3 is no
+longer "a new board and a new language and a new architecture at once"; it becomes
+moving proven firmware onto a board of your own.
+
+**The language is deliberately not decided yet.** An earlier version of this plan
+committed to C on the Pico SDK — and then withdrew it, because that choice had
+been made from reading rather than from writing any code. Month 1 buys two ¥25
+Picos and writes the same `blink` in each candidate (C on the Pico SDK, C++ on
+arduino-pico, MicroPython); the language is decided at the end of it, from a
+measurement. The full reasoning, and the reason **C++ is not the easier one**, is
+in [the roadmap](docs/roadmap.md#c-track).
+
+There is also a reason this decision carries less weight than it looks like it
+does: the microcontroller has exactly **one irreplaceable job** in this project —
+four-channel high-speed quadrature decode. Battery voltage, current sensing, and
+even the heartbeat watchdog all have implementations that need no firmware at
+all. See [the capability menu](docs/roadmap.md#menu).
 
 It is a learning journal as much as a hardware project. Boards that failed are
 documented as carefully as boards that worked, because on this track a bad board
@@ -81,21 +91,32 @@ you understand is worth more than a good board you got lucky with.
 
 | Stage | Focus | Replaces / Adds | Months | State |
 |:---:|---|---|:---:|:---:|
-| 0 | Fundamentals — soldering, multimeter, KiCad, first C on a Pico. **No board is fabricated** | — | 1 | 🔨 Active |
-| 1 | Status indicator HAT — LEDs, buzzer, button | Adds: state visible without SSH | 1–2 | 🗓️ Planned |
-| 2 | Signal board — connectors and encoder inputs | Replaces: 7 dupont wires | 3–4 | 🗓️ Planned |
+| 0 | Fundamentals — soldering, multimeter, KiCad, first code on a Pico, **the language decision**. No board is fabricated | — | 1 | 🔨 Active |
+| 1 | Passive signal adapter — pure copper, two connectors | Replaces: 7 dupont wires · Adds: safe state at power-on | 1–2 | 🔨 Active |
+| 2 | Signal & status board — encoder inputs, LEDs, buzzer, button | Adds: state visible without SSH · encoders brought in | 3–4 | 🗓️ Planned |
 | 3 | RP2040 co-processor | Replaces: USB serial adapter · Adds: watchdog, quadrature decode, battery monitor, E-stop | 5–7 | 🗓️ Planned |
 | 4 | Power board — 11.1 V → 5 V / 5 A | Replaces: USB power bank | 8–9 | 🗓️ Planned |
 | 5 | Motor driver — four independent channels | Replaces: WHEELTEC driver · Adds: per-wheel current sensing | 10–12 | 🔭 Future |
 | 6 | Integration — one four-layer mainboard | — | stretch | 🔭 Future |
+
+> **Renumbered 2026-09-12.** The first board is the passive signal adapter, not
+> the status indicator — it is pure copper, so not one component on it can burn,
+> and it still teaches the entire pipeline. The status indicator functions moved
+> into Stage 2, which had already specified "everything from Stage 1 carried
+> forward". Details in [the devlog](docs/devlog/2026-09-12-plan-revision.md).
+
+> **No board in this plan is a HAT.** The Pi 5 carries an active cooler, so
+> nothing can stack on its 40-pin header. Every board is a separate board in its
+> own enclosure, connected by ribbon cable. See
+> [the mechanical constraint](docs/roadmap.md#mechanical).
 
 Full specifications, the gating measurements, the tool budget, and the exit
 criteria for every stage are in [`docs/roadmap.md`](docs/roadmap.md).
 
 ```mermaid
 flowchart LR
-    S0["Stage 0<br/>Fundamentals<br/>🔨"] --> S1["Stage 1<br/>Status HAT"]
-    S1 --> S2["Stage 2<br/>Signal board"]
+    S0["Stage 0<br/>Fundamentals<br/>🔨"] --> S1["Stage 1<br/>Signal adapter<br/>🔨"]
+    S1 --> S2["Stage 2<br/>Signal & status"]
     S2 --> S3["Stage 3<br/>Co-processor"]
     S3 --> S4["Stage 4<br/>Power board"]
     S4 --> S5["Stage 5<br/>Motor driver"]
@@ -104,8 +125,8 @@ flowchart LR
     classDef active fill:#92400e,color:#fff,stroke:#f59e0b,stroke-width:2px;
     classDef near fill:#1f2937,color:#e5e7eb,stroke:#64748b,stroke-width:2px;
     classDef far fill:#111827,color:#9ca3af,stroke:#374151,stroke-width:2px;
-    class S0 active;
-    class S1,S2,S3 near;
+    class S0,S1 active;
+    class S2,S3 near;
     class S4,S5,S6 far;
 ```
 
@@ -137,7 +158,7 @@ of them changes.
 
 | # | What it replaces | Stage | The problem today | How the board solves it |
 |---:|---|:---:|---|---|
-| 1 | The 7 dupont control wires | 2 | Vibration works them loose; a detached direction pin is undefined behavior | Latching connector, silkscreen labels |
+| 1 | The 7 dupont control wires | 1 | Vibration works them loose; a detached direction pin is undefined behavior | Latching connector, silkscreen labels |
 | 2 | CH9102F USB serial adapter | 3 | Unsecured, occupies a USB port, one more thing to fail | Lidar UART goes straight into the on-board MCU |
 | 3 | USB power bank | 4 | Charges separately, runs out, takes up space | On-board 11.1 V → 5 V / 5 A, one battery for the whole rover |
 | 4 | WHEELTEC motor driver | 5 | Two motors paralleled per channel — no per-wheel control, no current feedback | Four independent H-bridge channels |
@@ -148,7 +169,7 @@ of them changes.
 | # | Function | Stage | The problem today | How it works |
 |---:|---|:---:|---|---|
 | 6 | **Heartbeat watchdog** | 3 | If the Pi hangs, the last PWM value stays on the pins and the rover keeps driving | The Pi must toggle a pin continuously; stop for ~200 ms and hardware pulls the driver enable low |
-| 7 | **Safe state at power-on** | 2 | Between Pi power-on and the script starting, GPIO states are undefined — the motors can twitch | Pull-down resistors on the driver inputs, so unattended means **stopped** |
+| 7 | **Safe state at power-on** | 1 | Between Pi power-on and the script starting, GPIO states are undefined — the motors can twitch | Pull-down resistors on the driver inputs, so unattended means **stopped**. Pads are reserved on Rev A and may ship unpopulated |
 | 8 | Physical E-stop button | 3 | Only Ctrl+C or the main switch | The button sits in the enable path, bypassing software entirely |
 | 9 | Battery voltage monitor | 3 | **Nothing is watching.** A 3S pack below 9.9 V is permanent damage | Resistor divider into an ADC, with a warning threshold well above the damage point |
 | 10 | Motor over-current / stall cutoff | 5 | Stall current is bounded only by the fuse | Per-channel current sense feeding a fast cutoff |
@@ -164,9 +185,9 @@ of them changes.
 | 11 | Four-channel hardware quadrature decoding | 3 | ~28 000 edges/s across four wheels at full speed. Python drops counts **silently**, and a lying odometer is worse than none |
 | 12 | Battery voltage reading | 3 | **The Raspberry Pi has no ADC at all.** Without added silicon it can never read any analog quantity |
 | 13 | Per-wheel current sensing | 5 | Required by Phase 3's PID and by honest stall detection |
-| 14 | Four status LEDs | 1 | Serves the "run without SSH" milestone — you need to see the state with no terminal |
-| 15 | Buzzer | 1 | Audible state changes, without watching a screen |
-| 16 | User button | 1 | Start and mode-switch without a login session |
+| 14 | Four status LEDs | 2 | Serves the "run without SSH" milestone — you need to see the state with no terminal |
+| 15 | Buzzer | 2 | Audible state changes, without watching a screen |
+| 16 | User button | 2 | Start and mode-switch without a login session |
 | 17 | Regulated supply for sensors | 2+ | Today every new sensor needs its own power arrangement invented for it |
 
 ### 4 · Reserved for what comes later
@@ -260,10 +281,11 @@ RoverSpine/
 ├── README.md
 ├── LICENSES/                # CERN-OHL-S for hardware, MIT for firmware
 ├── docs/
-│   ├── roadmap.md           # The six stages, in full
+│   ├── roadmap.md           # The seven stages, in full
+│   ├── tools-and-parts.md   # Dated log of tools, cables and parts actually chosen
 │   └── devlog/              # Bilingual per-board logs, including failures
 ├── hardware/                # One directory per board: KiCad project, Gerbers, BOM
-├── firmware/                # On-board microcontroller code in C, from month 1
+├── firmware/                # On-board microcontroller code, from month 1
 ├── notes/
 │   └── debugging/           # Problems, causes, fixes, lessons
 └── photos/                  # Board photographs, bare and assembled
@@ -319,14 +341,21 @@ RoverSpine/
 
 | 线 | 起点 | 终点 |
 |---|---|---|
-| **硬件线**——六个阶段 | 焊接练习与 KiCad | 一块四层主板 |
-| **嵌入式 C 线**——从第 1 个月起 | 在一块 ¥25 的 Pico 上点亮 LED | 在 Pi 已经死掉时仍必须正常工作的固件 |
+| **硬件线**——七个阶段 | 焊接练习与 KiCad | 一块四层主板 |
+| **固件线**——从第 1 个月起 | 在一块 ¥25 的 Pico 上点亮 LED | 在 Pi 已经死掉时仍必须正常工作的代码 |
 
-C 语言线之所以存在，是因为第 3 阶段起的板子都带单片机，而它的固件用 **C** 写，
-基于 Raspberry Pi Pico SDK——这是**刻意选择嵌入式实际使用的语言**，而不是最快能
-跑通的那个。从第 1 个月就在面包板上的 Pico 上跑，意味着第 3 阶段不再是"同时面对
-新板子、新语言、新架构"，而变成把已经验证过的固件搬到自己的板上。完整理由见
-[路线图](docs/roadmap.md#c-track)。
+固件线之所以存在，是因为第 3 阶段起的板子都带单片机。从第 1 个月就在面包板上的 Pico
+上跑，意味着第 3 阶段不再是"同时面对新板子、新语言、新架构"，而变成把已经验证过的固件
+搬到自己的板上。
+
+**语言是刻意还没定的。** 这份计划早先的版本定了 C + Pico SDK，后来撤回了——因为那个选择
+是**读来的判断，不是写出来的结论**。第 1 个月花 ¥50 买两块 Pico，用每个候选（Pico SDK 的
+C、arduino-pico 的 C++、MicroPython）各写一遍同一个 `blink`，月末根据实测定。完整理由，
+以及**为什么 C++ 并不是更简单的那个**，见[路线图](docs/roadmap.md#c-track)。
+
+还有一个理由让这个决定没那么关键：单片机在这个项目里只有**一个真正不可替代的用途**——
+四路高速正交解码。电池电压、电流采样，甚至心跳看门狗，都有完全不需要固件的实现方式。
+见[功能清单](docs/roadmap.md#menu)。
 
 它既是硬件项目，也是学习日志。失败的板子会和成功的板子记录得一样仔细——在这条
 路线上，**一块你搞懂了原因的坏板，比一块蒙对了的好板更值钱**。
@@ -335,13 +364,21 @@ C 语言线之所以存在，是因为第 3 阶段起的板子都带单片机，
 
 | 阶段 | 内容 | 替换 / 增加 | 月份 | 状态 |
 |:---:|---|---|:---:|:---:|
-| 0 | 基本功——焊接、万用表、KiCad，以及在 Pico 上写第一段 C。**不做任何板子** | — | 1 | 🔨 进行中 |
-| 1 | 状态指示板——LED、蜂鸣器、按钮 | 增加：不用 SSH 也能看到状态 | 1–2 | 🗓️ 计划中 |
-| 2 | 信号板——连接器与编码器接口 | 替换：7 根杜邦线 | 3–4 | 🗓️ 计划中 |
+| 0 | 基本功——焊接、万用表、KiCad，在 Pico 上写第一段代码，**并定下语言**。不做任何板子 | — | 1 | 🔨 进行中 |
+| 1 | 被动信号转接板——纯铜，两个连接器 | 替换：7 根杜邦线 · 增加：上电默认安全状态 | 1–2 | 🔨 进行中 |
+| 2 | 信号与状态板——编码器接口、LED、蜂鸣器、按钮 | 增加：不用 SSH 也能看到状态 · 编码器接进来 | 3–4 | 🗓️ 计划中 |
 | 3 | RP2040 协处理器 | 替换：USB 转串口板 · 增加：看门狗、正交解码、电池监测、急停 | 5–7 | 🗓️ 计划中 |
 | 4 | 电源板——11.1V → 5V/5A | 替换：充电宝 | 8–9 | 🗓️ 计划中 |
 | 5 | 电机驱动——四路独立 | 替换：WHEELTEC 驱动板 · 增加：单轮电流采样 | 10–12 | 🔭 远期 |
 | 6 | 整合——一块四层主板 | — | 选做 | 🔭 远期 |
+
+> **2026-09-12 重新编号。** 第一块板改成被动信号转接板，不是状态指示板——它是纯铜的，
+> 板上没有一个元件会烧，但教的仍然是完整的一条流水线。状态指示功能并进了第 2 阶段，
+> 因为原第 2 阶段的规格里本来就写着"第 1 阶段的东西全部继承过来"。
+> 详情见[开发日志](docs/devlog/2026-09-12-plan-revision.md)。
+
+> **这份计划里没有一块板是 HAT。** 树莓派 5 上装了主动散热器，40 针排针上不能再叠东西。
+> 每块板都是装在自己小外壳里的独立板，用排线连接。见[机械约束](docs/roadmap.md#mechanical)。
 
 每个阶段的完整规格、动手前必须先测的量、工具预算和完成判据，都在
 [`docs/roadmap.md`](docs/roadmap.md)。
@@ -372,7 +409,7 @@ C 语言线之所以存在，是因为第 3 阶段起的板子都带单片机，
 
 | # | 替换什么 | 阶段 | 现在的问题 | 板子怎么解决 |
 |---:|---|:---:|---|---|
-| 1 | Pi↔驱动板 的 7 根杜邦线 | 2 | 振动使其松脱，方向线一旦脱落，电机行为未定义 | 带锁扣连接器，配丝印标注 |
+| 1 | Pi↔驱动板 的 7 根杜邦线 | 1 | 振动使其松脱，方向线一旦脱落，电机行为未定义 | 带锁扣连接器，配丝印标注 |
 | 2 | CH9102F USB 转串口板 | 3 | 悬空晃动、占一个 USB 口、多一层故障点 | 激光 UART 直接进板载 MCU |
 | 3 | 充电宝 | 4 | 要单独充电、会没电、占空间 | 板载 11.1V → 5V/5A，整车一块电池 |
 | 4 | WHEELTEC 驱动板 | 5 | 每通道并联两个电机——无法单轮控制，也没有电流反馈 | 四路独立 H 桥 |
@@ -383,7 +420,7 @@ C 语言线之所以存在，是因为第 3 阶段起的板子都带单片机，
 | # | 功能 | 阶段 | 现在的问题 | 原理 |
 |---:|---|:---:|---|---|
 | 6 | **心跳看门狗** | 3 | Pi 一旦死机，最后的 PWM 值仍挂在引脚上，车继续往前开 | Pi 必须持续翻转一个引脚；停止超过约 200 ms，硬件直接拉低驱动使能 |
-| 7 | **上电默认安全状态** | 2 | 从 Pi 上电到脚本启动之间，GPIO 状态不确定，电机可能抽动 | 驱动输入加下拉电阻，**无人驱动时默认为停** |
+| 7 | **上电默认安全状态** | 1 | 从 Pi 上电到脚本启动之间，GPIO 状态不确定，电机可能抽动 | 驱动输入加下拉电阻，**无人驱动时默认为停**。Rev A 先留焊盘，可以不焊 |
 | 8 | 物理急停按钮 | 3 | 现在只能靠 Ctrl+C 或总开关 | 按钮直接进使能回路，完全绕过软件 |
 | 9 | 电池电压监测 | 3 | **完全没人看着。** 3S 电池掉到 9.9 V 以下即永久损坏 | 分压进 ADC，报警阈值设在损坏点之上很多 |
 | 10 | 电机过流 / 堵转切断 | 5 | 堵转电流现在只受保险丝约束 | 单通道电流采样，触发快速切断 |
@@ -398,9 +435,9 @@ C 语言线之所以存在，是因为第 3 阶段起的板子都带单片机，
 | 11 | 四路硬件正交解码 | 3 | 满速下四轮合计约 28000 边沿/秒。Python 会**悄无声息**地丢计数，而会说谎的里程计比没有里程计更糟 |
 | 12 | 电池电压读数 | 3 | **树莓派根本没有 ADC。** 不加芯片，它永远读不到任何模拟量 |
 | 13 | 单轮电流采样 | 5 | 第 3 阶段的 PID 和真实的堵转检测都需要 |
-| 14 | 四个状态 LED | 1 | 服务于"脱离 SSH 运行"——没有终端时你得能看见状态 |
-| 15 | 蜂鸣器 | 1 | 状态变化用声音提示，不必盯着屏幕 |
-| 16 | 用户按钮 | 1 | 不用登录就能启动和切换模式 |
+| 14 | 四个状态 LED | 2 | 服务于"脱离 SSH 运行"——没有终端时你得能看见状态 |
+| 15 | 蜂鸣器 | 2 | 状态变化用声音提示，不必盯着屏幕 |
+| 16 | 用户按钮 | 2 | 不用登录就能启动和切换模式 |
 | 17 | 传感器统一稳压供电 | 2+ | 现在每加一个传感器，都要为它单独想一次取电方案 |
 
 ### 4 · 为以后预留
