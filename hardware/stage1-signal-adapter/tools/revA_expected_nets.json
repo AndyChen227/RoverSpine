@@ -1,0 +1,30 @@
+{
+  "board": "RoverSpine Signal Adapter Rev A",
+  "source": "docs/roadmap.md#nets — the net structure table is the authority; this file is its machine-readable copy",
+  "note": "R1-R6 are the series resistors, R7-R12 the pull-downs. Resistors are compared by reference only, not by pad number, because a resistor is symmetric and pad 1 depends on symbol rotation. See check_nets.py.",
+  "pin_agnostic_prefixes": ["R"],
+  "expected_unconnected": 30,
+  "nets": {
+    "+3V3": ["J1-1", "J1-17", "J2-9", "J2-10"],
+    "GND": ["J1-34", "J1-39", "J2-1", "J2-2",
+            "R7", "R8", "R9", "R10", "R11", "R12"],
+
+    "PWM1": ["J1-32", "R1"],
+    "P1":   ["J2-7", "R1", "R7"],
+
+    "INA1": ["J1-16", "R2"],
+    "A1":   ["J2-5", "R2", "R8"],
+
+    "INB1": ["J1-18", "R3"],
+    "B1":   ["J2-3", "R3", "R9"],
+
+    "PWM2": ["J1-33", "R4"],
+    "P2":   ["J2-8", "R4", "R10"],
+
+    "INA2": ["J1-29", "R5"],
+    "A2":   ["J2-6", "R5", "R11"],
+
+    "INB2": ["J1-31", "R6"],
+    "B2":   ["J2-4", "R6", "R12"]
+  }
+}

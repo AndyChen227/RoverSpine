@@ -63,7 +63,8 @@ connector choice are in [the next section](#connectors).
 | 2 | Courier | 运费 | — | 10–20 | ⬜ |
 | 3 | **2×20 male header for the Pi ribbon** — boxed (`DC3-40P`) | **2×20 公座**，牛角座 | 1–2 | 3–8 | ⬜ |
 | 4 | **2×5 boxed header for the D50A ribbon** (`DC3-10P`) — **required, not optional** | **2×5 牛角座**，**必须**，不是可选 | 1–2 | 1–3 | ⬜ |
-| 5 | 0805 resistor assortment kit | 0805 电阻样品盒 | 1 | 15–30 | ⬜ — covers Stage 2 and beyond too |
+| 5 | 0805 resistor assortment kit | 0805 电阻样品盒 | 1 | 15–30 | ⬜ — for the 6 pull-downs (10 kΩ); covers Stage 2 and beyond too |
+| 5b | **Through-hole resistor assortment, 1/4 W** | **通孔电阻样品盒，1/4 W** | 1 | 10–15 | ⬜ — for the 6 series resistors (33 Ω), which are **mandatory** parts. Through-hole so Rev A stays beginner-solderable — see [the net structure](roadmap.md#nets) |
 | 6 | FC-10P 2×5 IDC ribbon, F–F, ≈35 cm | 10P IDC 排线，母对母 | 1 | ~10 | 🛒 *(selected 2026-09-11)* |
 | 7 | Pi 40-pin GPIO ribbon, 2×20 F–F, 10–15 cm | 树莓派 40 针排线，母对母 | 1 | ~10 | 🛒 *(selected 2026-09-11)* |
 | 8 | Small enclosure for the board | 小外壳 | 1 | 5–15 | ⬜ |

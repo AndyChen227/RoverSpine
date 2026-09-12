@@ -1,7 +1,10 @@
 # BOM — Stage 1 Passive Signal Adapter / 物料清单
 
 **Rev A — not finalized.** Quantities and part numbers are filled in as they are
-actually chosen, not guessed in advance. Cables that have been selected are
+actually chosen, not guessed in advance. The resistor values and packages below
+were settled on 2026-09-12 together with
+[the net structure](../../docs/roadmap.md#nets) — see
+[that devlog](../../docs/devlog/2026-09-12-reserved-resistor-pads.md). Cables that have been selected are
 recorded with their dates in
 [`docs/tools-and-parts.md`](../../docs/tools-and-parts.md).
 
@@ -14,8 +17,8 @@ recorded with their dates in
 |---:|---|---|---:|---|---|
 | 1 | 2×20 boxed header (`DC3-40P`), 2.54 mm, to the Pi | 2×20 牛角座，接树莓派 | 1 | TH, 2.54 mm | Footprint not frozen — awaiting cable check |
 | 2 | 2×5 boxed header (`DC3-10P`), 2.54 mm, to the D50A | 2×5 牛角座，接 D50A | 1 | TH, 2.54 mm | **Boxed required** — the D50A's header is shrouded. Footprint not frozen; **D50A pin 1 must be resolved with a meter first** |
-| 3 | Series resistors on Pi-facing signals | 信号串联电阻 | 6 | 0805 | Reserved pads; value TBD (≈33 Ω) |
-| 4 | Pull-down resistors on driver inputs | 驱动输入下拉电阻 | 6 | 0805 | Reserved pads; value TBD (≈10 kΩ) — **may ship unpopulated on Rev A** |
+| 3 | Series resistors on Pi-facing signals, `R1`–`R6` | 信号串联电阻 | 6 | **TH, axial** | **33 Ω. Must be populated** — in the signal path, so an empty pad is an open signal. Through-hole so Rev A stays beginner-solderable |
+| 4 | Pull-down resistors on driver inputs, `R7`–`R12` | 驱动输入下拉电阻 | 6 | 0805 | 10 kΩ. **The only genuinely optional parts on this board** — may ship unpopulated on Rev A, in which case mark them **DNP** in KiCad rather than noting it here |
 | 5 | PCB, 2-layer, HASL | 板子，双层喷锡 | 1 | — | Size TBD after layout |
 
 ## Cables / 排线
@@ -35,6 +38,16 @@ sense, LEDs, buzzer, button. See [the board README](README.md).
 that feeds the D50A's `V` pins. It is a copper net with no components, sourced
 only from Pi pins 1 and 17. Corrected 2026-09-12 — see
 [the devlog](../../docs/devlog/2026-09-12-d50a-control-header-correction.md).
+
+**And note what stopped being true:** this board is no longer "pure copper, not
+one component can burn". Six series resistors are now mandatory parts on the
+signal path. Nothing on it can still burn — a 33 Ω resistor passing a GPIO's
+milliamps is not a thermal event — but *passive* and *component-free* are two
+different claims, and only the first one survives.
+
+**另外注意一件不再成立的事：** 这块板不再是"纯铜箔，一个元件都烧不了"——6 个串阻现在是
+信号路径上的必装件。板上依然没有任何东西会烧（33 Ω 上过 GPIO 那几毫安算不上热事件），
+但**"被动"和"没有元件"是两个不同的说法**，现在只有前一个还成立。
 
 明确列出来，是为了让"没有"成为一个决定而不是一次遗漏：单片机、稳压器、电池输入、
 电机功率回路、电流采样、LED、蜂鸣器、按钮。见[板子 README](README.md)。

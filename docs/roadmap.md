@@ -38,6 +38,17 @@ rather than waiting for the board that will need it.
 > **同一天稍后**又发现并更正了第 1 阶段规格里的两个事实错误：D50A 的 `V` 脚**必须**接
 > 3.3 V，而这块板是 10 个连接不是 7 个。见[那篇更正](devlog/2026-09-12-d50a-control-header-correction.md)。
 >
+> Later again the same day, the twelve reserved resistors were found to be
+> specified but **absent from the schematic**, and the line saying all twelve
+> pads could ship empty was found to be wrong — six of them are in the signal
+> path. The net structure that results is now
+> [written down as a table](#nets). See
+> [that devlog](devlog/2026-09-12-reserved-resistor-pads.md).
+>
+> **再稍后**发现那 12 个预留电阻**只写在规格里、没有画进原理图**，而且"12 个焊盘都可以
+> 先不焊"这句话是错的——其中 6 个在信号路径上。由此产生的网络结构现在[列成了一张表](#nets)。
+> 见[那篇记录](devlog/2026-09-12-reserved-resistor-pads.md)。
+>
 > **2026-09-12 修订。** 有两个决定改变了这份计划的形状，都记录在[开发日志](devlog/2026-09-12-plan-revision.md)里：
 > **(1)** 第一块板改成被动信号转接板，不是状态指示板，阶段重新编号，状态指示功能合并进
 > 第 2 阶段；**(2)** 固件语言不再预先决定——之前定 C 是"读来的判断"而不是"写出来的结论"，
@@ -409,7 +420,7 @@ read a datasheet. Nothing is fabricated in this stage.
 - [ ] Solder 30–50 practice joints on a cheap practice kit until they are consistently shiny and concave.
 - [ ] Learn the multimeter: continuity, resistance, DC voltage, and **diode mode for finding shorts**.
 - [x] Install KiCad. *(10.0.6, 2026-09-08.)* Work through one official beginner tutorial end to end.
-- [ ] **Redraw something that already exists**: capture the rover's current 7-wire Pi-to-driver connection as a KiCad schematic, using [`RoverPi/docs/wiring.md`](https://github.com/AndyChen227/RoverPi/blob/main/docs/wiring.md) as the source. Draw it from the **physical pin numbers**, not the BCM numbers — they are different, and a board built from the wrong column is simply wrong. No layout, no fabrication. *(This exercise became [Stage 1](#stage-1) — the same drawing, taken all the way to a fabricated board.)*
+- [ ] **Redraw something that already exists**: capture the rover's current 10-wire Pi-to-driver connection as a KiCad schematic, using [`RoverPi/docs/wiring.md`](https://github.com/AndyChen227/RoverPi/blob/main/docs/wiring.md) as the source. Draw it from the **physical pin numbers**, not the BCM numbers — they are different, and a board built from the wrong column is simply wrong. No layout, no fabrication. *(This exercise became [Stage 1](#stage-1) — the same drawing, taken all the way to a fabricated board.)*
 - [ ] Read the datasheet of one part you already own (the motor driver, or the STP-23L) and find in it: supply range, logic thresholds, absolute maximum ratings.
 
 **Firmware / 固件线**
@@ -427,7 +438,7 @@ it, flash it, and see the change on the Pico; and **the language question is
 closed, with a written reason.**
 
 这个阶段不做任何板子。绝大多数人的第一个错误是在还不会焊接、看不懂数据手册的时候
-就下单打样。用 KiCad **重画一份已经存在的东西**（现有的 7 根控制线）是最好的入门
+就下单打样。用 KiCad **重画一份已经存在的东西**（现有的 10 根控制线）是最好的入门
 练习——因为对错可以立刻验证，你的车就是标准答案。**注意用物理引脚号而不是 BCM 号**，
 两者不同，照错的那一列做出来的板子就是错的。（这个练习后来变成了[第 1 阶段](#stage-1)：
 同一张图，一路画到真板子。）
@@ -452,8 +463,14 @@ ordering, soldering, bring-up, installation — not to teach circuit design.
 A passive adapter is a better first board than the status indicator it replaced
 in the plan, for four reasons:
 
-1. **Pure copper. Not one component can burn.** Safer than a board that drives
-   LEDs from Pi GPIO.
+1. **Passive. Nothing on it can burn.** Safer than a board that drives LEDs
+   from Pi GPIO. *Amended 2026-09-12: this originally read "pure copper, not
+   one component can burn". Half of that stopped being true when the six
+   series resistors became mandatory parts — the board is no longer
+   component-free. Nothing on it can still burn, since a 33 Ω resistor
+   passing a GPIO's few milliamps is not a thermal event, but "passive" and
+   "component-free" are two different claims and only the first survives.
+   See [that devlog](devlog/2026-09-12-reserved-resistor-pads.md).*
 2. It still teaches the **entire** pipeline end to end.
 3. It replaces a real failure mode — vibration works a dupont jumper loose, and a
    detached direction pin is undefined motor behavior — so it is not a practice
@@ -473,10 +490,10 @@ Rev A is deliberately minimal. See the
 reasoning.
 
 - Two-layer board, small, in its own enclosure — **not a HAT**, see [the mechanical constraint](#mechanical)
-- **Through-hole only as built.** The reserved 0805 pads below are pads, not populated parts: Rev A can ship with all of them empty and still be a pure through-hole assembly
+- **Through-hole as built.** The 6 series resistors are **through-hole axial parts, and they must be populated** — they sit in the signal path, so an empty series pad is an open signal and a dead board. The 6 pull-downs are the only genuinely optional parts, and they are 0805 pads Rev A may ship empty. *Corrected 2026-09-12: an earlier version of this line said all twelve pads could ship empty. Six of them cannot — see [that devlog](devlog/2026-09-12-reserved-resistor-pads.md).*
 - 1 × 2×20 (40-pin) connector to the Pi, via a 10–15 cm female-to-female ribbon
 - 1 × **2×5 boxed header (`DC3-10P`)** to the D50A, via a ≈35 cm female-to-female ribbon. **Boxed, not plain** — the D50A's own control header is shrouded, so a matching boxed header makes both ends keyed and the ribbon orientation a single solution
-- **10 direct copper connections forming 8 nets:** 6 motor-control signals, `GND` (two pins), `+3V3` (two pins)
+- **10 connections to the D50A, forming 14 nets:** 6 motor-control signals, `GND` (two pins), `+3V3` (two pins). The six signals are **no longer bare copper end to end** — each passes through a series resistor, which splits it into a Pi-side net and a driver-side net. `GND` and `+3V3` stay direct copper. See [the net structure](#nets)
 - Readable silkscreen labels on every signal. **Use the D50A's own short-form names at J2** — `V` `P1` `A1` `B1` `G` — because that is the end it plugs into; the Pi-side names stay `PWM1` / `INA1` / … as used in RoverPi's `wiring.md`
 - No microcontroller, no firmware, no battery input, no regulator, no motor power
 - Test points on every signal
@@ -506,7 +523,7 @@ cannot be added after fabrication.
 | Addition | 增补 | Why |
 |---|---|---|
 | **Connect both GND positions** | **两个 GND 都接** | The D50A header has two GND pins. Connecting one means the return current for all six signals goes through a single IDC contact. If that contact opens, return current finds a path through the signal pins — which is the same class of failure this board exists to remove. The second GND pin already exists; using it costs nothing |
-| **Pads for 6 pull-downs + 6 series resistors, left unpopulated on Rev A** | **6 个下拉 + 6 个串阻焊盘，Rev A 可以先不焊** | Pull-downs make the driver inputs low while Pi GPIO is high-impedance, so the window between Pi power-on and the Python starting means **stopped** instead of undefined. This is the cheapest safety feature in the whole plan. Series resistors are cheap insurance against a wiring mistake. Reserving pads is free; adding them later costs a fabrication run |
+| **6 series resistors (through-hole, populated) + 6 pull-down pads (0805, may ship empty)** | **6 个串阻（通孔，必焊）+ 6 个下拉焊盘（0805，可以先不焊）** | Pull-downs make the driver inputs low while Pi GPIO is high-impedance, so the window between Pi power-on and the Python starting means **stopped** instead of undefined. This is the cheapest safety feature in the whole plan. Series resistors are cheap insurance against a wiring mistake — but they are **in the signal path, so they are not optional**: an empty series pad is an open signal. Reserving the pull-down pads is free; adding either later costs a fabrication run |
 
 > [!NOTE]
 > Reserving unpopulated pads is the same principle as
@@ -537,7 +554,7 @@ the earlier 7-row version omitted both `V` pins and the second `G`. See
 **出处：** RoverPi 的 D50A 控制口接线表。2026-09-12 更正——早先那张 7 行的表漏了两个 `V`
 和第二个 `G`。
 
-| D50A silkscreen | Net | Pi physical pin | BCM / rail | Channel |
+| D50A silkscreen | Pi-side net | Pi physical pin | BCM / rail | Channel |
 |:---:|---|---:|---|---|
 | `P1` | `PWM1` | 32 | GPIO12 | 1 — left motors |
 | `A1` | `INA1` | 16 | GPIO23 | 1 |
@@ -560,6 +577,90 @@ removes the case where a single IDC contact is the only path for a whole rail.
 
 `V` 和 `G` 在排针上各出现两次，但各自只是一个网络。两个都接——针本来就在那儿，冗余触点
 不花钱，而且消除了"一整条电源全靠一个 IDC 触点"这种情况。
+
+<a id="nets"></a>
+
+### The net structure / 网络结构
+
+**Decided 2026-09-12**, when the twelve reserved resistors went from a line in
+the specification to parts on the drawing. See
+[that devlog](devlog/2026-09-12-reserved-resistor-pads.md).
+
+A series resistor cuts each signal in two, so this board's eight nets become
+**fourteen**. **This table, not the signal map above, is what the netlist check
+compares against**, and what the silkscreen is read from.
+
+串阻把每个信号切成两段，所以这块板的 8 个网络变成 **14 个**。**网表核对比的是这张表，
+不是上面那张信号表**；丝印也按这张表来。
+
+| Pi-side net | J1 pin | Series R | Driver-side net | Pull-down | J2 pin | D50A silkscreen |
+|---|---:|---|---|---|---:|:---:|
+| `PWM1` | 32 | R1 33 Ω | `P1` | R7 10 kΩ → `GND` | 7 | `P1` |
+| `INA1` | 16 | R2 33 Ω | `A1` | R8 10 kΩ → `GND` | 5 | `A1` |
+| `INB1` | 18 | R3 33 Ω | `B1` | R9 10 kΩ → `GND` | 3 | `B1` |
+| `PWM2` | 33 | R4 33 Ω | `P2` | R10 10 kΩ → `GND` | 8 | `P2` |
+| `INA2` | 29 | R5 33 Ω | `A2` | R11 10 kΩ → `GND` | 6 | `A2` |
+| `INB2` | 31 | R6 33 Ω | `B2` | R12 10 kΩ → `GND` | 4 | `B2` |
+| `GND` | 34, 39 | — | — | — | 1, 2 | `G` |
+| `+3V3` | 1, 17 | — | — | — | 9, 10 | `V` |
+
+Three decisions are inside that table, and none of them is arbitrary.
+
+这张表里藏了三个决定，没有一个是随手写的。
+
+#### 1. The driver-side nets are named `P1` / `A1` / `B1`, not `PWM1_D`
+
+This carries
+[the schematic's naming rule](devlog/2026-09-12-revA-schematic-complete.md) to
+its conclusion. The Pi-side net carries the name RoverPi's `wiring.md` uses; the
+driver-side net carries the name printed on the D50A; J2's silkscreen is
+therefore the D50A's own name with **no translation step anywhere**. The board's
+whole job is to join two naming schemes — **and now the joint is a physical part
+you can point at.**
+
+这是把原理图那条"让一个字符串贯穿到底"的命名规则用到底：Pi 侧用 RoverPi `wiring.md`
+的名字，驱动侧用 D50A 板上印的名字，J2 的丝印于是**全程不需要翻译**。这块板的工作
+本来就是把两套命名接起来——**而现在那个接头是一个你能用手指头指得到的元件。**
+
+#### 2. The pull-down sits on the driver side, after the series resistor
+
+Electrically the two placements are nearly identical: the driver input is
+high-impedance, so no current flows in the 33 Ω and there is no drop across it.
+The reason to choose the driver side is **a failure mode**. If a series resistor
+is missing, badly soldered, or its joint cracks on a moving vehicle, a
+driver-side pull-down still holds the driver input low — **the safe state does
+not depend on the series resistor being there.** A Pi-side pull-down leaves the
+driver input floating under exactly that fault, which is undefined behaviour:
+the thing this board exists to remove.
+
+电气上两种接法几乎一样（驱动输入高阻，33 Ω 上没有电流也就没有压降）。选驱动侧的理由是
+**失效模式**：万一某个串阻没装、虚焊，或者在跑着的车上焊点裂了，驱动侧的下拉**仍然**把
+驱动输入按在低电平——**安全状态不依赖串阻在不在。** 下拉放 Pi 侧的话，同一个故障会让
+驱动输入悬空，而那正是未定义行为，正是这块板要消除的东西。
+
+#### 3. ERC should still report 30 errors / 0 warnings
+
+The twelve resistors add 24 pins and **every one of them is connected**: each
+Pi-side net has 2 pins, each driver-side net 3, `GND` grows from 4 pins to 10,
+`+3V3` stays at 4, and no single-pin net is created. So that count is a
+**prediction, not an observation** — if the report is not 30 / 0 after drawing,
+something is wired wrong. It is not "the numbers moved because there are more
+parts."
+
+12 个电阻多出 24 个引脚，而且**每一个都有连接**：Pi 侧网络各 2 个引脚、驱动侧各 3 个、
+`GND` 从 4 个长到 10 个、`+3V3` 仍是 4 个，没有新增单引脚网络。所以这个数字是**预测而不是
+观察**——画完如果不是 30 / 0，那是接错了，**不是"元件变多所以数字就变了"**。
+
+> [!NOTE]
+> If Rev A ships with the pull-downs unpopulated, mark those six **DNP** in
+> KiCad rather than writing a note in the BOM. The pads still appear on the
+> board; the parts are excluded from the BOM and the placement file. The drawing
+> then states the intent, and
+> [the netlist check](../hardware/stage1-signal-adapter/tools/README.md) still
+> sees the nets.
+>
+> 如果 Rev A 先不焊下拉，在 KiCad 里把那 6 个标上 **DNP**，而不是在 BOM 里写一句备注。
+> 焊盘照样在板子上，元件从 BOM 和贴片坐标里排除；意图写在图上，而网表核对依然能看到这些网络。
 
 ### The direction truth table / 方向真值表
 
@@ -592,8 +693,10 @@ ribbon-cable pin-1 discipline
 
 ### Exit criterion / 完成判据
 
-- [ ] ERC passes, and **every net manually compared against the signal map above**, one by one.
+- [ ] ERC reports **30 errors / 0 warnings**, every one of them accounted for, and **all 14 nets compared against [the net structure](#nets)** one by one — by [the checker](../hardware/stage1-signal-adapter/tools/README.md), not by reading.
 - [ ] Continuity verified on the fabricated board, pin to pin, against the same table — before it touches the Pi.
+- [ ] **Pi-side to driver-side now reads ≈33 Ω, not 0 Ω** — the series resistor is in the path. Read the *value*; do not just listen for the buzzer. 0 Ω means a bridged resistor or a shorted pad, and an open means a missing one.
+- [ ] **Each pull-down measured from its driver-side net to `GND`:** ≈10 kΩ if populated, open if deliberately left empty. Either is fine; a value that is neither is a fault.
 - [ ] **`+3V3` verified to reach `V` from Pi pins 1 and 17 only**, and verified *not* continuous with Pi pins 2 or 4.
 - [ ] **Current drawn by the D50A's isolated side from the Pi's 3.3 V rail, measured and recorded.** Expected small, but the Pi's rail is paying for it, so it gets a number rather than an assumption.
 - [ ] **Wheels lifted: hold both direction pins low, apply PWM, confirm the motor does not turn.** This tests the pull-down safe-state assumption. If both-low is not "stopped", the pull-down plan is redesigned before Rev B.
@@ -640,8 +743,8 @@ can be done while Stage 1 is at the fab.**
 
 ### Specification / 规格
 
-- Two-layer board in an enclosure, through-hole plus first SMD passives (0805 — deliberately large). **Not a HAT**
-- **Everything from Stage 1 carried forward**: the 6 motor-control signals into one keyed, latching connector, with the pull-downs and series resistors now populated
+- Two-layer board in an enclosure, through-hole plus SMD passives (0805 — deliberately large). **Not a HAT**
+- **Everything from Stage 1 carried forward**: the 6 motor-control signals into one keyed, latching connector. The series resistors were already mandatory on Stage 1; what changes here is that **the 6 pull-downs are populated** rather than reserved pads, so the power-on safe state stops being optional
 - 4 × encoder input, 4-pin connector each, with pull-ups and whatever the level measurement above says is needed
 - 4 × status LED with series resistors: `POWER` · `ARMED` · `DRIVING` · `FAULT`
 - 1 × passive buzzer on a GPIO
