@@ -61,8 +61,8 @@ connector choice are in [the next section](#connectors).
 |---:|---|---|---:|---:|:---:|
 | 1 | PCB fabrication, 2-layer, 5 pcs | 打样，双层，5 片 | 1 order | 20–50 | ⬜ |
 | 2 | Courier | 运费 | — | 10–20 | ⬜ |
-| 3 | **2×20 male header for the Pi ribbon** — boxed (DC3-40P) preferred | **2×20 公座**，建议牛角座 | 1–2 | 3–8 | ⬜ |
-| 4 | **2×5 male header for the D50A ribbon** — boxed (DC3-10P) preferred | **2×5 公座**，建议牛角座 | 1–2 | 1–3 | ⬜ |
+| 3 | **2×20 male header for the Pi ribbon** — boxed (`DC3-40P`) | **2×20 公座**，牛角座 | 1–2 | 3–8 | ⬜ |
+| 4 | **2×5 boxed header for the D50A ribbon** (`DC3-10P`) — **required, not optional** | **2×5 牛角座**，**必须**，不是可选 | 1–2 | 1–3 | ⬜ |
 | 5 | 0805 resistor assortment kit | 0805 电阻样品盒 | 1 | 15–30 | ⬜ — covers Stage 2 and beyond too |
 | 6 | FC-10P 2×5 IDC ribbon, F–F, ≈35 cm | 10P IDC 排线，母对母 | 1 | ~10 | 🛒 *(selected 2026-09-11)* |
 | 7 | Pi 40-pin GPIO ribbon, 2×20 F–F, 10–15 cm | 树莓派 40 针排线，母对母 | 1 | ~10 | 🛒 *(selected 2026-09-11)* |
@@ -103,11 +103,17 @@ each header** — a spare costs a few ¥ and a botched desoldering costs an even
 | Solder paste, steel stencil | 锡膏、钢网 | 50–100 | Stage 3, optional |
 | Entry digital oscilloscope | 入门数字示波器 | 800+ | Stage 4 |
 
-Stage 1 is passive copper with no power input of its own, so the bench supply is
-not needed yet — **but buy it before the first board that draws current.**
+Stage 1 has no power source of its own — no battery input, no regulator, not one
+active component — so there is nothing on it for a bench supply to protect. It
+does **route** a 3.3 V rail from the Pi to the driver's isolated side, so the
+current that rail draws is measured at bring-up, but a bare copper net cannot run
+away. **Buy the supply before Stage 2, the first board that actually draws its own
+current.**
 
-第 1 阶段是纯被动铜板，自己不取电，所以台面电源还不需要——**但一定要在第一块真正吃电的板子
-之前买到。**
+第 1 阶段自己没有电源——不接电池、没有稳压器、一个有源元件都没有，所以台面电源在它身上
+没有可保护的东西。它确实**走**一条从 Pi 到驱动板隔离侧的 3.3 V，所以这条电源取多少电流
+要在上电测试时测出来，但一条裸铜网络不会失控。**台面电源在第 2 阶段之前买到**——那是第一块
+真正自己吃电的板子。
 
 ### Running total / 累计
 
@@ -140,33 +146,42 @@ both positions. Two kinds are available at the same 2.54 mm pitch:
 | Height | Low | Taller, bigger footprint — affects enclosure height |
 | Cost | ¥1–2 | ¥2–5 |
 
-**Recommendation: boxed headers.** Keying is not a nicety on this board — it is
-the point. The README's own argument is that a detached or mis-inserted direction
-pin is undefined motor behavior, and a reversed 2×5 ribbon swaps `PWM`/`INA`/`INB`
-wholesale.
+**Boxed headers, and at J2 it is not a preference.** Keying is not a nicety on
+this board — it is the point. A reversed 2×5 ribbon swaps `P`/`A`/`B` wholesale
+and drives the wrong motors, and a mis-plugged `V` destroys the driver's isolated
+input.
 
-**建议用牛角座。** 防呆在这块板上不是锦上添花，而是这块板的意义本身。README 自己的论证就是
-"方向线一旦脱落或插错，电机行为未定义"，而 2×5 排线插反会把 `PWM`/`INA`/`INB` 整组换位。
+**用牛角座；J2 那一端不是"偏好"而是必须。** 防呆在这块板上不是锦上添花，而是这块板的意义
+本身：2×5 排线插反会把 `P`/`A`/`B` 整组换位、开错电机，而 `V` 插错会烧掉驱动板的隔离输入。
 
-> [!WARNING]
-> **Keying only protects your own end.** The Pi's 40-pin header and the D50A's
-> 2×5 header are both plain unshrouded pins, so those ends can still be plugged
-> in reversed or offset by a row. **Check the red stripe every single time.**
+> [!NOTE]
+> **Confirmed 2026-09-12 from photographs: the D50A's own 2×5 control header is
+> already a boxed, shrouded header.** So that end is keyed by the manufacturer,
+> and fitting J2 with a matching `DC3-10P` makes **both ends keyed** — the ribbon
+> orientation becomes a single solution rather than a habit to be maintained.
 >
-> **防呆只保得住自己这一端。** 树莓派的 40 针排针和 D50A 的 2×5 排针都是光针，那两端仍然
->可以插反或错开一排。**每次插之前都看红边。**
+> This **withdraws an earlier claim** made on the same day, that "keying only
+> protects your own end because the D50A's header is unshrouded". That was wrong.
+> The Pi's 40-pin header is still unshrouded, so the Pi end alone still relies on
+> the red stripe.
+>
+> **2026-09-12 由照片确认：D50A 自己的 2×5 控制口本来就是带外壳的牛角座。** 所以那一端
+> 厂家已经做了防呆，J2 配上同规格的 `DC3-10P` 之后**两端都防呆**，排线方向从"靠习惯维持"
+> 变成"唯一解"。
+>
+> 这**撤回了同一天早先的一个说法**——"防呆只保得住自己这一端，因为 D50A 那端是光针"。
+> 那是错的。树莓派的 40 针排针仍然是光针，所以 Pi 那一端还是要靠红边。
 
 > [!IMPORTANT]
-> **Verify before freezing footprints.** Standard IDC sockets mate with boxed
-> headers, but confirm it with the cables in hand rather than assuming: check that
-> the socket has the matching key bump, and that it seats fully. This is exactly
-> what [the arrival checks](#arrival) are for. If the delivered cables turn out to
-> be plain sockets with no key, fall back to plain headers and rely on the red
-> stripe.
+> **The socket must mate with a boxed header — that is now a requirement on the
+> cable, not a choice about the header.** The D50A end has a shroud, so a ribbon
+> whose sockets do not seat into one simply does not fit the rover. If the
+> delivered cable turns out that way, replace the cable. Verify with the cables in
+> hand, per [the arrival checks](#arrival), before footprints are frozen.
 >
-> **锁封装前先验证。** 标准 IDC 母座是能配牛角座的，但要拿到线实测确认，不要假设：看母座
-> 上有没有对应的防呆凸起，以及能不能完全插到底。这正是[到货检查](#arrival)的用途。如果到货的
-> 排线是没有防呆的光母座，就退回用光排针，靠红边。
+> **母座必须能配牛角座——这现在是对"排线"的要求，不是对"排针怎么选"的选择。** D50A 那端有
+> 外壳，插不进去的排线就是装不上车。到货发现不对就换线。锁封装之前，按[到货检查](#arrival)
+> 拿实物确认。
 
 <a id="log"></a>
 
@@ -229,9 +244,9 @@ are easy to forget:
 
 #### 5. Male headers, boxed / 公头，牛角座
 
-- 2×20 (DC3-40P) × 2 and 2×5 (DC3-10P) × 2 — two of each, one as a spare
+- 2×20 (`DC3-40P`) × 2 and 2×5 (`DC3-10P`) × 2 — two of each, one as a spare
 - Both ribbons are female-to-female, so the **board side must be male**
-- Boxed rather than plain, for the key notch. **Confirm socket compatibility when the cables arrive** before freezing footprints
+- **`DC3-10P` at J2 is required**, because the D50A's own control header is shrouded (confirmed from photographs, 2026-09-12) — see [the connector decision](#connectors)
 - Status: not yet purchased / 尚未购买
 
 #### 6. Strain relief / 拉力缓解
@@ -248,14 +263,16 @@ are easy to forget:
 
 - Verify that both cables are truly female-to-female.
 - Verify 2.54 mm pitch and keyed-plug orientation.
-- **Check whether the sockets have the key bump that mates with a boxed header** — this decides item 5 above.
+- **Confirm the sockets seat fully into a boxed header** — the D50A's control header is shrouded, so a cable that will not seat is the wrong cable.
+- **Resolve which physical D50A pin is pin 1.** Both ends keyed means one possible orientation: plug it on and find by continuity which conductor reaches each signal. `G` is continuous with the motor-power negative (`P-`), which cross-checks it. **Until this is done, J2's footprint is not frozen.**
 - Identify the red-stripe/pin-1 direction at both ends of both cables.
 - Check continuity pin by pin **before either cable touches the rover**.
 - Check the connector body size and clearance against the intended enclosure.
 
 - 确认两条排线确实都是母对母。
 - 确认 2.54 mm 间距以及防呆口方向。
-- **确认母座上有没有和牛角座配对的防呆凸起**——这决定上面第 5 项怎么买。
+- **确认母座能完全插进牛角座**——D50A 的控制口带外壳，插不进去的线就是买错了。
+- **确定 D50A 那个 2×5 到底哪个针是第 1 脚。** 两端都防呆意味着只有一种插法：插上去，逐根量导通，看哪一根到哪个信号。`G` 与电机电源负极 `P-` 导通，可以交叉验证。**这件事做完之前，J2 的封装不锁定。**
 - 确认两条线两端红边对应的 1 号针方向。
 - **在任何一条排线接触小车之前**，先用万用表逐针检查导通关系。
 - 对照打算用的外壳，确认连接器本体尺寸和空间。

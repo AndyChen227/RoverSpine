@@ -30,6 +30,14 @@ rather than waiting for the board that will need it.
 >    end-of-month-1 decision made from a measurement. See
 >    [the firmware track](#c-track).
 >
+> Later the same day, two factual errors in the Stage 1 specification were found
+> and corrected — the D50A's `V` pins **must** be connected to 3.3 V, and the
+> board carries 10 connections rather than 7. See
+> [that devlog](devlog/2026-09-12-d50a-control-header-correction.md).
+>
+> **同一天稍后**又发现并更正了第 1 阶段规格里的两个事实错误：D50A 的 `V` 脚**必须**接
+> 3.3 V，而这块板是 10 个连接不是 7 个。见[那篇更正](devlog/2026-09-12-d50a-control-header-correction.md)。
+>
 > **2026-09-12 修订。** 有两个决定改变了这份计划的形状，都记录在[开发日志](devlog/2026-09-12-plan-revision.md)里：
 > **(1)** 第一块板改成被动信号转接板，不是状态指示板，阶段重新编号，状态指示功能合并进
 > 第 2 阶段；**(2)** 固件语言不再预先决定——之前定 C 是"读来的判断"而不是"写出来的结论"，
@@ -101,7 +109,7 @@ unplugged rather than unbolted.
 | # | Current part | 现有部件 | Replaceable? | Stage | Note |
 |---:|---|---|:---:|:---:|---|
 | 1 | Raspberry Pi 5 | 树莓派 5 | ❌ No | — | Keep it. Replacing it is a different project, not an upgrade to this one |
-| 2 | 7 dupont control wires | 7 根杜邦控制线 | ✅ Yes | **1** | The easiest and highest-safety-value win |
+| 2 | 10 dupont control wires | 10 根杜邦控制线 | ✅ Yes | **1** | The easiest and highest-safety-value win. Also removes the 3.3 V / 5 V mis-plug hazard — see [Stage 1](#stage-1) |
 | 3 | CH9102F USB serial adapter | USB 转串口模块 | ✅ Yes | 3 | The lidar UART goes to the on-board MCU instead |
 | 4 | USB power bank | 充电宝 | ✅ Yes | 4 | Needs a 5 V / 5 A buck. The riskiest replacement |
 | 5 | WHEELTEC motor driver | 电机驱动板 | ✅ Yes | 5 | The graduation project. May slip past month 12 |
@@ -149,7 +157,7 @@ difficulty, not by date.
 
 | Function | 功能 | How | 难度 | Stage |
 |---|---|---|:---:|:---:|
-| Replace the 7 dupont wires | 替换 7 根杜邦线 | Passive adapter board, keyed connectors | ⭐ | 1 |
+| Replace the 10 dupont wires | 替换 10 根杜邦线 | Passive adapter board, keyed boxed headers | ⭐ | 1 |
 | **Safe state at power-on** | **上电默认安全状态** | 6 pull-down resistors on the driver inputs | ⭐ | 1 |
 | Series protection resistors | 信号串联保护电阻 | 33 Ω in series on every Pi-facing signal | ⭐ | 1 |
 | **Physical E-stop button** | **物理急停按钮** | Button in series with the driver enable path | ⭐ | 3 |
@@ -467,12 +475,28 @@ reasoning.
 - Two-layer board, small, in its own enclosure — **not a HAT**, see [the mechanical constraint](#mechanical)
 - **Through-hole only as built.** The reserved 0805 pads below are pads, not populated parts: Rev A can ship with all of them empty and still be a pure through-hole assembly
 - 1 × 2×20 (40-pin) connector to the Pi, via a 10–15 cm female-to-female ribbon
-- 1 × 2×5 (10-pin) connector to the D50A, via a ≈35 cm female-to-female ribbon
-- **7 direct copper connections:** 6 motor-control signals + GND
-- Readable silkscreen labels on every signal: `PWM1`, `INA1`, `INB1`, `PWM2`, `INA2`, `INB2`, `GND`
-- **The D50A's two VCC positions are intentionally not connected**
+- 1 × **2×5 boxed header (`DC3-10P`)** to the D50A, via a ≈35 cm female-to-female ribbon. **Boxed, not plain** — the D50A's own control header is shrouded, so a matching boxed header makes both ends keyed and the ribbon orientation a single solution
+- **10 direct copper connections forming 8 nets:** 6 motor-control signals, `GND` (two pins), `+3V3` (two pins)
+- Readable silkscreen labels on every signal. **Use the D50A's own short-form names at J2** — `V` `P1` `A1` `B1` `G` — because that is the end it plugs into; the Pi-side names stay `PWM1` / `INA1` / … as used in RoverPi's `wiring.md`
 - No microcontroller, no firmware, no battery input, no regulator, no motor power
 - Test points on every signal
+
+> [!CAUTION]
+> **`V` is a 3.3 V input, and 5 V will damage it.** On the Pi header, 3.3 V is
+> physical pins 1 and 17; 5 V is pins 2 and 4, one row over and immediately
+> adjacent. The `+3V3` net on this board must originate **only** at pins 1 and 17.
+>
+> This is the single highest-value thing the board buys. A dupont wire can be
+> moved onto pin 2 by mistake in a second, and 5 V into a 3.3 V isolated input is
+> a damaged part, not a stall. A copper trace cannot be mis-plugged at all, so the
+> failure mode disappears permanently. See
+> [the correction devlog](devlog/2026-09-12-d50a-control-header-correction.md).
+>
+> **`V` 是 3.3 V 输入，5 V 会烧掉它。** 树莓派排针上 3.3 V 是 1 号和 17 号针，而 5 V 是
+> 2 号和 4 号针，就在隔壁一排紧挨着。板上的 `+3V3` 网络**只能**来自 1 号和 17 号针。
+>
+> 这是这块板买到的最有价值的一样东西：杜邦线一秒钟就能插错到 2 号针上，而 5 V 灌进 3.3 V
+> 隔离输入是**烧器件**，不是停车。铜箔根本无法插错，这个失效模式永久消失。
 
 ### Two nearly-free additions / 两个几乎不花钱的增补
 
@@ -495,31 +519,69 @@ cannot be added after fabrication.
 ### Gating checks — before footprints are frozen / 锁封装前必须先做
 
 - [ ] The cables have arrived, and both are confirmed **female-to-female**.
-- [ ] Pitch confirmed as 2.54 mm, and the keyed-plug orientation identified.
+- [ ] Pitch confirmed as 2.54 mm, and the socket confirmed to mate with a boxed header.
+- [ ] **Which physical D50A pin is pin 1 — resolved, not assumed.** Both ends are keyed, so only one orientation is possible: plug the ribbon onto the D50A and find by continuity which conductor reaches each signal. `G` is continuous with the motor-power negative (`P-`), which cross-checks the map. **This is the one unknown that can silently swap `PWM1` onto the driver's `P2` input and drive the wrong motors.**
 - [ ] Pin 1 / red-stripe direction identified at **both ends of both cables**.
 - [ ] Continuity checked pin by pin with a multimeter, **before either cable touches the rover**.
-- [ ] Connector body size and clearance checked against the intended enclosure.
+- [ ] Connector body size and clearance checked against the intended enclosure — a boxed header is taller than plain pins.
 
 **Only then** assign final footprints and start layout. As of 2026-09-12 the
 cables have not arrived.
 
 ### Confirmed signal map / 已确认信号表
 
-| Function | Raspberry Pi BCM | Pi physical pin |
-|---|---:|---:|
-| PWM1 | GPIO12 | 32 |
-| INA1 | GPIO23 | 16 |
-| INB1 | GPIO24 | 18 |
-| PWM2 | GPIO13 | 33 |
-| INA2 | GPIO5 | 29 |
-| INB2 | GPIO6 | 31 |
-| GND | GND | 39 |
+**Source:** RoverPi's D50A control-header wiring table. Corrected 2026-09-12 —
+the earlier 7-row version omitted both `V` pins and the second `G`. See
+[the correction devlog](devlog/2026-09-12-d50a-control-header-correction.md).
 
-The D50A header:
+**出处：** RoverPi 的 D50A 控制口接线表。2026-09-12 更正——早先那张 7 行的表漏了两个 `V`
+和第二个 `G`。
 
-| Top row | VCC | PWM2 | INA2 | INB2 | GND |
+| D50A silkscreen | Net | Pi physical pin | BCM / rail | Channel |
+|:---:|---|---:|---|---|
+| `P1` | `PWM1` | 32 | GPIO12 | 1 — left motors |
+| `A1` | `INA1` | 16 | GPIO23 | 1 |
+| `B1` | `INB1` | 18 | GPIO24 | 1 |
+| `P2` | `PWM2` | 33 | GPIO13 | 2 — right motors |
+| `A2` | `INA2` | 29 | GPIO5 | 2 |
+| `B2` | `INB2` | 31 | GPIO6 | 2 |
+| `G` × 2 | `GND` | 34, 39 | GND | both |
+| `V` × 2 | `+3V3` | **1, 17** | **3.3 V — never 5 V** | both |
+
+The D50A control header, as printed on the board:
+
+| 上排 — Channel 2, right motors | `V` | `P2` | `A2` | `B2` | `G` |
 |---|---|---|---|---|---|
-| Bottom row | VCC | PWM1 | INA1 | INB1 | GND |
+| **下排 — Channel 1, left motors** | `V` | `P1` | `A1` | `B1` | `G` |
+
+`V` and `G` appear twice on the header but are one net each. Both are connected
+anyway: the pins already exist, so the redundant contact costs nothing and
+removes the case where a single IDC contact is the only path for a whole rail.
+
+`V` 和 `G` 在排针上各出现两次，但各自只是一个网络。两个都接——针本来就在那儿，冗余触点
+不花钱，而且消除了"一整条电源全靠一个 IDC 触点"这种情况。
+
+### The direction truth table / 方向真值表
+
+From WHEELTEC's own STM32 example (`moto.c`, v5.7):
+
+| Action | `A` | `B` | PWM duty |
+|---|:---:|:---:|---|
+| Forward | high | low | 3000/7200 ≈ 42% |
+| Reverse | low | high | 4000/7200 ≈ 56% |
+
+The example's PWM runs at **10 kHz** (72 MHz / 7200).
+
+> [!WARNING]
+> **The vendor never drives both direction pins to the same level**, which is
+> exactly what the reserved pull-downs do. Both-low is *expected* to mean
+> "stopped" for this class of H-bridge, but it is neither documented nor
+> demonstrated. **It is an assumption until measured** — see the bring-up items
+> in the exit criteria.
+>
+> **厂家从来没有把两个方向脚驱动到同一电平**，而预留的下拉电阻做的正是"两个都低"。
+> 按这类 H 桥的通行逻辑，两个都低应该是"停"，但厂家既没写进文档也没演示过。
+> **实测之前它只是一个假设。**
 
 ### New skills / 新学的东西
 
@@ -532,6 +594,9 @@ ribbon-cable pin-1 discipline
 
 - [ ] ERC passes, and **every net manually compared against the signal map above**, one by one.
 - [ ] Continuity verified on the fabricated board, pin to pin, against the same table — before it touches the Pi.
+- [ ] **`+3V3` verified to reach `V` from Pi pins 1 and 17 only**, and verified *not* continuous with Pi pins 2 or 4.
+- [ ] **Current drawn by the D50A's isolated side from the Pi's 3.3 V rail, measured and recorded.** Expected small, but the Pi's rail is paying for it, so it gets a number rather than an assumption.
+- [ ] **Wheels lifted: hold both direction pins low, apply PWM, confirm the motor does not turn.** This tests the pull-down safe-state assumption. If both-low is not "stopped", the pull-down plan is redesigned before Rev B.
 - [ ] All seven previously verified movement tests re-run through this board, **wheels lifted**, with results identical to the dupont-wire era.
 - [ ] Then the ground driving test, re-run.
 - [ ] The dupont wires bagged and labeled, not discarded.

@@ -92,7 +92,7 @@ you understand is worth more than a good board you got lucky with.
 | Stage | Focus | Replaces / Adds | Months | State |
 |:---:|---|---|:---:|:---:|
 | 0 | Fundamentals — soldering, multimeter, KiCad, first code on a Pico, **the language decision**. No board is fabricated | — | 1 | 🔨 Active |
-| 1 | Passive signal adapter — pure copper, two connectors | Replaces: 7 dupont wires · Adds: safe state at power-on | 1–2 | 🔨 Active |
+| 1 | Passive signal adapter — pure copper, two keyed connectors | Replaces: 10 dupont wires · Adds: safe state at power-on, and a 3.3 V rail that cannot be mis-plugged into 5 V | 1–2 | 🔨 Active |
 | 2 | Signal & status board — encoder inputs, LEDs, buzzer, button | Adds: state visible without SSH · encoders brought in | 3–4 | 🗓️ Planned |
 | 3 | RP2040 co-processor | Replaces: USB serial adapter · Adds: watchdog, quadrature decode, battery monitor, E-stop | 5–7 | 🗓️ Planned |
 | 4 | Power board — 11.1 V → 5 V / 5 A | Replaces: USB power bank | 8–9 | 🗓️ Planned |
@@ -147,7 +147,7 @@ So "replacing the dupont wires" does not mean the wires go away:
 |---|---|---|
 | Form | Loose dupont jumpers, held on by friction | Latching connectors and a made-up harness |
 | Labelling | Memory and wire colour | Silkscreen on the board: `PWM1`, `INA1`, … |
-| Count | 7 | **Possibly more** — the encoders arrive too |
+| Count | 10 | **Possibly more** — the encoders arrive too |
 | What changes | | **Reliability.** The rover vibrates, a dupont jumper works loose, and a loose direction pin means undefined motor behavior |
 
 The same applies at the other end. When Stage 5 replaces the motor driver, the
@@ -158,11 +158,24 @@ of them changes.
 
 | # | What it replaces | Stage | The problem today | How the board solves it |
 |---:|---|:---:|---|---|
-| 1 | The 7 dupont control wires | 1 | Vibration works them loose; a detached direction pin is undefined behavior | Latching connector, silkscreen labels |
+| 1 | The 10 dupont control wires | 1 | Vibration works them loose; a detached direction pin is undefined behavior; and `V` can be mis-plugged into 5 V, which destroys the driver's isolated input | Keyed boxed connectors, silkscreen labels, and 3.3 V hard-wired in copper |
 | 2 | CH9102F USB serial adapter | 3 | Unsecured, occupies a USB port, one more thing to fail | Lidar UART goes straight into the on-board MCU |
 | 3 | USB power bank | 4 | Charges separately, runs out, takes up space | On-board 11.1 V → 5 V / 5 A, one battery for the whole rover |
 | 4 | WHEELTEC motor driver | 5 | Two motors paralleled per channel — no per-wheel control, no current feedback | Four independent H-bridge channels |
 | 5 | Inline fuse — **augmented, never removed** | 5 | A fuse only protects against one failure mode | Electronic over-current added; **the physical fuse stays** |
+
+> [!CAUTION]
+> **Item 1 buys more than tidiness, and this is the strongest single argument for
+> the whole board.** One of the ten wires is `V`, the 3.3 V supply for the
+> driver's *isolated* control side. On the Pi header, 3.3 V is pins 1 and 17 —
+> while 5 V is pins 2 and 4, one row over and immediately adjacent.
+>
+> A dupont wire can be moved onto pin 2 by mistake in a second, and 5 V into a
+> 3.3 V isolated input is a **damaged part**, not a stall or a twitch. A copper
+> trace from pin 1 to `V` cannot be mis-plugged at all, so that failure mode
+> disappears permanently. Details in
+> [the correction devlog](docs/devlog/2026-09-12-d50a-control-header-correction.md).
+
 
 ### 2 · Adds — safety that software cannot provide
 
@@ -366,7 +379,7 @@ C、arduino-pico 的 C++、MicroPython）各写一遍同一个 `blink`，月末�
 | 阶段 | 内容 | 替换 / 增加 | 月份 | 状态 |
 |:---:|---|---|:---:|:---:|
 | 0 | 基本功——焊接、万用表、KiCad，在 Pico 上写第一段代码，**并定下语言**。不做任何板子 | — | 1 | 🔨 进行中 |
-| 1 | 被动信号转接板——纯铜，两个连接器 | 替换：7 根杜邦线 · 增加：上电默认安全状态 | 1–2 | 🔨 进行中 |
+| 1 | 被动信号转接板——纯铜，两个防呆连接器 | 替换：10 根杜邦线 · 增加：上电默认安全状态，以及一条插不到 5 V 上的 3.3 V | 1–2 | 🔨 进行中 |
 | 2 | 信号与状态板——编码器接口、LED、蜂鸣器、按钮 | 增加：不用 SSH 也能看到状态 · 编码器接进来 | 3–4 | 🗓️ 计划中 |
 | 3 | RP2040 协处理器 | 替换：USB 转串口板 · 增加：看门狗、正交解码、电池监测、急停 | 5–7 | 🗓️ 计划中 |
 | 4 | 电源板——11.1V → 5V/5A | 替换：充电宝 | 8–9 | 🗓️ 计划中 |
@@ -400,7 +413,7 @@ C、arduino-pico 的 C++、MicroPython）各写一遍同一个 `blink`，月末�
 |---|---|---|
 | 形态 | 松散的杜邦跳线，靠摩擦力插着 | 带锁扣的连接器 + 成型线束 |
 | 标注 | 靠记忆和线的颜色 | 板上有丝印：`PWM1`、`INA1`…… |
-| 数量 | 7 根 | **可能更多**——编码器也要接进来 |
+| 数量 | 10 根 | **可能更多**——编码器也要接进来 |
 | 变的是什么 | | **可靠性。** 车在振动，杜邦线会松脱，而一根脱落的方向线意味着电机行为未定义 |
 
 另一端同理。Stage 5 换掉驱动板之后，驱动到电机之间的线**仍然是线**，变的只是
@@ -410,11 +423,21 @@ C、arduino-pico 的 C++、MicroPython）各写一遍同一个 `blink`，月末�
 
 | # | 替换什么 | 阶段 | 现在的问题 | 板子怎么解决 |
 |---:|---|:---:|---|---|
-| 1 | Pi↔驱动板 的 7 根杜邦线 | 1 | 振动使其松脱，方向线一旦脱落，电机行为未定义 | 带锁扣连接器，配丝印标注 |
+| 1 | Pi↔驱动板 的 10 根杜邦线 | 1 | 振动使其松脱；方向线一旦脱落，电机行为未定义；而 `V` 插错到 5 V 上会烧掉驱动板的隔离输入 | 防呆牛角座、丝印标注，3.3 V 焊死在铜里 |
 | 2 | CH9102F USB 转串口板 | 3 | 悬空晃动、占一个 USB 口、多一层故障点 | 激光 UART 直接进板载 MCU |
 | 3 | 充电宝 | 4 | 要单独充电、会没电、占空间 | 板载 11.1V → 5V/5A，整车一块电池 |
 | 4 | WHEELTEC 驱动板 | 5 | 每通道并联两个电机——无法单轮控制，也没有电流反馈 | 四路独立 H 桥 |
 | 5 | 保险丝——**只增强，绝不移除** | 5 | 保险丝只能防住一种失效模式 | 增加电子过流保护，**物理保险丝保留** |
+
+> [!CAUTION]
+> **第 1 项买到的不只是整洁，而且这是整块板最强的一个理由。** 十根线里有一根是 `V`，
+> 它是驱动板**隔离**控制侧的 3.3 V 供电。而树莓派排针上，3.3 V 是 1 号和 17 号针，
+> **5 V 是 2 号和 4 号针**——就在隔壁一排，紧挨着。
+>
+> 杜邦线一秒钟就能插错到 2 号针上，而 5 V 灌进 3.3 V 的隔离输入是**烧器件**，不是停车、
+> 也不是抽动。而从 1 号针到 `V` 的一段铜箔**根本无法插错**，这个失效模式永久消失。
+> 详情见[那篇更正日志](docs/devlog/2026-09-12-d50a-control-header-correction.md)。
+
 
 ### 2 · 新增：软件做不到的安全功能
 

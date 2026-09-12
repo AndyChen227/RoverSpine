@@ -1,5 +1,25 @@
 # 2026-09-11 — Passive Signal Adapter Planning / 被动信号转接板规划
 
+> [!CAUTION]
+> **Two statements below were corrected on 2026-09-12. This entry is kept
+> unchanged, because withdrawn conclusions stay in the history.** Read
+> [`2026-09-12-d50a-control-header-correction.md`](2026-09-12-d50a-control-header-correction.md)
+> before using anything here as a design input.
+>
+> 1. **"seven direct copper connections" is wrong — it is ten.** The signal map
+>    recorded here omitted both `V` pins and the second `G`.
+> 2. **"the two D50A VCC positions are intentionally not connected" is wrong,
+>    and would have produced a dead board.** `V` is the 3.3 V supply for the
+>    driver's isolated control side. Without it, not one of the six control
+>    signals works.
+>
+> **下面有两处陈述已于 2026-09-12 更正。本篇原文保留不改**——被撤回的结论留在历史里。
+> 把这里的任何内容当作设计输入之前，先读[那篇更正](2026-09-12-d50a-control-header-correction.md)。
+>
+> **(1)** "七根"是错的，实际是十个连接——这里记的信号表漏了两个 `V` 和第二个 `G`；
+> **(2)** "D50A 的两个 VCC 位置有意不连接"是错的，照这样做出来的板子是废的——`V` 是驱动板
+> 隔离控制侧的 3.3 V 供电，不接它，六个控制信号一个都不工作。
+
 ## Result / 本次结果
 
 We defined the first PCB to be designed for RoverSpine: a small passive adapter that replaces the seven loose Dupont control wires between the Raspberry Pi 5 and the WHEELTEC D50A motor driver.

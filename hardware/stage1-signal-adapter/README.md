@@ -1,10 +1,20 @@
 # Stage 1 — Passive Signal Adapter / 被动信号转接板
 
-Replaces the seven loose dupont control wires between the Raspberry Pi 5 and the
+Replaces the ten loose dupont control wires between the Raspberry Pi 5 and the
 WHEELTEC D50A motor driver with one small passive board and two ribbon cables.
 
 用一块小型被动转接板加两条排线，替换 Raspberry Pi 5 与 WHEELTEC D50A 电机驱动板之间
-七根松散的杜邦控制线。
+十根松散的杜邦控制线。
+
+> [!NOTE]
+> **Corrected 2026-09-12.** This board was previously specified as 7 connections
+> with the D50A's `V` pins left unconnected. Both were wrong — `V` is the 3.3 V
+> supply for the driver's isolated control side, and without it none of the
+> control signals work at all. See
+> [the correction devlog](../../docs/devlog/2026-09-12-d50a-control-header-correction.md).
+>
+> **2026-09-12 更正。** 这块板原来的规格是 7 个连接、`V` 不接。两条都错——`V` 是驱动板
+> 隔离控制侧的 3.3 V 供电，不接它，控制信号一个都不工作。
 
 ## Status / 当前状态
 
@@ -30,9 +40,11 @@ whole point of keeping A is being able to see what changed and why.
 
 ## What it does / 它做什么
 
-- 7 direct copper connections: 6 motor-control signals + GND
-- Keyed, latching connectors and made-up ribbon harnesses instead of friction-fit jumpers
-- Readable silkscreen on every signal
+- **10 direct copper connections forming 8 nets:** 6 motor-control signals, `GND` (two pins), `+3V3` (two pins)
+- **`+3V3` sourced only from Pi physical pins 1 and 17.** 5 V (pins 2 and 4) would destroy the driver's isolated input — a copper trace makes that mis-plug impossible
+- **Boxed headers (`DC3-40P` / `DC3-10P`)**, so both ends of the D50A ribbon are keyed — the D50A's own control header is shrouded
+- Made-up ribbon harnesses instead of friction-fit jumpers
+- Readable silkscreen on every signal — the D50A's own short-form names at J2: `V` `P1` `A1` `B1` `G`
 - Reserved pads for 6 pull-downs and 6 series resistors (may ship unpopulated on Rev A)
 
 ## What it deliberately does NOT do / 它有意不做的事
@@ -42,13 +54,16 @@ boards are separate projects, and **they will not be added to Rev A merely
 because empty PCB area exists.**
 
 - no microcontroller, no firmware;
-- no battery input, no voltage regulator;
-- no motor current, no motor power;
-- the D50A's two VCC positions are **intentionally not connected**.
+- no battery input, no voltage regulator, no active component of any kind;
+- no motor current, no motor power.
+
+It does route the Pi's 3.3 V to the driver's isolated side, because that rail is
+**required** — see the correction above. That is a copper net, not a power stage.
 
 Rev A 有意保持最小范围。以后可能制作的电源、传感、安全控制和电机驱动板仍是独立项目，
 **不会因为 Rev A 有空余面积就直接塞进同一版 PCB**：不用单片机、不需要固件、不接入电池、
-不做电源转换、不碰电机电流和功率；D50A 的两个 VCC 位置有意不连接。
+不做电源转换、不碰电机电流和功率。它确实要把 Pi 的 3.3 V 送到驱动板隔离侧，因为那条电源是
+**必需的**（见上面的更正）——但那是一条铜箔网络，不是一级电源。
 
 ## Files / 文件
 
