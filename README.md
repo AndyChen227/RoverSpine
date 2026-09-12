@@ -9,8 +9,8 @@
 
 **用真板子学习 · 在车上验证 · 留下每一次失败**
 
-[![Project Status](https://img.shields.io/badge/status-stage%200-64748B?style=for-the-badge)](#stages)
-[![Current Stage](https://img.shields.io/badge/stage%200-fundamentals-7C3AED?style=for-the-badge)](docs/roadmap.md)
+[![Project Status](https://img.shields.io/badge/status-stage%200--1-64748B?style=for-the-badge)](#stages)
+[![Current Stage](https://img.shields.io/badge/stage%201-signal%20adapter-7C3AED?style=for-the-badge)](docs/roadmap.md#stage-1)
 [![EDA](https://img.shields.io/badge/EDA-KiCad-314CB6?style=for-the-badge&logo=kicad&logoColor=white)](https://www.kicad.org/)
 [![Parent Project](https://img.shields.io/badge/extends-RoverPi-C51A4A?style=for-the-badge&logo=raspberrypi&logoColor=white)](https://github.com/AndyChen227/RoverPi)
 
