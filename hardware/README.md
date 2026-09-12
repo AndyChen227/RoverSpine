@@ -49,6 +49,8 @@ Example: `hardware/stage1-signal-adapter/`
 ## Rules / 规矩
 
 1. **Commit the exact Gerber zip that was uploaded to the fab**, per revision.
+   The ordering process and the pre-upload checklist are in
+   [`../docs/fabrication.md`](../docs/fabrication.md).
    Regenerating Gerbers later from a modified project gives you files that were
    never manufactured, which makes debugging a physical board impossible.
    **提交真正上传给打样厂的那个 Gerber 压缩包**，按版本存。以后从改过的工程重新

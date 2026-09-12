@@ -282,7 +282,8 @@ RoverSpine/
 ├── LICENSES/                # CERN-OHL-S for hardware, MIT for firmware
 ├── docs/
 │   ├── roadmap.md           # The seven stages, in full
-│   ├── tools-and-parts.md   # Dated log of tools, cables and parts actually chosen
+│   ├── fabrication.md       # How a KiCad project becomes a board in your hand
+│   ├── tools-and-parts.md   # Inventory + dated log of every tool and part
 │   └── devlog/              # Bilingual per-board logs, including failures
 ├── hardware/                # One directory per board: KiCad project, Gerbers, BOM
 ├── firmware/                # On-board microcontroller code, from month 1

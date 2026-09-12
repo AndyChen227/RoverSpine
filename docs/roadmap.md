@@ -349,8 +349,9 @@ Pi 端的控制代码继续用 Python。它已经写好、也已经实测验证�
 ## Tools and budget / 工具与预算
 
 Buy Stage 0 and Stage 1 tools now; defer the rest until the stage that needs them.
-Dated records of what was actually selected live in
-[`tools-and-parts.md`](tools-and-parts.md).
+The full inventory — what is owned, ordered, and still to buy, with a running
+total — lives in [`tools-and-parts.md`](tools-and-parts.md). How a finished
+project becomes a physical board is in [`fabrication.md`](fabrication.md).
 
 第 0、1 阶段的工具现在就买，其余的等到需要的阶段再买。实际选定了什么，按日期记在
 [`tools-and-parts.md`](tools-and-parts.md)。
@@ -522,8 +523,9 @@ The D50A header:
 ### New skills / 新学的东西
 
 Schematic symbols and footprints · net names · ERC · design rules · the 2-layer
-ground pour · Gerber export and the 嘉立创 ordering flow · through-hole
-soldering on a real board · ribbon-cable pin-1 discipline
+ground pour · Gerber export and the 嘉立创 ordering flow (see
+[`fabrication.md`](fabrication.md)) · through-hole soldering on a real board ·
+ribbon-cable pin-1 discipline
 
 ### Exit criterion / 完成判据
 
