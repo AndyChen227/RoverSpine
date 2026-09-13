@@ -18,9 +18,9 @@ WHEELTEC D50A motor driver with one small passive board and two ribbon cables.
 
 ## Status / 当前状态
 
-- `[ ]` **Rev A — schematic complete, 2026-09-13.** All 12 resistors drawn: **14 nets, ERC 30 errors / 0 warnings, netlist check `ALL PASS`** against [the net structure](../../docs/roadmap.md#nets). Footprints **not assigned**, layout not started, not fabricated. Cables not yet delivered, so D50A pin 1 is still an assumption. See [the devlog](../../docs/devlog/2026-09-13-twelve-resistors-drawn.md). Later the same day the **ERC rule set was tightened**, with ERC re-run at 30 / 0 — [that devlog](../../docs/devlog/2026-09-13-erc-severities-tightened.md).
+- `[ ]` **Rev A — schematic complete, 2026-09-13.** All 12 resistors drawn: **14 nets, ERC 30 errors / 0 warnings, netlist check `ALL PASS`** against [the net structure](../../docs/roadmap.md#nets). Footprints **not assigned**, layout not started, not fabricated. Cables not yet delivered, so D50A pin 1 is still an assumption. See [the devlog](../../docs/devlog/2026-09-13-twelve-resistors-drawn.md). Later the same day the **ERC rule set was tightened** — [that devlog](../../docs/devlog/2026-09-13-erc-severities-tightened.md) — and **ERC is now 44 / 0, not 30 / 0**: see the correction below.
 
-`[ ]` **Rev A — 原理图完工，2026-09-13。** 12 个电阻全部画上：**14 个网络，ERC 30 错误 / 0 警告，网表核对 `ALL PASS`**，比对依据是[网络结构表](../../docs/roadmap.md#nets)。封装**未分配**，布局未开始，未打样。排线未到货，所以 D50A 的 1 号脚仍是假设。见[开发日志](../../docs/devlog/2026-09-13-twelve-resistors-drawn.md)。同一天稍后**收紧了 ERC 规则**，重跑仍是 30 / 0——见[那一篇](../../docs/devlog/2026-09-13-erc-severities-tightened.md)。
+`[ ]` **Rev A — 原理图完工，2026-09-13。** 12 个电阻全部画上：**14 个网络，ERC 30 错误 / 0 警告，网表核对 `ALL PASS`**，比对依据是[网络结构表](../../docs/roadmap.md#nets)。封装**未分配**，布局未开始，未打样。排线未到货，所以 D50A 的 1 号脚仍是假设。见[开发日志](../../docs/devlog/2026-09-13-twelve-resistors-drawn.md)。同一天稍后**收紧了 ERC 规则**（见[那一篇](../../docs/devlog/2026-09-13-erc-severities-tightened.md)），**ERC 现在是 44 / 0，不是 30 / 0**——见下面的更正。
 
 Three-state notation, same as the rest of the project: `[x]` met its exit
 criteria **on the rover** · `[~]` exists and powers up · `[ ]` pending.
@@ -33,7 +33,8 @@ criteria **on the rover** · `[~]` exists and powers up · `[ ]` pending.
 | A | 2026-09-12 | `[ ]` in progress | First revision. Schematic drawn: 10 connections, 8 nets, verified against the signal map from the exported netlist. Carries a text annotation recording the unverified pin-1 assumption. Footprints not assigned. See [the devlog](../../docs/devlog/2026-09-12-revA-schematic-complete.md) |
 | A | 2026-09-12 | `[ ]` in progress | Same revision, later the same day. The 12 reserved resistors were specified in the roadmap and the BOM but **not present on the schematic**; adding them splits each signal into a Pi-side and a driver-side net, so Rev A is **14 nets, not 8**. Series resistors changed from 0805 to **through-hole and mandatory** — they are in the signal path, so an empty pad is an open signal. See [the devlog](../../docs/devlog/2026-09-12-reserved-resistor-pads.md) |
 | A | 2026-09-13 | `[ ]` schematic done | R1–R12 drawn. **14 nets, ERC 30 / 0, netlist check `ALL PASS`.** A mislabelled driver-side net (`INB2` wired to `P1` instead of `B2`) was found and fixed during review — ERC reported nothing about it, before or after. Six 50-mil dangling wire ends were traced to KiCad's Grid Override for wires and removed. See [the devlog](../../docs/devlog/2026-09-13-twelve-resistors-drawn.md) |
-| A | 2026-09-13 | `[ ]` schematic done | Same revision, later the same day. **No change to the drawing** — two ERC rule severities raised in the project file: `分配的封装不匹配封装筛选规则` from `ignore` to **error** (the planned one, armed while zero footprints are assigned) and `引脚到引脚冲突` from warning to **error**. ERC re-run: **still 30 / 0**, and the netlist check still `ALL PASS`. A contradictory "ERC 零错误" item in `fabrication.md`'s pre-upload checklist was corrected — this board reports 30 errors by design. See [the devlog](../../docs/devlog/2026-09-13-erc-severities-tightened.md) |
+| A | 2026-09-13 | `[ ]` schematic done | Same revision, later the same day. **No change to the drawing** — two ERC rule severities raised in the project file: `分配的封装不匹配封装筛选规则` from `ignore` to **error** (the planned one, armed while zero footprints are assigned) and `引脚到引脚冲突` from warning to **error**. A contradictory "ERC 零错误" item in `fabrication.md`'s pre-upload checklist was corrected — this board reports 30 `pin_not_connected` errors by design. **The `30 / 0` this row originally claimed was wrong**, see the next row. [Devlog](../../docs/devlog/2026-09-13-erc-severities-tightened.md) |
+| A | 2026-09-13 | `[ ]` schematic done | **Correction, same revision, no change to the drawing.** ERC against the committed files is **44 / 0**, not 30 / 0: the 30 by-design `pin_not_connected` errors **plus 14 `footprint_filter`** — one per symbol, because an **empty** footprint field is compared like any other value and matches no filter. The earlier `30 / 0` was a correct report for `footprint_filter: ignore`, read from a panel that had not re-run since the setting changed. ERC is now run by command rather than from the panel. See [the correction](../../docs/devlog/2026-09-13-erc-44-not-30.md) |
 
 A revision is **never overwritten** — Rev B will sit next to Rev A, because the
 whole point of keeping A is being able to see what changed and why.
@@ -104,8 +105,18 @@ gating checks that must pass before footprints are frozen all live in:
 2. ~~Run ERC, then manually compare every net against the signal map.~~ **Done — 30 errors / 0 warnings, all 8 nets PASS.**
 3. ~~Draw the 12 resistors, re-run ERC and the netlist check.~~ **Done 2026-09-13 — 14 nets, ERC 30 / 0, `ALL PASS`.**
 4. **When the cables arrive, run the gating checks above** — including resolving which physical D50A pin is pin 1, which is still an assumption.
-5. ~~**Before assigning footprints:** re-enable the ERC check `分配的封装不匹配封装筛选规则`.~~ **Done 2026-09-13** — enabled while zero footprints are assigned, so the check is armed *before* the step it guards. `引脚到引脚冲突` was raised from warning to error in the same sitting. ERC re-run: still 30 / 0. See [the devlog](../../docs/devlog/2026-09-13-erc-severities-tightened.md).
-6. Only then assign final footprints (`DC3-40P` at J1, `DC3-10P` at J2, axial through-hole for R1–R6, 0805 for R7–R12) and begin PCB layout.
+5. ~~**Before assigning footprints:** re-enable the ERC check `分配的封装不匹配封装筛选规则`.~~ **Done 2026-09-13** — enabled while zero footprints are assigned, so the check is armed *before* the step it guards. `引脚到引脚冲突` was raised from warning to error in the same sitting. **It fires immediately: ERC is 44 / 0, the extra 14 being the unassigned footprints themselves** — [the correction](../../docs/devlog/2026-09-13-erc-44-not-30.md). Those 14 are the to-do list for step 6, and **ERC must return to exactly 30 / 0 when that step is done right.**
+6. **Assign the fourteen footprints.** Each one is checked live by step 5's rule, so **ERC returning to exactly 30 / 0 is the completion test** — any other number names how many symbols to go back to.
+
+   | Symbol | Part | KiCad footprint | Courtyard |
+   |---|---|---|---|
+   | J1 | `DC3-40P` boxed | `Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical` | 59.46 × 9.90 mm |
+   | J2 | `DC3-10P` boxed | `Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical` | 21.36 × 9.90 mm |
+   | R1–R6 | 33 Ω, THT, 1/4 W | `Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal` | 12.26 × 3.00 mm |
+   | R7–R12 | 10 kΩ, 0805 | `Resistor_SMD:R_0805_2012Metric` | 3.36 × 1.90 mm |
+
+   Verified present in KiCad 10.0.6's libraries, and verified to match each symbol's footprint filter. **These are the drawing's assumption about the parts; the calipers get the final word when the parts arrive.**
+7. **Then PCB layout, board-first.** The board's long side is set by J1 at 59.46 mm — **a floor no enclosure choice can lower** — so the outline is decided here and the enclosure is bought to fit it, not the other way round.
 
 ---
 

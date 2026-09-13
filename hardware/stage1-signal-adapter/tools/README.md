@@ -53,24 +53,82 @@ never had KiCad on it.
 > **网表本身不提交**（`*.net` 已在 gitignore 里）：它是生成物，随时能从原理图重新导出。
 > 提交的是它的来源（原理图）、期望表和脚本。
 
-## As of now it fails, on purpose / 现在它是"应该失败"的
+## It failed on purpose, and then it passed / 它曾经"应该失败"，后来通过了
 
-`revA_expected_nets.json` describes the **14-net** design from
-[the net structure](../../../docs/roadmap.md#nets). The schematic currently on
-disk is the earlier **8-net** version, drawn before the twelve reserved
-resistors were noticed to be missing from it.
+When this directory was committed on 2026-09-12, `revA_expected_nets.json`
+already described the **14-net** design while the schematic on disk was still the
+earlier **8-net** version. Running the script printed exactly what had not been
+drawn yet — six series resistors, six pull-downs, six driver-side nets — and
+**that list was used as the drawing checklist.**
 
-So running the script today prints a list of exactly what has not been drawn
-yet — six missing series resistors, six missing pull-downs, six driver-side nets
-that do not exist. **That list is the drawing checklist.** When the schematic is
-finished, the same command prints `ALL PASS` and nothing had to be read by eye.
+On 2026-09-13 the twelve resistors were drawn and the same command printed
+`ALL PASS`. **The expected map was written before the drawing it checks**, which
+is the only ordering in which a checklist is also a test.
 
-`revA_expected_nets.json` 描述的是[网络结构](../../../docs/roadmap.md#nets)里那个 **14 网络**
-的设计，而磁盘上的原理图还是更早的 **8 网络**版本——那是在发现 12 个预留电阻从没画进图之前画的。
+2026-09-12 提交这个目录时，`revA_expected_nets.json` 描述的已经是 **14 网络**的设计，而磁盘上
+的原理图还是 **8 网络**的旧版。跑脚本打印出来的正是"还没画的东西"：6 个串阻、6 个下拉、
+6 个驱动侧网络——**那张清单当时就被当作画图的待办表用。**
 
-所以今天跑这个脚本，打印出来的正是"还没画的东西"的清单：6 个串阻、6 个下拉、6 个不存在的
-驱动侧网络。**那张清单就是画图的待办表。** 原理图画完之后，同一条命令会打印 `ALL PASS`，
-而全程没有任何一处是靠眼睛读的。
+2026-09-13 十二个电阻画完，同一条命令打印 `ALL PASS`。**期望表是在它要检查的那张图之前写下
+的**——只有这个顺序，才能让一张待办清单同时是一次测试。
+
+## ERC and DRC run from here too / ERC 和 DRC 也从这里跑
+
+**Never read these numbers off a GUI panel.** KiCad's ERC panel does not re-run
+when a rule severity changes; it keeps showing the previous result, which is
+correct behaviour and, on screen, indistinguishable from a fresh run. On
+2026-09-13 that cost a wrong number in a pushed commit —
+[the correction](../../../docs/devlog/2026-09-13-erc-44-not-30.md).
+
+**永远不要从 GUI 面板上读这些数字。** KiCad 的 ERC 面板不会因为规则严重性变了就自己重跑，
+它继续显示上一次的结果——这是正确行为，而且在屏幕上和一次新的运行长得一模一样。
+2026-09-13 这件事的代价是一个错误的数字被提交并推了上去。
+
+`kicad-cli` ships with KiCad. On this machine (KiCad 10.0.6) it lives at
+`%LOCALAPPDATA%\Programs\KiCad\10.0\bin\kicad-cli.exe` — **not** in
+`Program Files`, and not on `PATH`.
+
+```bash
+cd hardware/stage1-signal-adapter/kicad
+KICAD_CLI="$LOCALAPPDATA/Programs/KiCad/10.0/bin/kicad-cli.exe"
+
+# ERC — exits non-zero if there are violations
+"$KICAD_CLI" sch erc --severity-error --exit-code-violations \
+    -o erc.rpt RoverSpine_Signal_Adapter_RevA.kicad_sch
+
+# Netlist, for check_nets.py — no GUI export step needed
+"$KICAD_CLI" sch export netlist \
+    -o RoverSpine_Signal_Adapter_RevA.net RoverSpine_Signal_Adapter_RevA.kicad_sch
+
+# DRC — once the layout exists
+"$KICAD_CLI" pcb drc --severity-error --exit-code-violations \
+    -o drc.rpt RoverSpine_Signal_Adapter_RevA.kicad_pcb
+```
+
+Both reports are generated artifacts and are gitignored, like the netlist. Count
+violations by rule with:
+
+两份报告都是生成物，和网表一样不提交。按规则统计条数：
+
+```bash
+grep -o "^\[[a-z_]*\]" erc.rpt | sort | uniq -c
+```
+
+### Expected counts / 期望数字
+
+| When | ERC | Made of |
+|---|---|---|
+| Schematic complete, **footprints not assigned** | **44 / 0** | 30 `pin_not_connected` + 14 `footprint_filter` |
+| After all fourteen footprints are assigned and match | **30 / 0** | 30 `pin_not_connected` |
+
+The 30 are the unused pins on the 2×20 Pi header — **by design, and deliberately
+not hidden behind no-connect flags.** The 14 are the symbols still without a
+footprint: an **empty** footprint field is compared like any other value and
+matches no filter, so the count is a live to-do list that empties itself.
+
+那 30 条是 2×20 排针上没用到的引脚——**设计如此，而且有意不用 no-connect 标记藏起来**。
+那 14 条是还没有封装的符号：**空的封装字段和任何别的值一样参与比对，而空不匹配任何规则**，
+所以这个计数是一张会自己清空的待办表。
 
 ## Two conventions worth knowing / 两个值得知道的约定
 
