@@ -17,16 +17,16 @@ recorded with their dates in
 |---:|---|---|---:|---|---|
 | 1 | 2×20 boxed header (`DC3-40P`), 2.54 mm, to the Pi | 2×20 牛角座，接树莓派 | 1 | TH, 2.54 mm | Footprint not frozen — awaiting cable check |
 | 2 | 2×5 boxed header (`DC3-10P`), 2.54 mm, to the D50A | 2×5 牛角座，接 D50A | 1 | TH, 2.54 mm | **Boxed required** — the D50A's header is shrouded. Footprint not frozen; **D50A pin 1 must be resolved with a meter first** |
-| 3 | Series resistors on Pi-facing signals, `R1`–`R6` | 信号串联电阻 | 6 | **TH, axial** | **33 Ω. Must be populated** — in the signal path, so an empty pad is an open signal. Through-hole for leads through plated holes (mechanically stronger on a vehicle that vibrates than two solder fillets) and for something to clip a probe to. *Reason amended 2026-09-13; the package did not change* |
-| 4 | Pull-down resistors on driver inputs, `R7`–`R12` | 驱动输入下拉电阻 | 6 | 0805 | 10 kΩ. **The only genuinely optional parts on this board** — may ship unpopulated on Rev A, in which case mark them **DNP** in KiCad rather than noting it here |
+| 3 | Series resistors on Pi-facing signals, `R1`–`R6` | 信号串联电阻 | 6 | **TH, axial** | **33 Ω. Must be populated** — in the signal path, so an empty pad is an open signal. Through-hole for leads through plated holes (mechanically stronger on a vehicle that vibrates than two solder fillets) and for something to clip a probe to. *Reason amended 2026-09-13; the package did not change.* Part bought 2026-09-13: 1/4 W metal film, 1%, body 6.0 × 2.3 mm, lead **ød 0.35 mm** per the listing — **confirm with calipers before the footprint is frozen** |
+| 4 | Pull-down resistors on driver inputs, `R7`–`R12` | 驱动输入下拉电阻 | 6 | 0805 | 10 kΩ. **The only genuinely optional parts on this board** — may ship unpopulated on Rev A, in which case mark them **DNP** in KiCad rather than noting it here. Part bought 2026-09-13: 0805, 1%, 100 pcs of a single value |
 | 5 | PCB, 2-layer, HASL | 板子，双层喷锡 | 1 | — | Size TBD after layout |
 
 ## Cables / 排线
 
 | # | Part | Qty | Status |
 |---:|---|---:|---|
-| 6 | FC-10P 2×5 IDC ribbon, female-to-female, 2.54 mm, ≈35 cm | 1 | Selected 2026-09-11; awaiting delivery |
-| 7 | Raspberry Pi 40-pin GPIO ribbon, 2×20 female-to-female, 2.54 mm, 10–15 cm | 1 | Selected 2026-09-11; awaiting delivery |
+| 6 | FC-10P 2×5 IDC ribbon, female-to-female, 2.54 mm — **30 cm and 40 cm** | 2 | Bought 2026-09-13. 35 cm is not a stocked length; both were bought and the fit is decided at test-fit |
+| 7 | Raspberry Pi 40-pin GPIO ribbon, 2×20 female-to-female, 2.54 mm, **15 cm** | 1 | Ordered 2026-09-13, plain F–F (no flying lead). "Selected 2026-09-11" had been recorded but no order was ever placed — corrected 2026-09-13 |
 
 ## Not on this board / 这块板上没有的东西
 

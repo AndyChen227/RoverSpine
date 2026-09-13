@@ -51,7 +51,7 @@ State: ✅ have it · 🛒 ordered, in transit · ⬜ to buy · ❓ unknown — 
 
 | Item | 工具 | Approx. ¥ | State |
 |---|---|---:|:---:|
-| **Multimeter, with continuity and diode mode** | **万用表，要有蜂鸣档和二极管档** | 100–200 | ⬜ **— the one tool that must be yours** |
+| **Multimeter, with continuity and diode mode** | **万用表，要有蜂鸣档和二极管档** | — | ✅ *Already owned — confirmed 2026-09-13* **— the one tool that must be yours** |
 | Temperature-controlled soldering iron (T12 / 936) | 恒温烙铁 | — | ✅ *(workshop / 工具间)* |
 | Solder wire — **Sn63Pb37, 0.8 mm, rosin core** | 焊锡丝，含铅 0.8 mm 松香芯 | — | ✅ *(workshop)* |
 | No-clean rosin flux | 免洗松香助焊剂 | — | ✅ *(workshop)* |
@@ -75,15 +75,15 @@ connector choice are in [the next section](#connectors).
 |---:|---|---|---:|---:|:---:|
 | 1 | PCB fabrication, 2-layer, 5 pcs | 打样，双层，5 片 | 1 order | 20–50 | ⬜ |
 | 2 | Courier | 运费 | — | 10–20 | ⬜ |
-| 3 | **2×20 male header for the Pi ribbon** — boxed (`DC3-40P`) | **2×20 公座**，牛角座 | 1–2 | 3–8 | ⬜ |
-| 4 | **2×5 boxed header for the D50A ribbon** (`DC3-10P`) — **required, not optional** | **2×5 牛角座**，**必须**，不是可选 | 1–2 | 1–3 | ⬜ |
-| 5 | 0805 resistor assortment kit | 0805 电阻样品盒 | 1 | 15–30 | ⬜ — for the 6 pull-downs (10 kΩ); covers Stage 2 and beyond too |
-| 5b | **Through-hole resistor assortment, 1/4 W** | **通孔电阻样品盒，1/4 W** | 1 | 10–15 | ⬜ — for the 6 series resistors (33 Ω), which are **mandatory** parts. Through-hole for mechanical strength on a vehicle that vibrates, and for probeable leads — see [the net structure](roadmap.md#nets) |
-| 6 | FC-10P 2×5 IDC ribbon, F–F, ≈35 cm | 10P IDC 排线，母对母 | 1 | ~10 | 🛒 *(selected 2026-09-11)* |
-| 7 | Pi 40-pin GPIO ribbon, 2×20 F–F, 10–15 cm | 树莓派 40 针排线，母对母 | 1 | ~10 | 🛒 *(selected 2026-09-11)* |
-| 8 | Small enclosure for the board | 小外壳 | 1 | 5–15 | ⬜ |
-| 9 | Double-sided tape | 双面胶 | 1 | 5 | ⬜ |
-| 10 | Cable ties / clips — **strain relief** | 扎带或线夹，**拉力缓解** | few | 5 | ⬜ |
+| 3 | **2×20 male header for the Pi ribbon** — boxed (`DC3-40P`) | **2×20 公座**，牛角座 | 5 | 3.17 | ✅ *Bought 2026-09-13* — 2.54 mm straight pin, sold 5 to a pack |
+| 4 | **2×5 boxed header for the D50A ribbon** (`DC3-10P`) — **required, not optional** | **2×5 牛角座**，**必须**，不是可选 | 5 | 2.21 | ✅ *Bought 2026-09-13* — 2.54 mm straight pin, sold 5 to a pack |
+| 5 | 0805 resistors, **10 kΩ**, 1%, 100 pcs | 0805 电阻，**10 kΩ**，1%，100 个 | 100 | 3.38 | ✅ *Bought 2026-09-13* — for the 6 pull-downs `R7`–`R12`. **A single value, not the assortment kit originally listed**: cheaper and sufficient for Rev A, but Stage 2 will need its own order rather than drawing from a box |
+| 5b | **Through-hole metal-film resistors, 1/4 W, 33 Ω**, 1%, 200 pcs | **通孔金属膜电阻，1/4 W，33 Ω**，1%，200 个 | 200 | 5.56 | ✅ *Bought 2026-09-13* — for the 6 series resistors `R1`–`R6`, which are **mandatory** parts. Through-hole for mechanical strength on a vehicle that vibrates, and for probeable leads — see [the net structure](roadmap.md#nets). Listing drawing gives body 6.0 × 2.3 mm and lead **ød 0.35 mm** — **measure on arrival before freezing the footprint** |
+| 6 | FC-10P 2×5 IDC ribbon, F–F — **30 cm and 40 cm, one of each** | 10P IDC 排线，母对母，30 cm 与 40 cm 各一 | 2 | ~20 | ✅ *Bought 2026-09-13* — 35 cm was an estimate and is not stocked. Both bought rather than guessing; **the one that fits is chosen at test-fit, the other becomes the spare** |
+| 7 | Pi 40-pin GPIO ribbon, 2×20 F–F, **15 cm** | 树莓派 40 针排线，母对母，15 cm | 1 | 3.89 | 🛒 *Ordered 2026-09-13* — 15 cm, the top of the 10–15 cm range, so the cable carries a service loop rather than tension. A plain F–F cable was chosen over a "multi-function" one that carries an extra 2-pin flying lead. **The 2026-09-11 "selected" entry was wrong — no order had been placed** |
+| 8 | Small enclosure for the board | 小外壳 | 1 | 5–15 | ⬜ — **deliberately deferred.** `bom.md` gives the PCB as *size TBD after layout*, so buying an enclosure now is guessing. **Buy it once the layout fixes the board outline** |
+| 9 | Double-sided tape | 双面胶 | 1 | 0 | ✅ *Already owned — confirmed 2026-09-13* |
+| 10 | Cable ties / clips — **strain relief** | 扎带或线夹，**拉力缓解** | few | 0 | ✅ *Already owned — confirmed 2026-09-13* |
 
 > [!NOTE]
 > Item 10 is not an afterthought. The README lists "keyed connectors, strain
@@ -202,7 +202,21 @@ input.
 
 ## Dated log / 按日期的记录
 
+<a id="log-0911"></a>
+
 ### 2026-09-11 — Rev A cable selection / Rev A 排线选择
+
+> [!WARNING]
+> **Corrected 2026-09-13: nothing below was ever ordered.** Both entries were
+> written with the status *"selected; waiting for delivery"*, and that status was
+> carried into the inventory as 🛒 for two days. There was no order. The lesson is
+> in the wording — **"selected" is not a state a shopping log should be able to
+> express**, because it reads as progress while nothing has left a warehouse. The
+> real purchases are [the 2026-09-13 entry](#log-0913).
+>
+> **2026-09-13 更正：下面两条从来没有真的下单。** 两条都写成"已选定，等待到货"，
+> 这个状态还以 🛒 的形式在总账里躺了两天。**"已选定"根本不该是采购记录里的一个状态**——
+> 它读起来像进度，但仓库里什么都没动。真正买到的东西见 [2026-09-13 那条](#log-0913)。
 
 #### 1. 10P IDC ribbon cable / 10P IDC 排线
 
@@ -212,7 +226,7 @@ input.
 - Quantity: 1
 - Search phrase: FC-10P 2x5 IDC 母对母 排线 35cm
 - Purpose: flexible connection from the upper-deck adapter PCB to the lower-deck D50A motor driver / 从第二层转接板绕到第一层 D50A 驱动板
-- Status: selected; waiting for delivery / 已选定，等待到货
+- Status: **never ordered.** 35 cm turned out not to be a stocked length — superseded 2026-09-13 / **从未下单。** 35 cm 并不是现货长度，2026-09-13 被取代
 
 #### 2. Raspberry Pi 40-pin GPIO ribbon cable / 树莓派 40 针 GPIO 排线
 
@@ -222,7 +236,7 @@ input.
 - Quantity: 1
 - Search phrase: 树莓派 40Pin GPIO 母对母 排线 15cm
 - Purpose: connect the Raspberry Pi 5 to the adapter without stacking a PCB above the active cooler / 在不遮挡主动散热器的情况下连接树莓派与转接板
-- Status: selected; waiting for delivery / 已选定，等待到货
+- Status: **never ordered** — superseded 2026-09-13 / **从未下单**，2026-09-13 被取代
 
 ### 2026-09-12 — Picos for the language evaluation / 用于语言评估的 Pico
 
@@ -262,13 +276,62 @@ are easy to forget:
 - 2×20 (`DC3-40P`) × 2 and 2×5 (`DC3-10P`) × 2 — two of each, one as a spare
 - Both ribbons are female-to-female, so the **board side must be male**
 - **`DC3-10P` at J2 is required**, because the D50A's own control header is shrouded (confirmed from photographs, 2026-09-12) — see [the connector decision](#connectors)
-- Status: not yet purchased / 尚未购买
+- Status: **bought 2026-09-13** — both sold 5 to a pack, so the spare arrived by itself / **已于 2026-09-13 购买**，两种都是 5 个一包，备件自动就有了
 
 #### 6. Strain relief / 拉力缓解
 
 - Cable ties or clips, a few, ≈¥5
 - The README credits this board with "keyed connectors **and strain relief**". The connector is on the PCB; the strain relief is a cable tie. Without it, the ribbon's weight hangs on the connector — the exact failure this board exists to remove
-- Status: not yet purchased / 尚未购买
+- Status: **already owned — confirmed 2026-09-13**, along with the double-sided tape / **已有，2026-09-13 确认**，双面胶同
+
+<a id="log-0913"></a>
+
+### 2026-09-13 — Stage 1 parts actually bought / 第 1 阶段真正买到的东西
+
+Everything here left a warehouse. Compare with
+[the 2026-09-11 entry](#log-0911), which
+recorded a selection that was never ordered.
+
+这一条里的东西都真的发货了。对照 [2026-09-11 那条](#log-0911)——
+那条记的是一次"选定"，而它从来没有变成订单。
+
+#### 7. Resistors / 电阻
+
+- **`R1`–`R6`, series, 33 Ω:** 1/4 W metal film, 1%, 200 pcs, ¥5.56. Body 6.0 × 2.3 mm, lead **ød 0.35 mm** per the listing drawing
+- **`R7`–`R12`, pull-down, 10 kΩ:** 0805, 1%, 100 pcs, ¥3.38
+- **A single value each, not the assortment kits the list originally called for.** Cheaper and sufficient for Rev A; the cost is that Stage 2 orders its own values instead of drawing from a box. A deliberate trade, not an oversight
+- **The 10 kΩ was nearly bought as 1 kΩ.** The listing defaults to 1 k and the value is a dropdown, not a separate product. A 1 kΩ pull-down would have worked, measured plausibly, and quietly loaded the GPIO ten times harder — the kind of error that has no symptom at assembly. `fabrication.md` already says **nothing gets substituted**; that rule turns out to bind the person buying, not just the person soldering
+- **33 Ω 差一点买成 1 kΩ 的是 10 kΩ 那颗**：阻值是商品页里的下拉选项，默认停在 1K。1 kΩ 下拉照样能工作、量起来也"像是对的"，只是把 GPIO 的静态负载放大十倍——装配阶段完全没有症状的那种错误。`fabrication.md` 里"不要替换任何元件"这条，原来约束的不只是焊的人，还有买的人
+
+#### 8. Boxed headers / 牛角座
+
+- `DC3-40P` 2×20 and `DC3-10P` 2×5, 2.54 mm straight pin, **5 to a pack**, ¥3.17 and ¥2.21
+- The "buy two, a spare costs a few ¥" advice was overtaken by the packaging / 原来写的"每种买两个留备件"被包装规格顺手解决了
+
+#### 9. 10P IDC ribbon — 30 cm **and** 40 cm / 10P 排线，30 cm 与 40 cm 各一
+
+- **35 cm is not a stocked length.** Stocked steps are 30 and 40
+- **Both were bought rather than picking one.** The two errors are not symmetric: too long is a loop and a cable tie, too short puts tension on the connector — which is [the exact failure this board exists to remove](#inventory). ¥10 buys out the guess; the one that fits is chosen at test-fit and the other becomes the spare
+- **35 cm 不是现货长度**，现货是 30 和 40。两边的代价不对称：长了只是盘一圈加一根扎带，短了是把拉力挂在连接器上——而那正是这块板要消除的失效模式。¥10 把这个猜测买断，试插时选合适的那根，另一根当备件
+- **Orientation: 同向 / same-direction** — both connector openings face the same way. IDC assemblies are conductor-N-to-pin-N at both ends either way, so this is routing geometry, not pinout: the D50A and the adapter both lie flat with their headers facing up, so both sockets must face down. **Confirm against the order and again on arrival**
+- Custom length means **no 7-day return**, so the order's options are final
+
+#### 10. Pi 40-pin GPIO ribbon — 15 cm / 树莓派 40 针排线，15 cm
+
+- 2×20 female-to-female, 2.54 mm, plain grey IDC, ¥3.89
+- **15 cm, the top of the 10–15 cm range**, for the same asymmetry as item 9
+- **A plain cable was chosen over a "multi-function" one.** The alternative carried an extra 2-pin flying lead tapped off the ribbon — almost certainly a fan supply, and on a vibrating vehicle an unsecured, energised, unidentified connector. Nothing on this project should be a thing nobody can name
+- **选了普通款而不是"多功能"款**：后者从排线上多引出一个 2 针接头（多半是风扇取电）。装在会振动的车上，那是一个没固定、带电、而且说不清是什么的接头
+
+#### 11. Multimeter — already owned / 万用表，已有
+
+- Confirmed 2026-09-13. It was the last ⬜ on the Stage 1 critical path: **the D50A pin-1 gate needs it, and that gate freezes `J2`'s footprint** / 2026-09-13 确认。它是第 1 阶段关键路径上最后一个 ⬜：**D50A 的 1 号脚闸门要用它，而那个闸门决定 `J2` 的封装能不能锁定**
+- Double-sided tape and cable ties are also already owned / 双面胶和扎带同样已有
+
+#### What is deliberately **not** bought / 刻意**没有**买的
+
+- **Enclosure.** The PCB is *size TBD after layout*, so its outline does not exist yet. Buying a box to fit an unknown board is the same class of error as freezing a footprint before the cable arrives / **外壳**：板子还是"布局之后才定尺寸"，轮廓根本不存在。给一块尺寸未知的板子买盒子，和排线没到就锁封装是同一类错误
+- **PCB fabrication and courier.** Footprints are not assigned and the layout has not started / **打样和运费**：封装还没分配，布局还没开始
 
 <a id="arrival"></a>
 
@@ -278,6 +341,7 @@ are easy to forget:
 
 - Verify that both cables are truly female-to-female.
 - Verify 2.54 mm pitch and keyed-plug orientation.
+- **Verify the 10P cable is 同向 (same-direction)** — both connector openings facing the same way, so neither end has to be twisted 180° to seat. A twist is a permanent torque on a connector.
 - **Confirm the sockets seat fully into a boxed header** — the D50A's control header is shrouded, so a cable that will not seat is the wrong cable.
 - **Resolve which physical D50A pin is pin 1.** Both ends keyed means one possible orientation: plug it on and find by continuity which conductor reaches each signal. `G` is continuous with the motor-power negative (`P-`), which cross-checks it. **Until this is done, J2's footprint is not frozen.**
 - Identify the red-stripe/pin-1 direction at both ends of both cables.
@@ -286,6 +350,7 @@ are easy to forget:
 
 - 确认两条排线确实都是母对母。
 - 确认 2.54 mm 间距以及防呆口方向。
+- **确认 10P 那条是同向**——两个接头开口朝同一边，哪一端都不需要拧 180° 才插得进去。拧过去就是一个长期作用在连接器上的扭力。
 - **确认母座能完全插进牛角座**——D50A 的控制口带外壳，插不进去的线就是买错了。
 - **确定 D50A 那个 2×5 到底哪个针是第 1 脚。** 两端都防呆意味着只有一种插法：插上去，逐根量导通，看哪一根到哪个信号。`G` 与电机电源负极 `P-` 导通，可以交叉验证。**这件事做完之前，J2 的封装不锁定。**
 - 确认两条线两端红边对应的 1 号针方向。
