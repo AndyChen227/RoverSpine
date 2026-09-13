@@ -69,7 +69,7 @@ folder's contents.
 > **检查的责任 100% 在你。**
 
 - [ ] **ERC passes** with zero errors.
-- [ ] **Every net manually compared against the signal map**, one by one. ERC checks electrical rules; it does not know that GPIO12 was supposed to go to `PWM1`.
+- [ ] **Every net compared against the net structure**, one by one, by [the checker](../hardware/stage1-signal-adapter/tools/README.md) rather than by reading. ERC checks electrical rules; it does not know that GPIO12 was supposed to go to `PWM1`, and it stays silent if two signals are swapped onto each other's pins.
 - [ ] **DRC passes** with zero errors.
 - [ ] **Open the exported Gerbers in a separate viewer** — KiCad ships GerbView — and step through the layers one at a time. This is what catches "the outline layer never got exported" and "the silkscreen is missing", which are invisible inside the PCB editor.
 - [ ] **The board outline (`Edge.Cuts`) is a closed shape.** If it is not closed, the factory does not know what shape to cut.
@@ -77,7 +77,7 @@ folder's contents.
 - [ ] **Silkscreen is legible** at real size — zoom in on that layer specifically.
 
 - [ ] ERC 零错误。
-- [ ] **逐条网络和信号表人工核对。** ERC 查的是电气规则，它不知道 GPIO12 本该接到 `PWM1`。
+- [ ] **逐条网络与网络结构核对**，用[脚本](../hardware/stage1-signal-adapter/tools/README.md)跑，不要用眼睛读。ERC 查的是电气规则，它不知道 GPIO12 本该接到 `PWM1`，两个信号互换了它也一声不响。
 - [ ] DRC 零错误。
 - [ ] **用单独的 Gerber 查看器打开导出的文件**（KiCad 自带 GerbView），一层一层翻。这一步专门抓"外形层没导出""丝印层漏了"——这类错误在 PCB 编辑器里看不出来。
 - [ ] **外形层必须闭合**，不闭合工厂就不知道该切成什么形状。
@@ -158,7 +158,7 @@ instead of arguing with you afterwards.
 
 | Stage | Board | What changes from the defaults |
 |:---:|---|---|
-| **1** | Passive signal adapter | Nothing — the defaults above *are* this board. Through-hole as built; the reserved 0805 pads may ship empty |
+| **1** | Passive signal adapter | Nothing — the defaults above *are* this board. Through-hole as built: the 6 series resistors are through-hole axial parts and **must be populated**, and only the 6 reserved 0805 pull-down pads may ship empty |
 | **2** | Signal & status board | Nothing in the order, but the first 0805 parts that are definitely populated — deliberately large, still hand-solderable with a plain iron |
 | **3** | RP2040 co-processor | Denser SMD. **ENIG (沉金) is worth considering** for flatter pads under hot air. A **steel stencil (钢网)** becomes useful if using solder paste |
 | **4** | Power board | **2 oz copper**, wide pours, thermal vias. Layout matters more than options: keep the switching loop physically tiny |
@@ -221,25 +221,39 @@ the parts get dense and fine-pitch.
 > **先矮后高，先贴片后通孔。**
 
 Once a tall boxed header is on the board, the board no longer lies flat on the
-bench — and every SMD pad still to be soldered becomes awkward to reach. For
+bench — and every low pad still to be soldered becomes awkward to reach. For
 Stage 1 the order is:
 
-一旦高的牛角座焊上去，板子就没法平放在桌面上了，剩下的贴片焊盘会变得很难焊。
+一旦高的牛角座焊上去，板子就没法平放在桌面上了，剩下的矮焊盘会变得很难焊。
 第 1 阶段的顺序是：
 
 ```text
-0805 resistors  →  2×5 boxed header  →  2×20 boxed header
-0805 电阻        →  2×5 牛角座         →  2×20 牛角座
+0805 pull-downs  →  axial series resistors  →  2×5 boxed header  →  2×20 boxed header
+0805 下拉电阻     →  通孔串联电阻              →  2×5 牛角座          →  2×20 牛角座
 ```
+
+> [!IMPORTANT]
+> **Decide about the pull-downs before the first joint, not after.** Leaving
+> them for later is electrically fine — the pads stay on the board and take a
+> resistor any time. It is *physically* much harder: by then the 2×20 header is
+> on, the board will not lie flat, and you are holding it with one hand while
+> soldering an 0805 with the other. So populate them or deliberately skip them.
+> "Leave it for now" is the option that costs the most.
+>
+> **下拉焊不焊，要在第一个焊点之前决定，不是之后。** 留到以后在电气上没问题——焊盘一直
+> 在板上，随时能焊。但在**物理上**难得多：那时 2×20 牛角座已经上去，板子放不平，你得
+> 一手扶着板、一手焊 0805。所以要么焊掉，要么有意识地决定不焊；**"先放着以后说"是代价
+> 最大的那个选项。**
 
 Joint count for Stage 1 Rev A / 第 1 阶段 Rev A 的焊点数：
 
-| Part | 焊点 |
-|---|---:|
-| 2×20 header | 40 |
-| 2×5 header | 10 |
-| 0805 resistors, if populated / 如果焊 | 24 |
-| **Total** | **50–74** |
+| Part | 焊点 | |
+|---|---:|---|
+| 2×20 header | 40 | required |
+| 2×5 header | 10 | required |
+| `R1`–`R6` series, through-hole / 通孔串阻 | 12 | **required** — in the signal path |
+| `R7`–`R12` pull-downs, 0805 / 下拉 | 12 | optional on Rev A |
+| **Total** | **62–74** | |
 
 Twenty to thirty minutes once you are practised; an hour the first time is
 normal. **Practise 30–50 joints on a practice kit before touching a real board** —
