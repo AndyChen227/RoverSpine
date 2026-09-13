@@ -68,7 +68,7 @@ folder's contents.
 > **工厂不检查你的网表。** 它一丝不差地做出你发过去的东西，包括你的错误，然后照常收钱。
 > **检查的责任 100% 在你。**
 
-- [ ] **ERC passes** with zero errors.
+- [ ] **ERC run, and every violation accounted for** — with the count matching the number written down *before* the drawing existed. For Rev A that number is **30 errors / 0 warnings**: the 30 unused pins on the 2×20 Pi header. **"Zero errors" is the wrong target here, and a weaker one — zero is always reachable by setting rules to `ignore`.** See [the devlog](devlog/2026-09-13-erc-severities-tightened.md).
 - [ ] **Every net compared against the net structure**, one by one, by [the checker](../hardware/stage1-signal-adapter/tools/README.md) rather than by reading. ERC checks electrical rules; it does not know that GPIO12 was supposed to go to `PWM1`, and it stays silent if two signals are swapped onto each other's pins.
 - [ ] **DRC passes** with zero errors.
 - [ ] **Open the exported Gerbers in a separate viewer** — KiCad ships GerbView — and step through the layers one at a time. This is what catches "the outline layer never got exported" and "the silkscreen is missing", which are invisible inside the PCB editor.
@@ -76,7 +76,7 @@ folder's contents.
 - [ ] **The drill file's holes line up with the pads** you placed.
 - [ ] **Silkscreen is legible** at real size — zoom in on that layer specifically.
 
-- [ ] ERC 零错误。
+- [ ] **跑 ERC，每一条违规都有账**，而且数量要和图还不存在时就写下的那个数对得上。Rev A 是 **30 错误 / 0 警告**——2×20 排针上 30 个没用到的引脚。**这里的目标不是"零错误"，"零"反而更松：把规则设成 `ignore` 随时能到零。** 见[开发日志](devlog/2026-09-13-erc-severities-tightened.md)。
 - [ ] **逐条网络与网络结构核对**，用[脚本](../hardware/stage1-signal-adapter/tools/README.md)跑，不要用眼睛读。ERC 查的是电气规则，它不知道 GPIO12 本该接到 `PWM1`，两个信号互换了它也一声不响。
 - [ ] DRC 零错误。
 - [ ] **用单独的 Gerber 查看器打开导出的文件**（KiCad 自带 GerbView），一层一层翻。这一步专门抓"外形层没导出""丝印层漏了"——这类错误在 PCB 编辑器里看不出来。
