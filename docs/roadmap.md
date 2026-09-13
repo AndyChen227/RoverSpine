@@ -417,8 +417,8 @@ read a datasheet. Nothing is fabricated in this stage.
 
 **Hardware / 硬件线**
 
-- [ ] Solder 30–50 practice joints on a cheap practice kit until they are consistently shiny and concave.
-- [ ] Learn the multimeter: continuity, resistance, DC voltage, and **diode mode for finding shorts**.
+- [ ] **Learn to *judge* a solder joint**: shiny, concave, wetting both pad and lead — and what a cold joint, a bridge and a starved joint look like. **Assembly is done externally from 2026-09-13** ([devlog](devlog/2026-09-13-soldering-is-outsourced.md)), so producing joints is no longer on this track; accepting them still is, because nobody else knows what this board has to survive.
+- [ ] Learn the multimeter: continuity, resistance, DC voltage, and **diode mode for finding shorts**. **This is now the one tool on this track that cannot be borrowed** — it is needed at the rover, not at the bench where the soldering happens.
 - [x] Install KiCad. *(10.0.6, 2026-09-08.)* Work through one official beginner tutorial end to end.
 - [ ] **Redraw something that already exists**: capture the rover's current 10-wire Pi-to-driver connection as a KiCad schematic, using [`RoverPi/docs/wiring.md`](https://github.com/AndyChen227/RoverPi/blob/main/docs/wiring.md) as the source. Draw it from the **physical pin numbers**, not the BCM numbers — they are different, and a board built from the wrong column is simply wrong. No layout, no fabrication. *(This exercise became [Stage 1](#stage-1) — the same drawing, taken all the way to a fabricated board.)*
 - [ ] Read the datasheet of one part you already own (the motor driver, or the STP-23L) and find in it: supply range, logic thresholds, absolute maximum ratings.
@@ -431,13 +431,20 @@ read a datasheet. Nothing is fabricated in this stage.
 - [ ] Flash the second Pico with `debugprobe` firmware and step through a line of code on the first.
 - [ ] **Decide the language** and record the decision, with the reason, in a devlog entry. See [the evaluation](#lang-eval).
 
-**Exit criterion / 完成判据:** you can produce a solder joint you are willing to
-put on a moving vehicle; you can point at any pin in your KiCad schematic and say
-which physical wire it is on the rover; you can change one line of code, build
-it, flash it, and see the change on the Pico; and **the language question is
-closed, with a written reason.**
+**Exit criterion / 完成判据:** you can look at a solder joint and say whether you
+are willing to put it on a moving vehicle; you can point at any pin in your KiCad
+schematic and say which physical wire it is on the rover; you can change one line
+of code, build it, flash it, and see the change on the Pico; and **the language
+question is closed, with a written reason.**
 
-这个阶段不做任何板子。绝大多数人的第一个错误是在还不会焊接、看不懂数据手册的时候
+*Amended 2026-09-13. This previously read "you can **produce** a solder joint you
+are willing to put on a moving vehicle". Assembly is now done externally, so the
+criterion moved from producing to **accepting** — see [that devlog](devlog/2026-09-13-soldering-is-outsourced.md).
+It was not deleted: a board comes back assembled and somebody has to decide
+whether it goes on the rover, and that somebody is the person who knows what the
+rover does to it.*
+
+这个阶段不做任何板子。绝大多数人的第一个错误是在还看不懂数据手册的时候
 就下单打样。用 KiCad **重画一份已经存在的东西**（现有的 10 根控制线）是最好的入门
 练习——因为对错可以立刻验证，你的车就是标准答案。**注意用物理引脚号而不是 BCM 号**，
 两者不同，照错的那一列做出来的板子就是错的。（这个练习后来变成了[第 1 阶段](#stage-1)：
@@ -688,8 +695,8 @@ The example's PWM runs at **10 kHz** (72 MHz / 7200).
 
 Schematic symbols and footprints · net names · ERC · design rules · the 2-layer
 ground pour · Gerber export and the 嘉立创 ordering flow (see
-[`fabrication.md`](fabrication.md)) · through-hole soldering on a real board ·
-ribbon-cable pin-1 discipline
+[`fabrication.md`](fabrication.md)) · writing an assembly spec someone else builds
+from · inspecting a board you did not solder · ribbon-cable pin-1 discipline
 
 ### Exit criterion / 完成判据
 

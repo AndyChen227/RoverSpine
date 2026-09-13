@@ -174,28 +174,43 @@ instead of arguing with you afterwards.
 
 ### What arrives / 到货的是什么
 
-A **bare board** — plated holes, soldermask, silkscreen, and nothing else. **Every
-component is soldered on by you.**
+A **bare board** — plated holes, soldermask, silkscreen, and nothing else. Every
+component still has to be soldered on by somebody.
 
-嘉立创 does offer SMT/PCBA assembly, but for Stage 1 it is the wrong trade:
-through-hole parts carry more restrictions, cost more, take longer, and require
-every part to come from LCSC's library — and decisively, it would skip the one
-thing this stage exists to teach. It is worth reconsidering from Stage 3, where
-the parts get dense and fine-pitch.
+**From 2026-09-13 that somebody is not the author** — assembly is done in a
+relative's workshop. See [that devlog](devlog/2026-09-13-soldering-is-outsourced.md). What changes is not the
+process below but who reads it: the assembly order and the header technique are
+now **requirements to hand over**, not steps to follow. What does not change is
+who accepts the result.
 
-到货的是一块**光板**：镀铜的孔、阻焊层、丝印，别的什么都没有。**所有元件都由你自己焊上去。**
+嘉立创 does offer SMT/PCBA assembly, and it is still the wrong trade for Stage 1 —
+but for narrower reasons than before. Through-hole parts carry more restrictions,
+cost more, take longer, and require every part to come from LCSC's library, while
+the workshop does it at no cost and on no schedule. *(Until 2026-09-13 this
+paragraph also argued that PCBA would skip the one thing this stage exists to
+teach. That argument no longer applies and has been withdrawn; the conclusion
+stands on cost and lead time alone.)* Worth reconsidering from Stage 3, where the
+parts get dense and fine-pitch.
 
-嘉立创确实有 SMT 贴片 / PCBA 服务，但第 1 阶段用它是笔亏本的交易：通孔件限制多、更贵、更慢，
-元件还必须用立创商城库里的料号——而最关键的是，**它会跳过这个阶段存在的唯一目的**。
-到第 3 阶段元件变密、封装变小，那时候再考虑才有意义。
+到货的是一块**光板**：镀铜的孔、阻焊层、丝印，别的什么都没有。所有元件仍然要由**某个人**焊上去。
+
+**2026-09-13 起，这个人不是作者本人**——焊接在亲戚的工具间完成。变的不是下面的流程，而是
+**谁读它**：焊接顺序和排针手法现在是**交接给别人的要求**，不是自己照着做的步骤。**不变的是
+谁来验收。**
+
+嘉立创的 SMT / PCBA 服务，第 1 阶段依然不划算，但理由比以前窄了：通孔件限制多、更贵、更慢、
+元件必须用立创商城的料号，而工具间不花钱也不占进度。*（2026-09-13 之前这一段还有一条理由是
+"贴片会跳过这个阶段存在的唯一目的"。那条理由不再成立，已撤回；结论只靠成本和工期站着。）*
 
 ### The steps / 步骤
 
 1. **Photograph the bare board** before soldering anything. A photo of the bare board is what lets you check a footprint or a trace later without desoldering. Photos go in [`../photos/`](../photos/).
 2. **Continuity-check the bare board** against the signal map, pin to pin, with the multimeter — before it touches the Pi.
-3. **Solder** — see [the assembly order](#assembly) below. Photograph again, assembled.
-4. **Write `bringup.md` during first power-up, not afterwards.** Current draw, measured voltages, and every surprise, while you still remember what you actually did.
-5. **Commit the exact zip that was uploaded**, as `hardware/<board>/fab/revA.zip`.
+3. **Hand it over for assembly** with [the four requirements](#assembly) — they are specific to this board and nobody guesses them.
+4. **Inspect what comes back, before anything else.** Joints shiny and concave, wetting both pad and lead; no bridges, especially across the 0805 pads and between adjacent header pins; both boxed headers square to the board. **This is the step that replaced learning to solder** — somebody still has to decide whether this board goes on a moving vehicle, and only the person who knows what the rover does to it can.
+5. **Re-run the continuity check on the assembled board**, and add what the bare board could not show: `Pi-side` to `driver-side` now reads ≈33 Ω, and each pull-down reads ≈10 kΩ to `GND` or open. Photograph again, assembled.
+6. **Write `bringup.md` during first power-up, not afterwards.** Current draw, measured voltages, and every surprise, while you still remember what you actually did.
+7. **Commit the exact zip that was uploaded**, as `hardware/<board>/fab/revA.zip`.
 
 > [!IMPORTANT]
 > Rule 1 of [`hardware/README.md`](../hardware/README.md): commit the zip you
@@ -208,9 +223,11 @@ the parts get dense and fine-pitch.
 
 1. 焊之前先拍**空板照片**——以后核对封装或走线时不用拆元件。照片放 [`../photos/`](../photos/)。
 2. 空板先用万用表**逐针核对导通**，在它接触树莓派之前。
-3. 焊接，焊完再拍一组。
-4. **`bringup.md` 在第一次上电的过程中写，不是事后补。**
-5. **提交真正上传的那个 Gerber 压缩包。**
+3. **连同[那四条要求](#assembly)一起交出去焊**——那几条是这块板特有的，没人会自己猜到。
+4. **焊回来先验收，别的都往后放。** 焊点又亮又凹、焊盘和引脚都吃上锡；没有连锡，尤其是 0805 焊盘之间和排针相邻针之间；两个牛角座和板面垂直。**这一步就是顶替"学会焊接"的那一步**——总得有人决定这块板能不能装到一台会动的车上，而只有知道这台车会对它做什么的人能决定。
+5. **在焊好的板上重跑一次导通检查**，并且加上空板查不出来的两项：Pi 侧到驱动侧现在应读到约 33 Ω，每个下拉对 `GND` 约 10 kΩ 或断路。然后再拍一组照片。
+6. **`bringup.md` 在第一次上电的过程中写，不是事后补。**
+7. **提交真正上传的那个 Gerber 压缩包。**
 
 <a id="assembly"></a>
 
@@ -236,14 +253,15 @@ Stage 1 the order is:
 > **Decide about the pull-downs before the first joint, not after.** Leaving
 > them for later is electrically fine — the pads stay on the board and take a
 > resistor any time. It is *physically* much harder: by then the 2×20 header is
-> on, the board will not lie flat, and you are holding it with one hand while
-> soldering an 0805 with the other. So populate them or deliberately skip them.
-> "Leave it for now" is the option that costs the most.
+> on, the board will not lie flat, and the 0805 has to be soldered one-handed.
+> And now that assembly happens elsewhere, "later" also means **a second trip to
+> the workshop**. So populate them or deliberately skip them. "Leave it for now"
+> is the option that costs the most.
 >
 > **下拉焊不焊，要在第一个焊点之前决定，不是之后。** 留到以后在电气上没问题——焊盘一直
-> 在板上，随时能焊。但在**物理上**难得多：那时 2×20 牛角座已经上去，板子放不平，你得
-> 一手扶着板、一手焊 0805。所以要么焊掉，要么有意识地决定不焊；**"先放着以后说"是代价
-> 最大的那个选项。**
+> 在板上，随时能焊。但在**物理上**难得多：那时 2×20 牛角座已经上去，板子放不平，0805 得
+> 单手焊。而现在焊接在别处完成，"以后"还意味着**再跑一趟工具间**。所以要么焊掉，要么有意识
+> 地决定不焊；**"先放着以后说"是代价最大的那个选项。**
 
 Joint count for Stage 1 Rev A / 第 1 阶段 Rev A 的焊点数：
 
@@ -255,13 +273,31 @@ Joint count for Stage 1 Rev A / 第 1 阶段 Rev A 的焊点数：
 | `R7`–`R12` pull-downs, 0805 / 下拉 | 12 | optional on Rev A |
 | **Total** | **62–74** | |
 
-Twenty to thirty minutes once you are practised; an hour the first time is
-normal. **Practise 30–50 joints on a practice kit before touching a real board** —
-that is Stage 0's exit criterion: a joint you are willing to put on a moving
-vehicle.
+Twenty to thirty minutes for someone practised.
 
-熟练后 20–30 分钟，第一次花一个小时也正常。**在碰真板子之前，先在练习板上焊 30–50 个焊点**
-——这是第 0 阶段的完成判据：能做出一个你愿意装到运动的车上的焊点。
+熟练的人 20–30 分钟。
+
+> [!IMPORTANT]
+> **The four requirements to hand over with the board.** None of them is general
+> soldering advice — they are specific to what this board has to do, and nobody
+> who has not read this repository would guess them:
+>
+> 1. **Shortest parts first, tallest last**, in the order above. Once the 2×20
+>    header is on, the board will not lie flat and the low pads get awkward.
+> 2. **Both boxed headers must end up square to the board.** A header soldered
+>    leaning will not accept the ribbon, or accepts it under permanent stress —
+>    see the technique below.
+> 3. **`R7`–`R12` populated or not is a decision, and it is made before the first
+>    joint** — see the note under the assembly order.
+> 4. **Nothing gets substituted.** 33 Ω and 10 kΩ are in a checked netlist; a
+>    helpful swap to whatever is in the drawer breaks a verification that was
+>    done as a string comparison.
+>
+> **随板交接的四条要求。** 没有一条是通用焊接常识——它们都来自这块板要干的事，没读过这个
+> 仓库的人不会猜到：**(1)** 先矮后高，按上面的顺序；**(2)** 两个牛角座必须和板面垂直，歪了
+> 插不进排线，或者插进去长期带着应力；**(3)** `R7`–`R12` 焊不焊是一个**要在第一个焊点之前
+> 做出的决定**；**(4)** **不要替换任何元件**——33 Ω 和 10 kΩ 是过了网表核对的值，
+> 顺手换成抽屉里现成的，会让那次以字符串比对完成的验证失效。
 
 ### Soldering a long header straight / 长排针怎么焊得不歪
 

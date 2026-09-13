@@ -47,7 +47,7 @@ whole point of keeping A is being able to see what changed and why.
 - **Boxed headers (`DC3-40P` / `DC3-10P`)**, so both ends of the D50A ribbon are keyed — the D50A's own control header is shrouded
 - Made-up ribbon harnesses instead of friction-fit jumpers
 - Readable silkscreen on every signal — the D50A's own short-form names at J2: `V` `P1` `A1` `B1` `G`
-- **6 series resistors, through-hole, 33 Ω — populated, not optional.** They sit in the signal path, so an empty series pad is an open signal and a dead board. Through-hole rather than 0805 so that Rev A stays a board a beginner can actually assemble
+- **6 series resistors, through-hole, 33 Ω — populated, not optional.** They sit in the signal path, so an empty series pad is an open signal and a dead board. Through-hole rather than 0805 for two reasons that survive the board being assembled by someone else: leads through plated holes hold better than two solder fillets on a vehicle that vibrates, and a lead is something you can clip a probe to or desolder without hot air. Board area is not scarce here, so this costs nothing
 - **6 pull-down pads, 0805, 10 kΩ — these are the genuinely optional ones** and Rev A may ship with them empty. Populated, they make the driver inputs low while Pi GPIO is still high-impedance, so the window between Pi power-on and the Python starting means *stopped* rather than undefined
 
 ## What it deliberately does NOT do / 它有意不做的事

@@ -34,16 +34,30 @@ State: ✅ have it · 🛒 ordered, in transit · ⬜ to buy · ❓ unknown — 
 
 ### Tools — Stage 0 / 工具，第 0 阶段
 
+> [!IMPORTANT]
+> **Assembly is done externally from 2026-09-13** — in a relative's workshop,
+> which already has the soldering equipment. Every soldering tool below is
+> therefore **not bought**, and the practice kit is off the list entirely. See
+> [that devlog](devlog/2026-09-13-soldering-is-outsourced.md).
+>
+> The row that did **not** move is the multimeter. It is not a soldering tool,
+> and it is needed **at the rover** — for the D50A pin-1 gate, for the bare-board
+> continuity check, and for every bring-up measurement afterwards. The workshop
+> is not where those happen.
+>
+> **2026-09-13 起，焊接由外部完成**（亲戚的工具间，设备齐全），所以下面每一样焊接工具都
+> **不买**，练习板直接从清单上去掉。**唯一没有跟着走的是万用表**——它不是焊接工具，而且它要用在
+> **车那边**：D50A 的 1 号脚闸门、空板逐针导通、以及之后每一次上电测量，都不发生在工具间。
+
 | Item | 工具 | Approx. ¥ | State |
 |---|---|---:|:---:|
-| Temperature-controlled soldering iron (T12 / 936) | 恒温烙铁 | 150–300 | ❓ |
-| Multimeter, with continuity and **diode mode** | 万用表，要有蜂鸣档和**二极管档** | 100–200 | ❓ |
-| Solder wire — **Sn63Pb37, 0.8 mm, rosin core** | 焊锡丝，含铅 0.8 mm 松香芯 | 25 | ❓ |
-| No-clean rosin flux | 免洗松香助焊剂 | 15 | ❓ |
-| Desoldering wick | 吸锡带 | 10 | ❓ |
-| Tweezers, flush cutters | 镊子、斜口钳 | 25 | ❓ |
-| Tip cleaner — brass wool or sponge | 清洁钢丝球或海绵 | 10 | ❓ |
-| Soldering practice kit | 焊接练习板 | 20 | ⬜ |
+| **Multimeter, with continuity and diode mode** | **万用表，要有蜂鸣档和二极管档** | 100–200 | ⬜ **— the one tool that must be yours** |
+| Temperature-controlled soldering iron (T12 / 936) | 恒温烙铁 | — | ✅ *(workshop / 工具间)* |
+| Solder wire — **Sn63Pb37, 0.8 mm, rosin core** | 焊锡丝，含铅 0.8 mm 松香芯 | — | ✅ *(workshop)* |
+| No-clean rosin flux | 免洗松香助焊剂 | — | ✅ *(workshop)* |
+| Desoldering wick | 吸锡带 | — | ✅ *(workshop)* |
+| Tweezers, flush cutters | 镊子、斜口钳 | — | ✅ *(workshop)* |
+| Tip cleaner — brass wool or sponge | 清洁钢丝球或海绵 | — | ✅ *(workshop)* |
 
 > Leaded solder (Sn63Pb37) melts about 40 °C lower than lead-free and wets far
 > more willingly. For learning, that difference is worth more than the
@@ -64,7 +78,7 @@ connector choice are in [the next section](#connectors).
 | 3 | **2×20 male header for the Pi ribbon** — boxed (`DC3-40P`) | **2×20 公座**，牛角座 | 1–2 | 3–8 | ⬜ |
 | 4 | **2×5 boxed header for the D50A ribbon** (`DC3-10P`) — **required, not optional** | **2×5 牛角座**，**必须**，不是可选 | 1–2 | 1–3 | ⬜ |
 | 5 | 0805 resistor assortment kit | 0805 电阻样品盒 | 1 | 15–30 | ⬜ — for the 6 pull-downs (10 kΩ); covers Stage 2 and beyond too |
-| 5b | **Through-hole resistor assortment, 1/4 W** | **通孔电阻样品盒，1/4 W** | 1 | 10–15 | ⬜ — for the 6 series resistors (33 Ω), which are **mandatory** parts. Through-hole so Rev A stays beginner-solderable — see [the net structure](roadmap.md#nets) |
+| 5b | **Through-hole resistor assortment, 1/4 W** | **通孔电阻样品盒，1/4 W** | 1 | 10–15 | ⬜ — for the 6 series resistors (33 Ω), which are **mandatory** parts. Through-hole for mechanical strength on a vehicle that vibrates, and for probeable leads — see [the net structure](roadmap.md#nets) |
 | 6 | FC-10P 2×5 IDC ribbon, F–F, ≈35 cm | 10P IDC 排线，母对母 | 1 | ~10 | 🛒 *(selected 2026-09-11)* |
 | 7 | Pi 40-pin GPIO ribbon, 2×20 F–F, 10–15 cm | 树莓派 40 针排线，母对母 | 1 | ~10 | 🛒 *(selected 2026-09-11)* |
 | 8 | Small enclosure for the board | 小外壳 | 1 | 5–15 | ⬜ |

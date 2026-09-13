@@ -17,7 +17,7 @@ recorded with their dates in
 |---:|---|---|---:|---|---|
 | 1 | 2×20 boxed header (`DC3-40P`), 2.54 mm, to the Pi | 2×20 牛角座，接树莓派 | 1 | TH, 2.54 mm | Footprint not frozen — awaiting cable check |
 | 2 | 2×5 boxed header (`DC3-10P`), 2.54 mm, to the D50A | 2×5 牛角座，接 D50A | 1 | TH, 2.54 mm | **Boxed required** — the D50A's header is shrouded. Footprint not frozen; **D50A pin 1 must be resolved with a meter first** |
-| 3 | Series resistors on Pi-facing signals, `R1`–`R6` | 信号串联电阻 | 6 | **TH, axial** | **33 Ω. Must be populated** — in the signal path, so an empty pad is an open signal. Through-hole so Rev A stays beginner-solderable |
+| 3 | Series resistors on Pi-facing signals, `R1`–`R6` | 信号串联电阻 | 6 | **TH, axial** | **33 Ω. Must be populated** — in the signal path, so an empty pad is an open signal. Through-hole for leads through plated holes (mechanically stronger on a vehicle that vibrates than two solder fillets) and for something to clip a probe to. *Reason amended 2026-09-13; the package did not change* |
 | 4 | Pull-down resistors on driver inputs, `R7`–`R12` | 驱动输入下拉电阻 | 6 | 0805 | 10 kΩ. **The only genuinely optional parts on this board** — may ship unpopulated on Rev A, in which case mark them **DNP** in KiCad rather than noting it here |
 | 5 | PCB, 2-layer, HASL | 板子，双层喷锡 | 1 | — | Size TBD after layout |
 

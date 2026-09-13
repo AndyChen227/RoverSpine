@@ -59,7 +59,7 @@ sequential is the main scheduling decision in the plan:
 
 | Track | From | To |
 |---|---|---|
-| **Hardware** — seven stages | Soldering practice and KiCad | A four-layer mainboard |
+| **Hardware** — seven stages | KiCad and a first fabricated board | A four-layer mainboard |
 | **Firmware** — from month 1 | Blinking an LED on a ¥25 Pico | Code that must keep working when the Pi is dead |
 
 The firmware track exists because the boards from Stage 3 onward carry a
@@ -91,7 +91,7 @@ you understand is worth more than a good board you got lucky with.
 
 | Stage | Focus | Replaces / Adds | Months | State |
 |:---:|---|---|:---:|:---:|
-| 0 | Fundamentals — soldering, multimeter, KiCad, first code on a Pico, **the language decision**. No board is fabricated | — | 1 | 🔨 Active |
+| 0 | Fundamentals — multimeter, KiCad, first code on a Pico, **the language decision**. No board is fabricated | — | 1 | 🔨 Active |
 | 1 | Passive signal adapter — pure copper, two keyed connectors | Replaces: 10 dupont wires · Adds: safe state at power-on, and a 3.3 V rail that cannot be mis-plugged into 5 V | 1–2 | 🔨 Active |
 | 2 | Signal & status board — encoder inputs, LEDs, buzzer, button | Adds: state visible without SSH · encoders brought in | 3–4 | 🗓️ Planned |
 | 3 | RP2040 co-processor | Replaces: USB serial adapter · Adds: watchdog, quadrature decode, battery monitor, E-stop | 5–7 | 🗓️ Planned |
@@ -355,7 +355,7 @@ RoverSpine/
 
 | 线 | 起点 | 终点 |
 |---|---|---|
-| **硬件线**——七个阶段 | 焊接练习与 KiCad | 一块四层主板 |
+| **硬件线**——七个阶段 | KiCad 与第一块打样板 | 一块四层主板 |
 | **固件线**——从第 1 个月起 | 在一块 ¥25 的 Pico 上点亮 LED | 在 Pi 已经死掉时仍必须正常工作的代码 |
 
 固件线之所以存在，是因为第 3 阶段起的板子都带单片机。从第 1 个月就在面包板上的 Pico
@@ -378,7 +378,7 @@ C、arduino-pico 的 C++、MicroPython）各写一遍同一个 `blink`，月末�
 
 | 阶段 | 内容 | 替换 / 增加 | 月份 | 状态 |
 |:---:|---|---|:---:|:---:|
-| 0 | 基本功——焊接、万用表、KiCad，在 Pico 上写第一段代码，**并定下语言**。不做任何板子 | — | 1 | 🔨 进行中 |
+| 0 | 基本功——万用表、KiCad，在 Pico 上写第一段代码，**并定下语言**。不做任何板子 | — | 1 | 🔨 进行中 |
 | 1 | 被动信号转接板——纯铜，两个防呆连接器 | 替换：10 根杜邦线 · 增加：上电默认安全状态，以及一条插不到 5 V 上的 3.3 V | 1–2 | 🔨 进行中 |
 | 2 | 信号与状态板——编码器接口、LED、蜂鸣器、按钮 | 增加：不用 SSH 也能看到状态 · 编码器接进来 | 3–4 | 🗓️ 计划中 |
 | 3 | RP2040 协处理器 | 替换：USB 转串口板 · 增加：看门狗、正交解码、电池监测、急停 | 5–7 | 🗓️ 计划中 |
