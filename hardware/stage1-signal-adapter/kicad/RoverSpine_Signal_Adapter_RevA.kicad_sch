@@ -1655,6 +1655,146 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:R"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "R"
+				(at 2.032 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "R"
+				(at 0 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at -1.778 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Resistor"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "R res resistor"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "R_*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "R_0_1"
+				(rectangle
+					(start -1.016 -2.54)
+					(end 1.016 2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "R_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "power:+3V3"
 			(power global)
 			(pin_numbers
@@ -2036,16 +2176,52 @@
 		(uuid "dcd7f017-e0a2-4c40-8fc6-ee5bb83e310e")
 	)
 	(junction
+		(at 185.42 62.23)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "31b74a26-4085-4dbf-92a7-b3dec323ca97")
+	)
+	(junction
+		(at 184.15 31.75)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3aaa8f4a-8c3b-4897-9fa8-b78196fcd84f")
+	)
+	(junction
 		(at 33.02 83.82)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "582a3259-ecbe-4b4a-8a59-bad67f501d47")
 	)
 	(junction
+		(at 226.06 62.23)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "58d811c3-9816-4d6f-ab08-f4e12df9a8b5")
+	)
+	(junction
 		(at 29.21 35.56)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "97bfea3a-c51c-404f-a174-b7edcf425933")
+	)
+	(junction
+		(at 226.06 91.44)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a8025258-71c1-4c26-83e2-72146847dfae")
+	)
+	(junction
+		(at 224.79 31.75)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e2863e19-1ed9-4b6e-bf9b-fbaf49dc0d47")
+	)
+	(junction
+		(at 186.69 91.44)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e3e8281b-9b5f-40cf-a14c-9287b4876317")
 	)
 	(wire
 		(pts
@@ -2059,6 +2235,16 @@
 	)
 	(wire
 		(pts
+			(xy 184.15 45.72) (xy 184.15 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "02151d74-26b0-407e-b28a-a4e05925ff85")
+	)
+	(wire
+		(pts
 			(xy 33.02 83.82) (xy 34.29 83.82)
 		)
 		(stroke
@@ -2066,6 +2252,36 @@
 			(type default)
 		)
 		(uuid "0cdbd5bc-baa5-4064-b2a0-f846c0041b29")
+	)
+	(wire
+		(pts
+			(xy 182.88 91.44) (xy 186.69 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0d3d4b80-1932-42c3-993a-ae5174ed23f4")
+	)
+	(wire
+		(pts
+			(xy 186.69 91.44) (xy 186.69 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1281551b-966a-4331-9a5c-e4f571a15484")
+	)
+	(wire
+		(pts
+			(xy 186.69 105.41) (xy 186.69 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "150793e5-1e26-4fd9-8140-8784631208d5")
 	)
 	(wire
 		(pts
@@ -2079,6 +2295,26 @@
 	)
 	(wire
 		(pts
+			(xy 180.34 31.75) (xy 184.15 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1db0ba7e-c4c7-4f43-8962-1836d2883c41")
+	)
+	(wire
+		(pts
+			(xy 214.63 91.44) (xy 209.55 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "22b853d1-5e17-46ed-b25a-991c6e966b51")
+	)
+	(wire
+		(pts
 			(xy 46.99 73.66) (xy 52.07 73.66)
 		)
 		(stroke
@@ -2086,6 +2322,16 @@
 			(type default)
 		)
 		(uuid "2320734c-d8a9-45cd-9785-8f68e531a584")
+	)
+	(wire
+		(pts
+			(xy 226.06 62.23) (xy 229.87 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2f9a1a70-2d3a-42c9-b7a5-481fd2ad426a")
 	)
 	(wire
 		(pts
@@ -2099,6 +2345,16 @@
 	)
 	(wire
 		(pts
+			(xy 224.79 31.75) (xy 228.6 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3dde27a6-c188-4c74-b7a1-f8f379fcd276")
+	)
+	(wire
+		(pts
 			(xy 95.25 39.37) (xy 100.33 39.37)
 		)
 		(stroke
@@ -2106,6 +2362,26 @@
 			(type default)
 		)
 		(uuid "3fd684b8-525e-4638-b7af-ff0e6a4214a0")
+	)
+	(wire
+		(pts
+			(xy 214.63 62.23) (xy 209.55 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "48e33a0a-ecbf-44a7-be75-c785985d1170")
+	)
+	(wire
+		(pts
+			(xy 184.15 31.75) (xy 184.15 38.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4a19aa4d-c4a6-4744-819f-3086b4044bc6")
 	)
 	(wire
 		(pts
@@ -2139,6 +2415,26 @@
 	)
 	(wire
 		(pts
+			(xy 213.36 31.75) (xy 208.28 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5a417708-893f-42ef-9d13-9e72a891bb6b")
+	)
+	(wire
+		(pts
+			(xy 222.25 91.44) (xy 226.06 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5cddde10-d34d-488e-9732-d3dfd85c0728")
+	)
+	(wire
+		(pts
 			(xy 46.99 53.34) (xy 52.07 53.34)
 		)
 		(stroke
@@ -2159,6 +2455,16 @@
 	)
 	(wire
 		(pts
+			(xy 184.15 31.75) (xy 187.96 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "717ef97c-2e66-4f1f-8698-2a6ddf90a503")
+	)
+	(wire
+		(pts
 			(xy 77.47 36.83) (xy 82.55 36.83)
 		)
 		(stroke
@@ -2166,6 +2472,26 @@
 			(type default)
 		)
 		(uuid "747cbc0d-41fc-4337-b2d6-e804e9c41924")
+	)
+	(wire
+		(pts
+			(xy 185.42 62.23) (xy 185.42 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "79e986c6-418e-4352-991e-1a9689e3a470")
+	)
+	(wire
+		(pts
+			(xy 220.98 31.75) (xy 224.79 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7c73f23d-1f53-4406-8037-f396d5041eac")
 	)
 	(wire
 		(pts
@@ -2189,6 +2515,16 @@
 	)
 	(wire
 		(pts
+			(xy 185.42 76.2) (xy 185.42 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8ca859f9-12e5-42af-8cda-ca00357f4c29")
+	)
+	(wire
+		(pts
 			(xy 77.47 41.91) (xy 82.55 41.91)
 		)
 		(stroke
@@ -2209,6 +2545,36 @@
 	)
 	(wire
 		(pts
+			(xy 226.06 76.2) (xy 226.06 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9c06a1e5-43ae-4d9f-97ca-06a5861c0689")
+	)
+	(wire
+		(pts
+			(xy 181.61 62.23) (xy 185.42 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a96dd6e3-7605-4aa5-ba43-9ac9bdd2d201")
+	)
+	(wire
+		(pts
+			(xy 226.06 91.44) (xy 229.87 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aaf849e8-e5c3-40ba-bfa1-78d6f386fa80")
+	)
+	(wire
+		(pts
 			(xy 25.4 55.88) (xy 34.29 55.88)
 		)
 		(stroke
@@ -2219,6 +2585,46 @@
 	)
 	(wire
 		(pts
+			(xy 175.26 91.44) (xy 170.18 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b3b2f751-df21-46eb-a95a-6c7bc149fe02")
+	)
+	(wire
+		(pts
+			(xy 226.06 62.23) (xy 226.06 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bb4c1840-1de1-4edd-aaee-7cd810678bf7")
+	)
+	(wire
+		(pts
+			(xy 186.69 91.44) (xy 190.5 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bdb3491d-0fd8-4516-aa49-abab098fba65")
+	)
+	(wire
+		(pts
+			(xy 172.72 31.75) (xy 167.64 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bdc049d2-e55e-4329-a8a2-26bd1a43d0e4")
+	)
+	(wire
+		(pts
 			(xy 25.4 35.56) (xy 29.21 35.56)
 		)
 		(stroke
@@ -2226,6 +2632,16 @@
 			(type default)
 		)
 		(uuid "c238e7c8-026f-4c20-a33b-1229986b9662")
+	)
+	(wire
+		(pts
+			(xy 222.25 62.23) (xy 226.06 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c4750758-1e0b-4ac8-8bf6-5638a2bfda49")
 	)
 	(wire
 		(pts
@@ -2249,6 +2665,26 @@
 	)
 	(wire
 		(pts
+			(xy 226.06 105.41) (xy 226.06 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dcd7a190-d4d6-491a-b107-816324fe971c")
+	)
+	(wire
+		(pts
+			(xy 173.99 62.23) (xy 168.91 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e1335c0a-b93f-422d-8b92-07af46eb3810")
+	)
+	(wire
+		(pts
 			(xy 95.25 36.83) (xy 100.33 36.83)
 		)
 		(stroke
@@ -2256,6 +2692,26 @@
 			(type default)
 		)
 		(uuid "e56563a9-9430-450a-89e6-41084dfad189")
+	)
+	(wire
+		(pts
+			(xy 185.42 62.23) (xy 189.23 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e7fe12b2-d0ae-4115-bb6b-d5949353c808")
+	)
+	(wire
+		(pts
+			(xy 226.06 91.44) (xy 226.06 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e96d02af-cfa3-4a16-900c-99fc9d3802bd")
 	)
 	(wire
 		(pts
@@ -2276,6 +2732,16 @@
 			(type default)
 		)
 		(uuid "f5dda8a7-2555-484a-93a7-b27bd03bdc48")
+	)
+	(wire
+		(pts
+			(xy 224.79 31.75) (xy 224.79 38.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f6f882d1-666b-4651-9f24-34b1a9d8275d")
 	)
 	(wire
 		(pts
@@ -2307,6 +2773,36 @@
 		)
 		(uuid "2eacfa6c-2b4d-415f-a6ae-8243b1d448f5")
 	)
+	(label "A1"
+		(at 190.5 91.44 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "2fa23d8c-65bf-4c70-ba84-1b2df9d2ef5e")
+	)
+	(label "INA2"
+		(at 208.28 31.75 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "381e18d6-6b46-4344-976a-1a13c3e1f9a7")
+	)
+	(label "INB1"
+		(at 168.91 62.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "3c671c22-cc34-4031-88a3-6c766f4db6e3")
+	)
 	(label "INA1"
 		(at 52.07 53.34 0)
 		(effects
@@ -2317,7 +2813,7 @@
 		)
 		(uuid "439ca5d4-e062-462d-8faa-37d20cf8ba4a")
 	)
-	(label "INA2"
+	(label "A2"
 		(at 100.33 41.91 0)
 		(effects
 			(font
@@ -2327,7 +2823,17 @@
 		)
 		(uuid "4e1d36a5-e2e0-4eb2-9989-4d49af3dc883")
 	)
-	(label "PWM1"
+	(label "P2"
+		(at 229.87 62.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4e48563e-29c5-4f10-a281-c3fe177d2b71")
+	)
+	(label "P1"
 		(at 77.47 44.45 0)
 		(effects
 			(font
@@ -2358,6 +2864,46 @@
 		(uuid "97cc61d7-4603-45fa-a2a0-5b5da08dc75a")
 	)
 	(label "INA1"
+		(at 170.18 91.44 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "99d24db5-34eb-4190-bcd5-d9ff031c80ff")
+	)
+	(label "B1"
+		(at 189.23 62.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "aa2f950c-84c4-41f1-a6a8-7e3b25c2df07")
+	)
+	(label "B2"
+		(at 229.87 91.44 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "ac09a356-72e3-4a06-ac17-f21e41b48189")
+	)
+	(label "P1"
+		(at 187.96 31.75 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "af28c8ee-d3bf-42ff-ab2f-689bb2804313")
+	)
+	(label "A1"
 		(at 77.47 41.91 0)
 		(effects
 			(font
@@ -2367,7 +2913,7 @@
 		)
 		(uuid "c07a6306-c09c-428d-adf2-bcad0a5504ec")
 	)
-	(label "INB1"
+	(label "B1"
 		(at 77.47 39.37 0)
 		(effects
 			(font
@@ -2376,6 +2922,26 @@
 			(justify left bottom)
 		)
 		(uuid "c3cd2478-74a1-4c0f-a158-0eca08835a5f")
+	)
+	(label "PWM2"
+		(at 209.55 62.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "cb6def16-2022-4789-bd22-6bd019e7b608")
+	)
+	(label "A2"
+		(at 228.6 31.75 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "cdd31725-ba3d-4960-a005-8bca8228026f")
 	)
 	(label "INA2"
 		(at 29.21 71.12 0)
@@ -2387,7 +2953,7 @@
 		)
 		(uuid "dc0f1136-64aa-4623-840f-82789cf522d1")
 	)
-	(label "PWM2"
+	(label "P2"
 		(at 100.33 44.45 0)
 		(effects
 			(font
@@ -2397,7 +2963,17 @@
 		)
 		(uuid "e4279017-cdbc-4209-b07c-28a7232023b5")
 	)
-	(label "INB2"
+	(label "PWM1"
+		(at 167.64 31.75 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "eeb37970-df80-4584-b479-bb00548eed8b")
+	)
+	(label "B2"
 		(at 100.33 39.37 0)
 		(effects
 			(font
@@ -2406,6 +2982,336 @@
 			(justify left bottom)
 		)
 		(uuid "f79f5fe7-29e2-472b-97cc-6bac2a92036a")
+	)
+	(label "INB2"
+		(at 209.55 91.44 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "f93a5f9f-ac29-4562-9f25-709823203140")
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 176.53 31.75 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0676fd7d-aaa2-4e89-9659-9f61f5eeeb3f")
+		(property "Reference" "R1"
+			(at 176.53 25.4 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 176.53 27.94 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 176.53 33.528 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 176.53 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 176.53 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "0f85324f-0884-4e3f-8c4f-9aabe14e0ff8")
+		)
+		(pin "2"
+			(uuid "30f447bb-1acc-4825-87ba-ee4bdd6be3f6")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "R1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 218.44 91.44 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "110546f6-7852-4e43-b1b6-0d677bf591d9")
+		(property "Reference" "R6"
+			(at 218.44 85.09 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 218.44 87.63 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 218.44 93.218 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 218.44 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 218.44 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "960d29a9-10e5-40d3-a32f-ec4a1717280c")
+		)
+		(pin "2"
+			(uuid "63878627-1dcc-4d5d-9d93-8ebee4f2859d")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "R6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 186.69 106.68 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1f072818-0d69-4feb-93b5-6b257e39838c")
+		(property "Reference" "#PWR013"
+			(at 186.69 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 186.69 111.76 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 186.69 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 186.69 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 186.69 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a7c988b3-1182-49e2-bccd-92d668ac6c62")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "#PWR013")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 185.42 72.39 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "201d72d4-eee4-4ae7-a934-57a82ae10000")
+		(property "Reference" "R9"
+			(at 187.96 71.1199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 187.96 73.6599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_QFP:PQFP-160_28x28mm_P0.65mm"
+			(at 183.642 72.39 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 185.42 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 185.42 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4e0330a7-51e3-4681-a379-56f77d73ef22")
+		)
+		(pin "2"
+			(uuid "e0b138eb-6625-4909-8ccc-94024497e2ae")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "R9")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_02x20_Odd_Even")
@@ -2758,6 +3664,162 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 184.15 46.99 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3de4d2b1-1d7d-4674-9937-265219c499f6")
+		(property "Reference" "#PWR09"
+			(at 184.15 53.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 184.15 52.07 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 184.15 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 184.15 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 184.15 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "9cea7d68-5d83-4d09-a0a8-e0b6eae0f5a7")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "#PWR09")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 226.06 106.68 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "51a5e4f0-c9c2-4670-852e-34fb90c009ed")
+		(property "Reference" "#PWR014"
+			(at 226.06 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 226.06 111.76 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 226.06 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 226.06 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 226.06 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c40d32c6-fa1d-4951-948a-317724177332")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "#PWR014")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:PWR_FLAG")
 		(at 29.21 38.1 180)
 		(unit 1)
@@ -2830,6 +3892,168 @@
 			(project "RoverSpine_Signal_Adapter_RevA"
 				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
 					(reference "#FLG02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 226.06 101.6 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "60b07bbe-7d11-450b-b2e6-eb24e409f467")
+		(property "Reference" "R12"
+			(at 228.6 100.3299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 228.6 102.8699 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_QFP:PQFP-160_28x28mm_P0.65mm"
+			(at 224.282 101.6 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 226.06 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 226.06 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "99f97bfd-5804-4f02-824f-91b740d71a39")
+		)
+		(pin "2"
+			(uuid "8f476297-be5e-4c86-994b-be3d49ed1d1b")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "R12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 177.8 62.23 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "686c3690-77ef-4f15-896b-5bed68f6ac1f")
+		(property "Reference" "R3"
+			(at 177.8 55.88 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 177.8 58.42 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 177.8 64.008 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 177.8 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 177.8 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "278d6e6c-7e80-4ade-a85a-566da88bbd1a")
+		)
+		(pin "2"
+			(uuid "2fcc0171-fab5-46b3-82e1-131d39f7907b")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -3018,6 +4242,326 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 224.79 41.91 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "74e0c907-db0f-4556-b89d-b1c8f1d02dac")
+		(property "Reference" "R11"
+			(at 227.33 40.6399 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 227.33 43.1799 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_QFP:PQFP-160_28x28mm_P0.65mm"
+			(at 223.012 41.91 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 224.79 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 224.79 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "593d3056-c5b4-452b-9c16-d8497f33efbb")
+		)
+		(pin "2"
+			(uuid "c1cac29e-7c8d-4140-b5a8-d23c7a00df3c")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "R11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 217.17 31.75 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7c3114f2-99bf-4ccb-a656-722a97b2cbbe")
+		(property "Reference" "R5"
+			(at 217.17 25.4 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 217.17 27.94 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 217.17 33.528 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 217.17 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 217.17 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "e8d85ada-ee2f-4a05-842f-5a1c44c572d6")
+		)
+		(pin "2"
+			(uuid "3f1e0954-39f4-4665-a4e4-ec13c7164756")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "R5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 185.42 77.47 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "99afc9bb-f6a0-409b-a702-faebdb2c9f4d")
+		(property "Reference" "#PWR011"
+			(at 185.42 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 185.42 82.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 185.42 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 185.42 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 185.42 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "be63586c-3fbb-4811-8e82-d14aa1684537")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "#PWR011")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 179.07 91.44 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9ca647d7-838a-46d3-bf1d-0a55b9f4cbcf")
+		(property "Reference" "R2"
+			(at 179.07 85.09 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 179.07 87.63 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 179.07 93.218 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 179.07 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 179.07 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "9fda85cd-2ac6-4744-a497-7565e54d01bf")
+		)
+		(pin "2"
+			(uuid "814be5e9-ecd9-43f6-9da5-afc2f02e01aa")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "R2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+3V3")
 		(at 25.4 35.56 0)
 		(unit 1)
@@ -3090,6 +4634,88 @@
 			(project "RoverSpine_Signal_Adapter_RevA"
 				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
 					(reference "#PWR03")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 226.06 72.39 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a1ee1075-aa7f-4ba6-9ff4-48bd9493b4df")
+		(property "Reference" "R10"
+			(at 228.6 71.1199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 228.6 73.6599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_QFP:PQFP-160_28x28mm_P0.65mm"
+			(at 224.282 72.39 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 226.06 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 226.06 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "056f22e2-4ade-4d7a-87d8-36a40ab3af6b")
+		)
+		(pin "2"
+			(uuid "3e577c2d-a3ef-49e4-b1c0-0c295cbc103d")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "R10")
 					(unit 1)
 				)
 			)
@@ -3169,6 +4795,244 @@
 			(project "RoverSpine_Signal_Adapter_RevA"
 				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
 					(reference "#PWR08")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 186.69 101.6 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ac1906e6-8915-4c30-981e-8069dd905b91")
+		(property "Reference" "R8"
+			(at 189.23 100.3299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 189.23 102.8699 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_QFP:PQFP-160_28x28mm_P0.65mm"
+			(at 184.912 101.6 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 186.69 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 186.69 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "7f976515-35e4-4423-812b-cd009ff24c08")
+		)
+		(pin "2"
+			(uuid "d1def6aa-3dce-4667-b80e-4e6b42403b01")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "R8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 224.79 45.72 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b157241d-0ba3-439f-944f-082076d1db4a")
+		(property "Reference" "#PWR010"
+			(at 224.79 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 224.79 50.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 224.79 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 224.79 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 224.79 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "37a69518-0db6-4465-b926-ccaafa64dcac")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "#PWR010")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 226.06 77.47 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b1f0a75e-f8ff-4be0-8434-512a0be9534f")
+		(property "Reference" "#PWR012"
+			(at 226.06 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 226.06 82.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 226.06 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 226.06 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 226.06 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c61d50fc-fe56-44fa-b5ca-46cce522783c")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "#PWR012")
 					(unit 1)
 				)
 			)
@@ -3403,6 +5267,168 @@
 			(project "RoverSpine_Signal_Adapter_RevA"
 				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
 					(reference "#PWR04")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 184.15 41.91 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d20f1710-04f8-48c0-b5c9-ee222ed017cb")
+		(property "Reference" "R7"
+			(at 186.69 40.6399 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 186.69 43.1799 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_QFP:PQFP-160_28x28mm_P0.65mm"
+			(at 182.372 41.91 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 184.15 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 184.15 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "63f17cc8-8fd7-45cf-ba9a-af53cbd644d5")
+		)
+		(pin "2"
+			(uuid "ed4ae94e-639b-4688-b9f2-1010a94d2256")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "R7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 218.44 62.23 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f02e2e75-1acf-4097-a5bd-b4a4c8765636")
+		(property "Reference" "R4"
+			(at 218.44 55.88 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 218.44 58.42 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 218.44 64.008 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 218.44 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 218.44 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "786fed35-4f0d-420f-a43c-d03f10adad8b")
+		)
+		(pin "2"
+			(uuid "1ffebc6a-bf99-481e-be6c-0e5137a2deb3")
+		)
+		(instances
+			(project "RoverSpine_Signal_Adapter_RevA"
+				(path "/a3199355-9d13-4218-b493-c0c923c429a8"
+					(reference "R4")
 					(unit 1)
 				)
 			)

@@ -18,9 +18,9 @@ WHEELTEC D50A motor driver with one small passive board and two ribbon cables.
 
 ## Status / 当前状态
 
-- `[ ]` **Rev A — pending, and the schematic needs one more revision.** The 8-net version was drawn and netlist-verified on 2026-09-12 (ERC 30/0, every net compared against the signal map). Later that day the **twelve reserved resistors were found to be specified but never drawn**, which makes the real design 14 nets — see [the net structure](../../docs/roadmap.md#nets) and [that devlog](../../docs/devlog/2026-09-12-reserved-resistor-pads.md). Footprints **not assigned**, layout not started, not fabricated. Cables not yet delivered, so D50A pin 1 is still an assumption.
+- `[ ]` **Rev A — schematic complete, 2026-09-13.** All 12 resistors drawn: **14 nets, ERC 30 errors / 0 warnings, netlist check `ALL PASS`** against [the net structure](../../docs/roadmap.md#nets). Footprints **not assigned**, layout not started, not fabricated. Cables not yet delivered, so D50A pin 1 is still an assumption. See [the devlog](../../docs/devlog/2026-09-13-twelve-resistors-drawn.md).
 
-`[ ]` **Rev A — 待办，原理图还要再改一版。** 8 网络的版本已于 2026-09-12 画完并通过网表核对（ERC 30/0，每个网络与信号表逐条比对）。当天稍后发现**那 12 个预留电阻只写在规格里、从没画进图**，算上它们真正的设计是 14 个网络——见[网络结构](../../docs/roadmap.md#nets)和[那篇记录](../../docs/devlog/2026-09-12-reserved-resistor-pads.md)。封装**未分配**，布局未开始，未打样。排线未到货，所以 D50A 的 1 号脚仍是假设。
+`[ ]` **Rev A — 原理图完工，2026-09-13。** 12 个电阻全部画上：**14 个网络，ERC 30 错误 / 0 警告，网表核对 `ALL PASS`**，比对依据是[网络结构表](../../docs/roadmap.md#nets)。封装**未分配**，布局未开始，未打样。排线未到货，所以 D50A 的 1 号脚仍是假设。见[开发日志](../../docs/devlog/2026-09-13-twelve-resistors-drawn.md)。
 
 Three-state notation, same as the rest of the project: `[x]` met its exit
 criteria **on the rover** · `[~]` exists and powers up · `[ ]` pending.
@@ -32,6 +32,7 @@ criteria **on the rover** · `[~]` exists and powers up · `[ ]` pending.
 |---|---|---|---|
 | A | 2026-09-12 | `[ ]` in progress | First revision. Schematic drawn: 10 connections, 8 nets, verified against the signal map from the exported netlist. Carries a text annotation recording the unverified pin-1 assumption. Footprints not assigned. See [the devlog](../../docs/devlog/2026-09-12-revA-schematic-complete.md) |
 | A | 2026-09-12 | `[ ]` in progress | Same revision, later the same day. The 12 reserved resistors were specified in the roadmap and the BOM but **not present on the schematic**; adding them splits each signal into a Pi-side and a driver-side net, so Rev A is **14 nets, not 8**. Series resistors changed from 0805 to **through-hole and mandatory** — they are in the signal path, so an empty pad is an open signal. See [the devlog](../../docs/devlog/2026-09-12-reserved-resistor-pads.md) |
+| A | 2026-09-13 | `[ ]` schematic done | R1–R12 drawn. **14 nets, ERC 30 / 0, netlist check `ALL PASS`.** A mislabelled driver-side net (`INB2` wired to `P1` instead of `B2`) was found and fixed during review — ERC reported nothing about it, before or after. Six 50-mil dangling wire ends were traced to KiCad's Grid Override for wires and removed. See [the devlog](../../docs/devlog/2026-09-13-twelve-resistors-drawn.md) |
 
 A revision is **never overwritten** — Rev B will sit next to Rev A, because the
 whole point of keeping A is being able to see what changed and why.
@@ -100,7 +101,7 @@ gating checks that must pass before footprints are frozen all live in:
 
 1. ~~Draw and label the connections in the schematic.~~ **Done 2026-09-12.**
 2. ~~Run ERC, then manually compare every net against the signal map.~~ **Done — 30 errors / 0 warnings, all 8 nets PASS.**
-3. **Draw the 12 resistors** per [the net structure](../../docs/roadmap.md#nets): R1–R6 in series, R7–R12 pulling the driver side down to `GND`. Then re-run ERC — **it should still be 30 / 0** — and re-run [the netlist check](tools/README.md), which now expects 14 nets and currently fails by design, listing exactly what is missing.
+3. ~~Draw the 12 resistors, re-run ERC and the netlist check.~~ **Done 2026-09-13 — 14 nets, ERC 30 / 0, `ALL PASS`.**
 4. **When the cables arrive, run the gating checks above** — including resolving which physical D50A pin is pin 1, which is still an assumption.
 5. **Before assigning footprints:** re-enable the ERC check `分配的封装不匹配封装筛选规则`. It catches a wrong-pitch or wrong-pin-count footprint, which is the fatal mistake available at this step.
 6. Only then assign final footprints (`DC3-40P` at J1, `DC3-10P` at J2, axial through-hole for R1–R6, 0805 for R7–R12) and begin PCB layout.

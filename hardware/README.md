@@ -11,7 +11,7 @@ what changed and why.
 
 | Board | Stage | State | 说明 |
 |---|:---:|:---:|---|
-| [`stage1-signal-adapter`](stage1-signal-adapter/) | 1 | `[ ]` Rev A — schematic needs the 12 resistors added, footprints not frozen | Passive adapter, 10 connections / 14 nets, Pi ↔ D50A / 被动信号转接板 |
+| [`stage1-signal-adapter`](stage1-signal-adapter/) | 1 | `[ ]` Rev A — schematic complete and checked, footprints not frozen | Passive adapter, 10 connections / 14 nets, Pi ↔ D50A / 被动信号转接板 |
 
 Nothing has been fabricated yet. Stage 0 deliberately produces no board — see
 the [roadmap](../docs/roadmap.md).
