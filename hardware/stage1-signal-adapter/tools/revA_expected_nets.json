@@ -26,5 +26,26 @@
 
     "INB2": ["J1-31", "R6"],
     "B2":   ["J2-4", "R6", "R12"]
+  },
+
+  "footprint_note": "Written 2026-09-14, BEFORE the footprints are assigned, so this map is the to-do list and the test at the same time. ERC cannot do this job: R1-R12 all declare the filter `R_*`, which matches the 0805 and the axial through-hole footprint equally, so swapping the series resistors with the pull-downs passes ERC silently. Verified present in KiCad 10.0.6. The parts decide the final word: measure the resistor body and lead pitch on arrival before freezing R1-R6.",
+
+  "expected_footprints": {
+    "J1":  "Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical",
+    "J2":  "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical",
+
+    "R1":  "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+    "R2":  "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+    "R3":  "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+    "R4":  "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+    "R5":  "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+    "R6":  "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+
+    "R7":  "Resistor_SMD:R_0805_2012Metric",
+    "R8":  "Resistor_SMD:R_0805_2012Metric",
+    "R9":  "Resistor_SMD:R_0805_2012Metric",
+    "R10": "Resistor_SMD:R_0805_2012Metric",
+    "R11": "Resistor_SMD:R_0805_2012Metric",
+    "R12": "Resistor_SMD:R_0805_2012Metric"
   }
 }

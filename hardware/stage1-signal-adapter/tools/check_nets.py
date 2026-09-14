@@ -9,7 +9,18 @@ violation, reversed motors. See
 docs/devlog/2026-09-12-revA-schematic-complete.md.
 
 So the net membership is compared against a written-down map instead of being
-read by eye. Usage:
+read by eye.
+
+The same applies to footprints, for a sharper reason. KiCad's own
+`footprint_filter` ERC rule only checks a footprint against the symbol's filter
+pattern, and R1-R12 all declare the pattern `R_*` — which `R_0805_2012Metric`
+and `R_Axial_DIN0207_...` both match. So ERC cannot tell a 0805 pull-down from a
+through-hole series resistor, and swapping those two groups is the single
+likeliest footprint mistake on this board. On 2026-09-13 a `PQFP-160` sat on
+R7-R12 undetected; see docs/devlog/2026-09-14-a-160-pin-qfp-on-a-resistor.md.
+Footprints are therefore compared against the same written-down map.
+
+Usage:
 
     python check_nets.py ../kicad/RoverSpine_Signal_Adapter_RevA.net \
                          revA_expected_nets.json
@@ -108,6 +119,29 @@ def read_netlist(path, pin_agnostic_prefixes):
     return nets
 
 
+def read_footprints(path):
+    """{reference: footprint string} for every component in the netlist.
+
+    A component with no footprint assigned yields "", which is deliberately not
+    turned into None: an empty footprint is a value that can be compared and
+    reported like any other, and the whole point here is that "not assigned yet"
+    and "assigned wrongly" are both failures with different text.
+    """
+    with open(path, encoding="utf-8") as fh:
+        root = parse_sexp(fh.read())
+
+    sections = find(root, "components")
+    if not sections:
+        return {}
+
+    found = {}
+    for comp in find(sections[0], "comp"):
+        ref = value(comp, "ref")
+        if ref is not None:
+            found[ref] = value(comp, "footprint", "") or ""
+    return found
+
+
 # --------------------------------------------------------------------------
 # The comparison
 # --------------------------------------------------------------------------
@@ -188,6 +222,30 @@ def main(argv):
             print("  [UNNAMED] %s = %s" % (n, " ".join(sorted(actual[n]))))
             print("            a net with more than one pin and no label on it")
 
+    # ----------------------------------------------------------------------
+    # Footprints, compared the same way and for the same reason
+    # ----------------------------------------------------------------------
+    want_fp = spec.get("expected_footprints")
+    fp_failures = []
+    if want_fp:
+        actual_fp = read_footprints(netlist_path)
+        fw = max(len(r) for r in want_fp)
+        print("")
+        print("footprints:")
+        for ref in sorted(want_fp, key=lambda s: (s[0], int(re.sub(r"\D", "", s) or 0))):
+            want = want_fp[ref]
+            got = actual_fp.get(ref)
+            if got is None:
+                print("  [MISSING] %-*s  component not in the netlist" % (fw, ref))
+                fp_failures.append(ref)
+            elif got == want:
+                print("  [PASS]    %-*s = %s" % (fw, ref, want))
+            else:
+                print("  [FAIL]    %-*s expected: %s" % (fw, ref, want))
+                print("            %-*s actual:   %s"
+                      % (fw, "", got if got else "(not assigned)"))
+                fp_failures.append(ref)
+
     count_ok = (expected_unconnected is None
                 or len(singles) == expected_unconnected)
     if not count_ok:
@@ -196,7 +254,15 @@ def main(argv):
         print("  board is supposed to reconcile exactly; an unexplained one is")
         print("  the thing to chase.")
 
-    ok = not failures and not extras and not unnamed and count_ok
+    if fp_failures:
+        print("")
+        print("  %d footprint(s) do not match the map. ERC cannot catch this:"
+              % len(fp_failures))
+        print("  R1-R12 all declare the filter `R_*`, which matches both the")
+        print("  0805 and the axial through-hole footprint.")
+
+    ok = (not failures and not extras and not unnamed and count_ok
+          and not fp_failures)
     print("")
     print("RESULT: %s" % ("ALL PASS" if ok else "FAIL"))
     return 0 if ok else 1

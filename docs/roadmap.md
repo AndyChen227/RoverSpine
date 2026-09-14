@@ -700,7 +700,9 @@ from · inspecting a board you did not solder · ribbon-cable pin-1 discipline
 
 ### Exit criterion / 完成判据
 
-- [ ] ERC reports **30 errors / 0 warnings**, every one of them accounted for, and **all 14 nets compared against [the net structure](#nets)** one by one — by [the checker](../hardware/stage1-signal-adapter/tools/README.md), not by reading.
+- [ ] ERC reports **30 errors / 0 warnings**, every one of them accounted for, **run by command and not read off a panel** — a panel does not re-run when a rule changes, and on 2026-09-13 that put a wrong number in a pushed commit.
+- [ ] **All 14 nets compared against [the net structure](#nets)** one by one — by [the checker](../hardware/stage1-signal-adapter/tools/README.md), not by reading.
+- [ ] **All 14 footprints compared against the same map**, by the same checker. **ERC cannot do this job:** `R1`–`R12` all declare the filter `R_*`, which `R_0805_2012Metric` and `R_Axial_DIN0207_...` match equally — so swapping the series resistors with the pull-downs passes ERC at a clean 30 / 0. See [the devlog](devlog/2026-09-14-a-160-pin-qfp-on-a-resistor.md).
 - [ ] Continuity verified on the fabricated board, pin to pin, against the same table — before it touches the Pi.
 - [ ] **Pi-side to driver-side now reads ≈33 Ω, not 0 Ω** — the series resistor is in the path. Read the *value*; do not just listen for the buzzer. 0 Ω means a bridged resistor or a shorted pad, and an open means a missing one.
 - [ ] **Each pull-down measured from its driver-side net to `GND`:** ≈10 kΩ if populated, open if deliberately left empty. Either is fine; a value that is neither is a fault.

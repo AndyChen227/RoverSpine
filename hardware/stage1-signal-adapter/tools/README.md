@@ -105,14 +105,29 @@ KICAD_CLI="$LOCALAPPDATA/Programs/KiCad/10.0/bin/kicad-cli.exe"
     -o drc.rpt RoverSpine_Signal_Adapter_RevA.kicad_pcb
 ```
 
-Both reports are generated artifacts and are gitignored, like the netlist. Count
-violations by rule with:
+Both reports are generated artifacts and are gitignored, like the netlist.
 
-两份报告都是生成物，和网表一样不提交。按规则统计条数：
+**Group by the offending value, not by the rule name.** Counting by rule gives
+`14 [footprint_filter]`, which hides the only distinction that matters — how many
+symbols have *no* footprint versus how many have the *wrong* one. On 2026-09-13
+that difference was eight and six, and the six were a 160-pin QFP sitting on the
+pull-down resistors:
+
+**按出问题的值分组，不要按规则名分组。** 按规则统计只会得到 `14 [footprint_filter]`，
+它把唯一要紧的区分藏了起来：**多少个是"没有封装"，多少个是"封装错了"。**
 
 ```bash
-grep -o "^\[[a-z_]*\]" erc.rpt | sort | uniq -c
+grep -o "^\[[a-z_]*\]" erc.rpt | sort | uniq -c          # how many of each rule
+grep "footprint_filter" erc.rpt \
+  | sed 's/.*已分配封装 //;s/ 与封装筛选规则.*//' | sort | uniq -c   # WHICH footprints
 ```
+
+```
+      8 ()
+      6 (pqfp-160_28x28mm_p0.65mm)
+```
+
+See [that devlog](../../../docs/devlog/2026-09-14-a-160-pin-qfp-on-a-resistor.md).
 
 ### Expected counts / 期望数字
 
@@ -129,6 +144,41 @@ matches no filter, so the count is a live to-do list that empties itself.
 那 30 条是 2×20 排针上没用到的引脚——**设计如此，而且有意不用 no-connect 标记藏起来**。
 那 14 条是还没有封装的符号：**空的封装字段和任何别的值一样参与比对，而空不匹配任何规则**，
 所以这个计数是一张会自己清空的待办表。
+
+> [!WARNING]
+> **`30 / 0` is not sufficient on its own.** `R1`–`R12` all declare the footprint
+> filter `R_*`, and both `R_0805_2012Metric` and `R_Axial_DIN0207_...` match it.
+> **Swap the series resistors with the pull-downs and ERC reports a clean
+> 30 / 0** — the rule checks that a resistor got *a resistor's* footprint, and has
+> no opinion about which one. That is the entire difference between a board you
+> can build and a board you cannot, so it is checked below instead.
+>
+> **光有 `30 / 0` 不够。** `R1`–`R12` 声明的筛选规则都是 `R_*`，而 0805 和轴向通孔两个封装
+> 都匹配它。**把串阻和下拉的封装对调，ERC 报的是干干净净的 30 / 0**——这条规则检查的是
+> "电阻拿到了**一个电阻的**封装"，对"**哪一个**"没有意见。而"哪一个"正是"能装的板"和
+> "装不了的板"之间的全部差别，所以它由下面这项检查负责。
+
+## Footprints are checked the same way / 封装用同一个办法检查
+
+`check_nets.py` also compares every component's footprint against
+`expected_footprints` in the same JSON map, using the same netlist — KiCad's
+netlist carries the footprint field, so this needs no extra input.
+
+**The map was written before the footprints were assigned**, so today it fails,
+and the failure prints the to-do list:
+
+`check_nets.py` 同时用同一份网表、同一张表比对每个元件的封装。**这张表是在封装分配之前写下
+的**，所以它今天会失败，而失败打印出来的就是待办清单：
+
+```
+  [FAIL]    R1  expected: Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal
+                          actual:   (not assigned)
+```
+
+Completion is **both** tests: ERC at exactly `30 / 0`, **and** `check_nets.py` at
+`ALL PASS` with the footprint block included.
+
+完成判据是**两项**：ERC 正好 `30 / 0`，**并且** `check_nets.py` 连封装那一段一起 `ALL PASS`。
 
 ## Two conventions worth knowing / 两个值得知道的约定
 
