@@ -67,13 +67,11 @@ microcontroller. Running it from month 1 on a breadboard Pico means Stage 3 is n
 longer "a new board and a new language and a new architecture at once"; it becomes
 moving proven firmware onto a board of your own.
 
-**The language is deliberately not decided yet.** An earlier version of this plan
-committed to C on the Pico SDK — and then withdrew it, because that choice had
-been made from reading rather than from writing any code. Month 1 buys two ¥25
-Picos and writes the same `blink` in each candidate (C on the Pico SDK, C++ on
+**The language is deliberately not decided yet.** Month 1 buys two ¥25 Picos and
+writes the same `blink` in each candidate (C on the Pico SDK, C++ on
 arduino-pico, MicroPython); the language is decided at the end of it, from a
-measurement. The full reasoning, and the reason **C++ is not the easier one**, is
-in [the roadmap](docs/roadmap.md#c-track).
+measurement. The evaluation, and the reason **C++ is not the easier one**, is in
+[the roadmap](docs/roadmap.md#lang-eval).
 
 There is also a reason this decision carries less weight than it looks like it
 does: the microcontroller has exactly **one irreplaceable job** in this project —
@@ -103,7 +101,7 @@ you understand is worth more than a good board you got lucky with.
 > the status indicator — it is pure copper, so not one component on it can burn,
 > and it still teaches the entire pipeline. The status indicator functions moved
 > into Stage 2, which had already specified "everything from Stage 1 carried
-> forward". Details in [the devlog](docs/devlog/2026-09-12-plan-revision.md).
+> forward". Details in [the devlog](docs/devlog/2026-09-12.md).
 
 > **No board in this plan is a HAT.** The Pi 5 carries an active cooler, so
 > nothing can stack on its 40-pin header. Every board is a separate board in its
@@ -174,7 +172,7 @@ of them changes.
 > 3.3 V isolated input is a **damaged part**, not a stall or a twitch. A copper
 > trace from pin 1 to `V` cannot be mis-plugged at all, so that failure mode
 > disappears permanently. Details in
-> [the correction devlog](docs/devlog/2026-09-12-d50a-control-header-correction.md).
+> [the correction devlog](docs/devlog/2026-09-12.md).
 
 
 ### 2 · Adds — safety that software cannot provide
@@ -296,8 +294,8 @@ RoverSpine/
 ├── docs/
 │   ├── roadmap.md           # The seven stages, in full
 │   ├── fabrication.md       # How a KiCad project becomes a board in your hand
-│   ├── tools-and-parts.md   # Inventory + dated log of every tool and part
-│   └── devlog/              # Bilingual per-board logs, including failures
+│   ├── tools-and-parts.md   # Inventory of every tool and part, with its state
+│   └── devlog/              # One file per day, English then Chinese
 ├── hardware/                # One directory per board: KiCad project, Gerbers, BOM
 ├── firmware/                # On-board microcontroller code, from month 1
 ├── notes/
@@ -362,10 +360,9 @@ RoverSpine/
 上跑，意味着第 3 阶段不再是"同时面对新板子、新语言、新架构"，而变成把已经验证过的固件
 搬到自己的板上。
 
-**语言是刻意还没定的。** 这份计划早先的版本定了 C + Pico SDK，后来撤回了——因为那个选择
-是**读来的判断，不是写出来的结论**。第 1 个月花 ¥50 买两块 Pico，用每个候选（Pico SDK 的
-C、arduino-pico 的 C++、MicroPython）各写一遍同一个 `blink`，月末根据实测定。完整理由，
-以及**为什么 C++ 并不是更简单的那个**，见[路线图](docs/roadmap.md#c-track)。
+**语言是刻意还没定的。** 第 1 个月花 ¥50 买两块 Pico，用每个候选（Pico SDK 的 C、
+arduino-pico 的 C++、MicroPython）各写一遍同一个 `blink`，月末根据实测定。评估方法，
+以及**为什么 C++ 并不是更简单的那个**，见[路线图](docs/roadmap.md#lang-eval)。
 
 还有一个理由让这个决定没那么关键：单片机在这个项目里只有**一个真正不可替代的用途**——
 四路高速正交解码。电池电压、电流采样，甚至心跳看门狗，都有完全不需要固件的实现方式。
@@ -389,7 +386,7 @@ C、arduino-pico 的 C++、MicroPython）各写一遍同一个 `blink`，月末�
 > **2026-09-12 重新编号。** 第一块板改成被动信号转接板，不是状态指示板——它是纯铜的，
 > 板上没有一个元件会烧，但教的仍然是完整的一条流水线。状态指示功能并进了第 2 阶段，
 > 因为原第 2 阶段的规格里本来就写着"第 1 阶段的东西全部继承过来"。
-> 详情见[开发日志](docs/devlog/2026-09-12-plan-revision.md)。
+> 详情见[开发日志](docs/devlog/2026-09-12.md)。
 
 > **这份计划里没有一块板是 HAT。** 树莓派 5 上装了主动散热器，40 针排针上不能再叠东西。
 > 每块板都是装在自己小外壳里的独立板，用排线连接。见[机械约束](docs/roadmap.md#mechanical)。
@@ -436,7 +433,7 @@ C、arduino-pico 的 C++、MicroPython）各写一遍同一个 `blink`，月末�
 >
 > 杜邦线一秒钟就能插错到 2 号针上，而 5 V 灌进 3.3 V 的隔离输入是**烧器件**，不是停车、
 > 也不是抽动。而从 1 号针到 `V` 的一段铜箔**根本无法插错**，这个失效模式永久消失。
-> 详情见[那篇更正日志](docs/devlog/2026-09-12-d50a-control-header-correction.md)。
+> 详情见[那篇更正日志](docs/devlog/2026-09-12.md)。
 
 
 ### 2 · 新增：软件做不到的安全功能
